@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مدارس النهظة الاهلية - نظام النتائج الإلكتروني</title>
+  <meta name="description" content="مدارس النهظة الاهلية - النتائج الإلكترونية للطلاب، محصلات شهرية، نتائج نصف العام وآخر العام. نظام نتائج إلكتروني آمن وسريع.">
+  <meta name="keywords" content="مدارس النهظة الاهلية, نتائج الطلاب, نتائج مدرسية, نظام نتائج, النهظة, التعليم اليمني, نتائج الامتحانات">
+  <meta name="author" content="مدارس النهظة الاهلية">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- كود التحقق من Google Search Console -->
+  <meta name="google-site-verification" content="googlec202de78a6deced3" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="مدارس النهظة الاهلية - نظام النتائج الإلكتروني">
+  <meta property="og:description" content="النتائج الإلكترونية للطلاب - محصلات شهرية ونتائج نصف العام وآخر العام">
+  <meta property="og:site_name" content="مدارس النهظة الاهلية">
+  <meta property="og:url" content="https://ameen-algmady.github.io/alnhdah/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_YE">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="مدارس النهظة الاهلية - نظام النتائج الإلكتروني">
+  <meta name="twitter:description" content="النتائج الإلكترونية للطلاب - محصلات شهرية ونتائج نصف العام وآخر العام">
+  
+  <!-- البيانات المنظمة Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "مدارس النهظة الاهلية",
+    "alternateName": "مدارس النهظة",
+    "description": "مدارس النهظة الاهلية - نظام النتائج الإلكتروني للطلاب",
+    "url": "https://ameen-algmady.github.io/amran/",
+    "logo": "https://ameen-algmady.github.io/amran/logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "النهظة",
+      "addressCountry": "اليمن"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "دعم الطلاب وأولياء الأمور"
+    }
+  }
+  </script>
+  
+  <link rel="manifest" href="/amran/manifest.json">
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <!-- OneSignal SDK -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(function(OneSignal) {
+          OneSignal.init({
+              appId: "adbcf77b-5fb0-4c24-b23c-25f052b00853",
+              serviceWorkerPath: "/OneSignalSDKWorker.js",
+              serviceWorkerUpdaterPath: "/OneSignalSDKUpdaterWorker.js"
+          });
+      });
+  </script>
+
+  <style>
+    :root {
+      --primary-color: #004080;
+      --secondary-color: #4CAF50;
+      --accent-color: #2196F3;
+      --light-bg: #f8f9fa;
+      --dark-text: #333;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --gradient: linear-gradient(135deg, #004080, #2196F3);
+    }
+    
+    body {
+      font-family: 'Tahoma', 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f9f9f9 0%, #e8f4f8 100%);
+      color: var(--dark-text);
+      line-height: 1.6;
+    }
+    
+    /* تحسين الشريط العلوي */
+    .navbar {
+      background: var(--gradient) !important;
+      box-shadow: var(--shadow);
+      padding: 12px 0;
+    }
+    
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.4rem;
+    }
+    
+    .nav-link {
+      font-weight: 500;
+      margin: 0 8px;
+      transition: all 0.3s ease;
+      border-radius: 25px;
+      padding: 8px 16px !important;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+    
+    /* تحسين الرأس */
+    header {
+      background: var(--gradient);
+      color: white;
+      padding: 30px 20px;
+      border-radius: 0 0 30px 30px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+    }
+    
+    header h1 {
+      font-weight: bold;
+      font-size: 2.2rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    header img {
+      height: 80px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* تحسين الأقسام */
+    section {
+      padding: 50px 20px;
+      margin: 30px auto;
+      max-width: 1200px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    section h2 {
+      color: var(--primary-color);
+      font-weight: bold;
+      margin-bottom: 25px;
+      text-align: center;
+      font-size: 2rem;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    section h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--secondary-color);
+      border-radius: 2px;
+    }
+    
+    /* تحسين الأزرار */
+    .btn {
+      border-radius: 25px;
+      padding: 12px 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .btn-primary {
+      background: var(--gradient);
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    
+    /* تحسين شبكة الصفوف */
+    .row-cols-2 .col {
+      margin-bottom: 15px;
+    }
+    
+    .row-cols-2 .btn {
+      width: 100%;
+      padding: 15px;
+      font-size: 1rem;
+      border-radius: 15px;
+    }
+    
+    /* قسم عن المدرسة */
+    #about {
+      background: var(--light-bg);
+      border-left: 5px solid var(--secondary-color);
+    }
+    
+    #about .col-md-4 {
+      text-align: center;
+      padding: 25px 15px;
+    }
+    
+    #about h4 {
+      color: var(--primary-color);
+      margin: 15px 0;
+      font-weight: bold;
+    }
+    
+    #about .col-md-4:hover {
+      transform: translateY(-5px);
+      transition: all 0.3s ease;
+    }
+    
+    /* تحسين الصورة */
+    .section-img img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      border: 3px solid var(--primary-color);
+    }
+    
+    /* تحسين القوانين */
+    #rulesContent {
+      background: var(--light-bg);
+      padding: 25px;
+      border-radius: 15px;
+      border-right: 4px solid var(--accent-color);
+    }
+    
+    #rulesContent ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    #rulesContent li {
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 1.05rem;
+    }
+    
+    #rulesContent li:last-child {
+      border-bottom: none;
+    }
+    
+    /* تحسين الخريطة */
+    .ratio-16x9 {
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    /* أزرار التثبيت والإشعارات */
+    #notifyBtn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 9999;
+      background: linear-gradient(135deg, #ffc107, #ff9800);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      box-shadow: 0 4px 15px rgba(255,193,7,0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    #notifyBtn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(255,193,7,0.6);
+    }
+    
+    #installBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10000;
+      background: linear-gradient(135deg, var(--secondary-color), #2E7D32);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 15px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+      display: none;
+    }
+    
+    #installBtn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
+      50% { box-shadow: 0 4px 25px rgba(76, 175, 80, 0.8); }
+      100% { box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
+    }
+    
+    /* شريط التثبيت العلوي */
+    #installBanner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, var(--accent-color), #0D47A1);
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      z-index: 9998;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+      display: none;
+    }
+    
+    #installBanner button {
+      background: white;
+      color: var(--accent-color);
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      margin-right: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    #installBanner button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    
+    #closeBanner {
+      background: transparent !important;
+      color: white !important;
+      font-size: 18px;
+      padding: 0 12px !important;
+    }
+    
+    /* الفوتر */
+    footer {
+      background: var(--gradient);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      margin-top: 50px;
+      border-radius: 30px 30px 0 0;
+    }
+    
+    footer p {
+      margin: 5px 0;
+      opacity: 0.9;
+    }
+    
+    /* تحسينات للهواتف */
+    @media (max-width: 768px) {
+      header {
+        padding: 20px 15px;
+        border-radius: 0 0 20px 20px;
+      }
+      
+      header h1 {
+        font-size: 1.8rem;
+      }
+      
+      header img {
+        height: 60px;
+      }
+      
+      section {
+        padding: 30px 15px;
+        margin: 20px 10px;
+        border-radius: 15px;
+      }
+      
+      section h2 {
+        font-size: 1.6rem;
+      }
+      
+      .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+      
+      .row-cols-2 .btn {
+        padding: 12px;
+        font-size: 0.9rem;
+      }
+      
+      #notifyBtn, #installBtn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
+      
+      #installBtn {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
+      
+      .navbar-brand {
+        font-size: 1.2rem;
+      }
+      
+      #about .col-md-4 {
+        margin-bottom: 20px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .row-cols-2 {
+        grid-template-columns: 1fr !important;
+      }
+      
+      header h1 {
+        font-size: 1.5rem;
+      }
+      
+      section h2 {
+        font-size: 1.4rem;
+      }
+    }
+    
+    /* تأثيرات إضافية */
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .hover-lift {
+      transition: all 0.3s ease;
+    }
+    
+    .hover-lift:hover {
+      transform: translateY(-5px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- زر تفعيل الإشعارات -->
+  <button id="notifyBtn" title="تفعيل الإشعارات"><i class="fas fa-bell"></i></button>
+  
+  <!-- شريط التثبيت العلوي -->
+  <div id="installBanner">
+    <span><i class="fas fa-download"></i> تثبيت تطبيق مدارس النهظة الاهلية للوصول السريع</span>
+    <button id="installBannerBtn">تثبيت الآن</button>
+    <button id="closeBanner">✕</button>
+  </div>
+  
+  <!-- زر التثبيت الرئيسي -->
+  <button id="installBtn"><i class="fas fa-download"></i> تثبيت التطبيق</button>
+
+  <!-- شريط التنقل -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-school me-2"></i>مدارس النهظة الاهلية
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#results"><i class="fas fa-chart-line me-1"></i> المحصلات والنتائج</a></li>
+          <li class="nav-item"><a class="nav-link" href="#absence"><i class="fas fa-user-clock me-1"></i> غياب الطلاب</a></li>
+          <li class="nav-item"><a class="nav-link" href="#activities"><i class="fas fa-trophy me-1"></i> الأنشطة الدراسية</a></li>
+          <li class="nav-item"><a class="nav-link" href="#rules"><i class="fas fa-gavel me-1"></i> الأنظمة والقوانين</a></li>
+          <li class="nav-item"><a class="nav-link" href="#location"><i class="fas fa-map-marker-alt me-1"></i> موقع المجمع</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- رأس الصفحة -->
+  <header class="text-center">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="fade-in">مدارس النهظة الاهلية</h1>
+          <p class="lead mt-2">التميز في التعليم.. مستقبل مشرق لأبنائنا</p>
+        </div>
+        <div class="col-md-4">
+          <img src="logo.png" alt="شعار المدرسة" class="img-fluid fade-in">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- قسم عن المدرسة -->
+  
+
+  <!-- صورة المدرسة -->
+  <section class="section-img text-center fade-in">
+    <div class="container">
+      <img src="school.gif" alt="صورة المدرسة المتحركة" class="img-fluid">
+    </div>
+  </section>
+
+  <!-- المحصلات والنتائج -->
+  <section id="results" class="fade-in">
+    <div class="container">
+      <h2><i class="fas fa-chart-line me-2"></i>المحصلات والنتائج</h2>
+      <p class="text-center mb-4">يمكنك الاطلاع على نتائج الطلاب والمحصلة الدراسية من خلال هذا القسم.</p>
+      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الأول الأساسي</a></div>
+        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الثاني الأساسي</a></div>
+        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الثالث الأساسي</a></div>
+        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الرابع الأساسي</a></div>
+        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الخامس الأساسي</a></div>
+        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">السادس الأساسي</a></div>
+        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">السابع الأساسي</a></div>
+        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الثامن الأساسي</a></div>
+        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">التاسع الأساسي</a></div>
+       
+      </div>
+    </div>
+  </section>
+
+  <!-- غياب الطلاب -->
+  <section id="absence" class="fade-in">
+    <div class="container">
+      <h2><i class="fas fa-user-clock me-2"></i>غياب الطلاب</h2>
+      <p class="text-center mb-4">يمكنك الاطلاع على عدد ايام الغياب وتاريخ الغياب للطالب من خلال هذا القسم.</p>
+      <div class="text-center">
+        <a href="absence.html" class="btn btn-primary me-3"><i class="fas fa-calendar-alt me-2"></i> غياب النصف الاول</a>
+        <a href="‏‏absence - 1.html" class="btn btn-primary"><i class="fas fa-calendar-check me-2"></i> الغياب النصف الثاني</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- الأنشطة الدراسية -->
+  <section id="activities" class="fade-in">
+    <div class="container">
+      <h2><i class="fas fa-trophy me-2"></i>الأنشطة الدراسية</h2>
+      <p class="text-center mb-4">تعرف على الأنشطة والمسابقات التي تقيمها المدرسة لتعزيز مهارات الطلاب.</p>
+      <div class="text-center">
+        <a href="#" class="btn btn-warning"><i class="fas fa-eye me-2"></i>عرض الأنشطة</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- الأنظمة والقوانين -->
+  <section id="rules" class="fade-in">
+    <div class="container">
+      <h2><i class="fas fa-gavel me-2"></i>الأنظمة والقوانين</h2>
+      <p class="text-center mb-4">راجع لوائح المدرسة والقوانين التنظيمية التي تضمن بيئة تعليمية سليمة.</p>
+      <div class="text-center mb-4">
+        <a href="#" class="btn btn-danger" id="showRulesBtn"><i class="fas fa-scroll me-2"></i>قراءة اللوائح</a>
+      </div>
+      <div id="rulesContent" style="display: none;">
+        <ul>
+          <li>❖ الالتزام بالحضور اليومي وعدم التأخير عن الحصص الدراسية.</li>
+          <li>❖ احترام المعلمين والإداريين والزملاء في جميع الأوقات.</li>
+          <li>❖ الحفاظ على نظافة الصف والمرافق العامة داخل المجمع.</li>
+          <li>❖ يمنع استخدام الهاتف المحمول أثناء الدوام الدراسي.</li>
+          <li>❖ الالتزام بالزي المدرسي الرسمي وعدم التعديل عليه.</li>
+          <li>❖ يمنع الغش في الاختبارات ويعرض الطالب للمساءلة.</li>
+          <li>❖ المحافظة على الكتب والوسائل التعليمية من التلف أو الضياع.</li>
+          <li>❖ يمنع مغادرة المدرسة أثناء الدوام إلا بإذن خطي من الإدارة.</li>
+          <li>❖ المشاركة الإيجابية في الأنشطة المدرسية والفعاليات التربوية.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- موقع المجمع -->
+  <section id="location" class="fade-in">
+    <div class="container">
+      <h2><i class="fas fa-map-marker-alt me-2"></i>موقع مدارس النهظة الأهلية</h2>
+      <p class="text-center mb-4">في هذا القسم يتم تحديد الموقع الجغرافي لمدارس النهظة الأهلية من خلال خرائط Google.</p>
+      <div class="ratio ratio-16x9">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d240.11170911294784!2d43.95569298416377!3d15.656308499321272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x16015b6f1740a353%3A0xf6f4f1862a61110a!2z2YXYr9in2LHYsyDYudmF2LHYp9mGINin2YTYp9mH2YTZitip!5e0!3m2!1sar!2s!4v1762272871348!5m2!1sar!2s" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- الفوتر -->
+  <footer class="fade-in">
+    <div class="container">
+      <p>© 2024 مدارس النهظة الاهلية. جميع الحقوق محفوظة.</p>
+      <p>مدارس النهظة الاهلية - التميز في التعليم منذ تأسيسها</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // إدارة زر الإشعارات
+    const notifyBtn = document.getElementById('notifyBtn');
+    notifyBtn.style.display = 'none';
+
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(function(OneSignal) {
+      OneSignal.isPushNotificationsEnabled().then(function(isEnabled) {
+        if (!isEnabled) {
+          notifyBtn.style.display = 'block';
+        }
+      });
+
+      notifyBtn.addEventListener('click', function () {
+        OneSignal.showSlidedownPrompt().catch(function (error) {
+          alert("حدث خطأ أثناء محاولة تفعيل الإشعارات.");
+          console.error(error);
+        });
+      });
+    });
+
+    // إدارة زر التثبيت
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+    const installBanner = document.getElementById('installBanner');
+    const installBannerBtn = document.getElementById('installBannerBtn');
+    const closeBanner = document.getElementById('closeBanner');
+
+    // التحقق مما إذا كان التطبيق مثبتًا بالفعل (دقيقة)
+    function checkIfAppIsInstalled() {
+      // الطريقة 1: التحقق من display-mode (الأكثر دقة)
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        console.log('التطبيق مثبت بالفعل (display-mode)');
+        localStorage.setItem('appInstalled', 'true');
+        return true;
+      }
+      
+      // الطريقة 2: التحقق من navigator.standalone (لـ iOS)
+      if (window.navigator.standalone === true) {
+        console.log('التطبيق مثبت بالفعل (navigator.standalone)');
+        localStorage.setItem('appInstalled', 'true');
+        return true;
+      }
+      
+      // الطريقة 3: إذا لم يكن في وضع PWA، نعتبره غير مثبت
+      console.log('التطبيق غير مثبت أو تم إلغاء التثبيت');
+      localStorage.removeItem('appInstalled'); // مسح أي حالة سابقة
+      return false;
+    }
+
+    // زر إعادة تعيين يدوي (للتجربة فقط - يمكن إزالته لاحقاً)
+    function addResetButton() {
+      const resetBtn = document.createElement('button');
+      resetBtn.innerHTML = '🔄 إعادة تعيين التثبيت';
+      resetBtn.style.position = 'fixed';
+      resetBtn.style.bottom = '20px';
+      resetBtn.style.left = '20px';
+      resetBtn.style.zIndex = '10001';
+      resetBtn.style.background = '#ff6b6b';
+      resetBtn.style.color = 'white';
+      resetBtn.style.border = 'none';
+      resetBtn.style.borderRadius = '20px';
+      resetBtn.style.padding = '10px 15px';
+      resetBtn.style.fontSize = '12px';
+      resetBtn.style.cursor = 'pointer';
+      resetBtn.style.boxShadow = '0 2px 10px rgba(255,107,107,0.3)';
+      
+      resetBtn.addEventListener('click', function() {
+        localStorage.removeItem('appInstalled');
+        localStorage.removeItem('bannerClosed');
+        installBtn.style.display = 'flex';
+        installBanner.style.display = 'none';
+        alert('تم إعادة تعيين إعدادات التثبيت. سيظهر زر التثبيت الآن.');
+        console.log('تم إعادة تعيين إعدادات التثبيت');
+      });
+      
+      document.body.appendChild(resetBtn);
+    }
+
+    // إظهار زر التثبيت بعد تحميل الصفحة
+    window.addEventListener('load', () => {
+      // إضافة زر إعادة التعيين (للتجربة)
+      addResetButton();
+      
+      // التحقق من حالة التثبيت
+      const isInstalled = checkIfAppIsInstalled();
+      
+      if (isInstalled) {
+        console.log('تم الكشف عن تطبيق مثبت - إخفاء أزرار التثبيت');
+        installBtn.style.display = 'none';
+        installBanner.style.display = 'none';
+      } else {
+        console.log('لم يتم الكشف عن تطبيق مثبت - إظهار أزرار التثبيت');
+        setTimeout(() => {
+          installBtn.style.display = 'flex';
+          // إظهار الشريط العلوي بعد 5 ثوانٍ
+          setTimeout(() => {
+            if (!localStorage.getItem('bannerClosed')) {
+              installBanner.style.display = 'block';
+            }
+          }, 5000);
+        }, 1000);
+      }
+    });
+
+    // الاستماع لحدث beforeinstallprompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      console.log('حدث beforeinstallprompt تم استدعاؤه');
+      
+      // التحقق مرة أخرى إذا كان التطبيق مثبتًا
+      if (checkIfAppIsInstalled()) {
+        installBtn.style.display = 'none';
+        installBanner.style.display = 'none';
+        return;
+      }
+      
+      // تثبيت مباشر عند النقر
+      installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          try {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+              console.log('تم تثبيت التطبيق ✅');
+              installBtn.style.display = 'none';
+              installBanner.style.display = 'none';
+              // حفظ حالة التثبيت
+              localStorage.setItem('appInstalled', 'true');
+            } else {
+              console.log('تم رفض التثبيت ❌');
+            }
+            deferredPrompt = null;
+          } catch (error) {
+            console.error('خطأ في التثبيت:', error);
+          }
+        }
+      });
+      
+      // نفس الوظيفة للشريط العلوي
+      installBannerBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          try {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+              console.log('تم تثبيت التطبيق ✅');
+              installBtn.style.display = 'none';
+              installBanner.style.display = 'none';
+              // حفظ حالة التثبيت
+              localStorage.setItem('appInstalled', 'true');
+            } else {
+              console.log('تم رفض التثبيت ❌');
+            }
+            deferredPrompt = null;
+          } catch (error) {
+            console.error('خطأ في التثبيت:', error);
+          }
+        }
+      });
+    });
+
+    // حدث عندما يتم تثبيت التطبيق
+    window.addEventListener('appinstalled', () => {
+      console.log('تم تثبيت التطبيق بالفعل (appinstalled event)');
+      installBtn.style.display = 'none';
+      installBanner.style.display = 'none';
+      // حفظ حالة التثبيت
+      localStorage.setItem('appInstalled', 'true');
+      
+      // إظهار رسالة تأكيد
+      setTimeout(() => {
+        alert('🎉 تم تثبيت التطبيق بنجاح! يمكنك الوصول إليه من شاشتك الرئيسية.');
+      }, 1000);
+    });
+
+    // إغلاق الشريط العلوي
+    closeBanner.addEventListener('click', () => {
+      installBanner.style.display = 'none';
+      localStorage.setItem('bannerClosed', 'true');
+    });
+
+    // إظهار/إخفاء القوانين
+    const showRulesBtn = document.getElementById("showRulesBtn");
+    const rulesContent = document.getElementById("rulesContent");
+
+    if (showRulesBtn && rulesContent) {
+      showRulesBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        rulesContent.style.display = rulesContent.style.display === "none" ? "block" : "none";
+      });
+    }
+
+    // التحقق الدوري إذا كان التطبيق يعمل في وضع PWA
+    setInterval(() => {
+      const isInstalled = checkIfAppIsInstalled();
+      if (isInstalled) {
+        installBtn.style.display = 'none';
+        installBanner.style.display = 'none';
+      } else {
+        // إذا لم يكن مثبتاً، تأكد من ظهور الزر
+        if (!installBtn.style.display || installBtn.style.display === 'none') {
+          installBtn.style.display = 'flex';
+        }
+      }
+    }, 3000);
+
+    // تسجيل Service Worker للعمل بدون اتصال
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/amran/sw.js')
+          .then(function(registration) {
+            console.log('Service Worker مسجل بنجاح:', registration.scope);
+          })
+          .catch(function(error) {
+            console.log('فشل تسجيل Service Worker:', error);
+          });
+      });
+    }
+
+    // إضافة وظيفة لفحص حالة التثبيت يدوياً
+    function checkInstallStatus() {
+      const status = checkIfAppIsInstalled() ? 'مثبت' : 'غير مثبت';
+      console.log('حالة التثبيت الحالية:', status);
+      console.log('قيمة appInstalled في localStorage:', localStorage.getItem('appInstalled'));
+      console.log('وضع العرض:', window.matchMedia('(display-mode: standalone)').matches);
+      console.log('navigator.standalone:', window.navigator.standalone);
+      return status;
+    }
+
+    // يمكنك استدعاء هذه الدالة من console للمتصفح للتحقق
+    window.checkInstallStatus = checkInstallStatus;
+</script>
+</body>
+</html>
