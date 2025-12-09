@@ -34,7 +34,7 @@
     "logo": "https://ameen-algmady.github.io/alnhdah/logo.png",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "صنعاء",
+      "addressLocality": "جمعية القشيبي ،عمران",
       "addressCountry": "اليمن"
     },
     "contactPoint": {
@@ -52,19 +52,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-  <!-- OneSignal SDK -->
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-  <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(function(OneSignal) {
-          OneSignal.init({
-              appId: "adbcf77b-5fb0-4c24-b23c-25f052b00853",
-              serviceWorkerPath: "/OneSignalSDKWorker.js",
-              serviceWorkerUpdaterPath: "/OneSignalSDKUpdaterWorker.js"
-          });
-      });
-  </script>
-
   <style>
     :root {
       --primary-color: #1a237e;
@@ -75,8 +62,10 @@
       --light-bg: #f8f9fa;
       --dark-text: #333;
       --shadow: 0 4px 12px rgba(0,0,0,0.1);
-      --gradient: linear-gradient(135deg, #1a237e, #283593);
       --jeel-gradient: linear-gradient(135deg, #1a237e, #283593);
+      --success-gradient: linear-gradient(135deg, #4CAF50, #2E7D32);
+      --warning-gradient: linear-gradient(135deg, #FF9800, #F57C00);
+      --accent-gradient: linear-gradient(135deg, #2196F3, #1976D2);
     }
     
     body {
@@ -85,6 +74,9 @@
       color: var(--dark-text);
       line-height: 1.6;
       padding-top: 70px;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(33, 150, 243, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(76, 175, 80, 0.05) 0%, transparent 20%);
     }
     
     /* تحسين الشريط العلوي */
@@ -97,16 +89,24 @@
       top: 0;
       width: 100%;
       z-index: 1000;
+      backdrop-filter: blur(10px);
     }
     
     .navbar-brand {
       font-weight: bold;
       font-size: 1.4rem;
       color: white !important;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     }
     
     .navbar-brand i {
       color: #4CAF50;
+      animation: rotate 10s linear infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
     
     .nav-link {
@@ -116,16 +116,39 @@
       border-radius: 25px;
       padding: 8px 16px !important;
       color: white !important;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: all 0.5s ease;
+    }
+    
+    .nav-link:hover::before {
+      left: 100%;
     }
     
     .nav-link:hover {
       background: rgba(255,255,255,0.2);
       transform: translateY(-2px);
       color: #4CAF50 !important;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
     }
     
     .nav-link i {
       margin-left: 5px;
+      transition: transform 0.3s ease;
+    }
+    
+    .nav-link:hover i {
+      transform: scale(1.2);
     }
     
     /* تحسين الرأس */
@@ -150,12 +173,29 @@
       background: linear-gradient(90deg, #4CAF50, #2196F3, #4CAF50);
     }
     
+    header::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    
     header h1 {
       font-weight: bold;
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
       color: white;
       margin-bottom: 15px;
+      background: linear-gradient(45deg, white, #e0f7fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     
     header .lead {
@@ -163,27 +203,39 @@
       opacity: 0.95;
       max-width: 800px;
       margin: 0 auto;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     }
     
     header img {
-      height: 120px;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      height: 140px;
+      border-radius: 25px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.4);
       border: 4px solid white;
       background: white;
-      padding: 5px;
+      padding: 10px;
+      transition: all 0.5s ease;
+      filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.3));
+    }
+    
+    header img:hover {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      filter: drop-shadow(0 0 15px rgba(76, 175, 80, 0.5));
     }
     
     /* تحسين الأقسام */
     section {
-      padding: 60px 20px;
-      margin: 40px auto;
+      padding: 70px 20px;
+      margin: 50px auto;
       max-width: 1200px;
       background: white;
-      border-radius: 25px;
-      box-shadow: var(--shadow);
+      border-radius: 30px;
+      box-shadow: 
+        0 10px 30px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.8);
       border: 1px solid rgba(0,0,0,0.05);
       position: relative;
+      overflow: hidden;
     }
     
     section::before {
@@ -191,20 +243,33 @@
       position: absolute;
       top: 0;
       right: 0;
-      width: 100px;
-      height: 100px;
+      width: 150px;
+      height: 150px;
       background: linear-gradient(135deg, transparent 50%, var(--primary-color) 50%);
-      border-radius: 0 25px 0 0;
+      border-radius: 0 30px 0 0;
+      opacity: 0.8;
+    }
+    
+    section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 150px;
+      height: 150px;
+      background: linear-gradient(315deg, transparent 50%, var(--secondary-color) 50%);
+      border-radius: 0 0 0 30px;
+      opacity: 0.8;
     }
     
     section h2 {
       color: var(--primary-color);
       font-weight: bold;
-      margin-bottom: 30px;
+      margin-bottom: 35px;
       text-align: center;
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       position: relative;
-      padding-bottom: 20px;
+      padding-bottom: 25px;
     }
     
     section h2::after {
@@ -213,43 +278,74 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 100px;
-      height: 5px;
-      background: var(--secondary-color);
+      width: 120px;
+      height: 6px;
+      background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
       border-radius: 3px;
     }
     
     section h2 i {
       color: var(--accent-color);
-      margin-left: 10px;
+      margin-left: 15px;
+      text-shadow: 2px 2px 4px rgba(33, 150, 243, 0.3);
+      animation: bounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
     
     /* تحسين الأزرار */
     .btn {
-      border-radius: 25px;
-      padding: 14px 28px;
+      border-radius: 30px;
+      padding: 16px 32px;
       font-weight: 600;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       border: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
       font-size: 1.1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: all 0.6s ease;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
     }
     
     .btn-primary {
       background: var(--jeel-gradient);
       border: 2px solid transparent;
+      color: white;
     }
     
     .btn-primary:hover {
       background: white;
       color: var(--primary-color) !important;
       border: 2px solid var(--primary-color);
-      transform: translateY(-5px);
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(26, 35, 126, 0.3);
     }
     
     .btn-warning {
-      background: linear-gradient(135deg, #ff9800, #ff5722);
+      background: var(--warning-gradient);
       color: white;
+    }
+    
+    .btn-warning:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(255, 152, 0, 0.3);
     }
     
     .btn-danger {
@@ -257,125 +353,306 @@
       color: white;
     }
     
+    .btn-danger:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(244, 67, 54, 0.3);
+    }
+    
+    .btn-success {
+      background: var(--success-gradient);
+      color: white;
+    }
+    
+    .btn-success:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(76, 175, 80, 0.3);
+    }
+    
     .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
     }
     
     /* تحسين شبكة الصفوف */
     .row-cols-2 .col {
-      margin-bottom: 20px;
-      transition: transform 0.3s ease;
+      margin-bottom: 25px;
+      transition: all 0.4s ease;
     }
     
     .row-cols-2 .col:hover {
-      transform: translateY(-5px);
+      transform: translateY(-10px);
     }
     
     .row-cols-2 .btn {
       width: 100%;
-      padding: 18px;
-      font-size: 1.1rem;
-      border-radius: 15px;
+      padding: 20px;
+      font-size: 1.2rem;
+      border-radius: 20px;
       text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.4s ease;
     }
     
     /* قسم عن المدرسة */
     #about {
       background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
-      border-left: 8px solid var(--secondary-color);
-      border-right: 8px solid var(--accent-color);
+      border-left: 10px solid var(--secondary-color);
+      border-right: 10px solid var(--accent-color);
     }
     
     #about .col-md-4 {
       text-align: center;
-      padding: 30px 20px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      transition: all 0.3s ease;
-      margin-bottom: 30px;
+      padding: 35px 25px;
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      border-radius: 25px;
+      box-shadow: 
+        8px 8px 20px #d9d9d9,
+        -8px -8px 20px #ffffff;
+      transition: all 0.5s ease;
+      margin-bottom: 35px;
       border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    #about .col-md-4::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    #about .col-md-4:hover::before {
+      opacity: 1;
     }
     
     #about .col-md-4:hover {
-      transform: translateY(-10px);
+      transform: translateY(-15px);
       border-color: var(--secondary-color);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      box-shadow: 
+        12px 12px 30px #d0d0d0,
+        -12px -12px 30px #ffffff,
+        0 0 30px rgba(33, 150, 243, 0.1);
     }
     
     #about h4 {
       color: var(--primary-color);
-      margin: 20px 0;
+      margin: 25px 0;
       font-weight: bold;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    #about h4::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 2px;
     }
     
     #about .col-md-4 i {
-      font-size: 2.5rem;
+      font-size: 3rem;
       color: var(--accent-color);
       background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-      width: 80px;
-      height: 80px;
-      line-height: 80px;
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
       border-radius: 50%;
-      margin: 0 auto 20px;
+      margin: 0 auto 25px;
       display: block;
+      box-shadow: 
+        0 8px 25px rgba(33, 150, 243, 0.3),
+        inset 0 4px 10px rgba(255,255,255,0.8);
+      transition: all 0.4s ease;
+    }
+    
+    #about .col-md-4:hover i {
+      transform: scale(1.1) rotate(15deg);
+      color: white;
+      background: var(--accent-gradient);
+      box-shadow: 
+        0 12px 35px rgba(33, 150, 243, 0.4),
+        inset 0 4px 15px rgba(255,255,255,0.6);
+    }
+    
+    /* قسم الإحصاءات */
+    .stats-box {
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      padding: 30px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 
+        8px 8px 20px #d9d9d9,
+        -8px -8px 20px #ffffff;
+      transition: all 0.5s ease;
+      border-top: 6px solid var(--accent-color);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stats-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(33, 150, 243, 0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .stats-box:hover::before {
+      opacity: 1;
+    }
+    
+    .stats-box:hover {
+      transform: translateY(-12px);
+      box-shadow: 
+        12px 12px 30px #d0d0d0,
+        -12px -12px 30px #ffffff,
+        0 0 40px rgba(33, 150, 243, 0.15);
+    }
+    
+    .stats-box .number {
+      font-size: 3rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      display: block;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    .stats-box .number::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+      border-radius: 2px;
+    }
+    
+    .stats-box .label {
+      font-size: 1.2rem;
+      color: #666;
+      font-weight: 500;
     }
     
     /* قسم الرؤية والرسالة */
     .vision-box, .mission-box {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      padding: 35px;
+      border-radius: 25px;
+      box-shadow: 
+        8px 8px 20px #d9d9d9,
+        -8px -8px 20px #ffffff;
       height: 100%;
-      border-top: 5px solid #4CAF50;
-      transition: all 0.3s ease;
+      border-top: 6px solid #4CAF50;
+      transition: all 0.5s ease;
+      position: relative;
+      overflow: hidden;
     }
     
     .mission-box {
-      border-top: 5px solid #2196F3;
+      border-top: 6px solid #2196F3;
+    }
+    
+    .vision-box::before, .mission-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #4CAF50, #2196F3);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .vision-box:hover::before, .mission-box:hover::before {
+      opacity: 1;
     }
     
     .vision-box:hover, .mission-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      transform: translateY(-10px);
+      box-shadow: 
+        12px 12px 30px #d0d0d0,
+        -12px -12px 30px #ffffff,
+        0 0 35px rgba(76, 175, 80, 0.15);
     }
     
     .vision-box h3, .mission-box h3 {
       color: var(--primary-color);
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       text-align: center;
       font-weight: bold;
+      font-size: 1.6rem;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .vision-box h3::after, .mission-box h3::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, #4CAF50, #2196F3);
+      border-radius: 2px;
     }
     
     /* تحسين الصورة */
     .section-img img {
       max-width: 100%;
       height: auto;
-      border-radius: 25px;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.2);
-      border: 5px solid white;
-      transform: perspective(1000px) rotateY(-5deg);
-      transition: all 0.5s ease;
+      border-radius: 30px;
+      box-shadow: 
+        0 15px 45px rgba(0,0,0,0.25),
+        0 0 40px rgba(33, 150, 243, 0.2);
+      border: 6px solid white;
+      transform: perspective(1200px) rotateY(-8deg);
+      transition: all 0.7s ease;
+      filter: brightness(1.05) contrast(1.1);
     }
     
     .section-img img:hover {
-      transform: perspective(1000px) rotateY(0deg);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      transform: perspective(1200px) rotateY(0deg);
+      box-shadow: 
+        0 25px 60px rgba(0,0,0,0.35),
+        0 0 60px rgba(33, 150, 243, 0.3);
+      filter: brightness(1.1) contrast(1.2);
     }
     
     /* تحسين القوانين */
     #rulesContent {
       background: linear-gradient(135deg, #fff3e0, #ffecb3);
-      padding: 35px;
-      border-radius: 20px;
-      border-right: 6px solid var(--accent-color);
-      border-left: 6px solid var(--secondary-color);
+      padding: 40px;
+      border-radius: 25px;
+      border-right: 8px solid var(--accent-color);
+      border-left: 8px solid var(--secondary-color);
+      box-shadow: 
+        inset 0 0 30px rgba(255, 193, 7, 0.2),
+        0 8px 25px rgba(0,0,0,0.1);
     }
     
     #rulesContent ul {
@@ -384,155 +661,151 @@
     }
     
     #rulesContent li {
-      padding: 15px 0 15px 40px;
-      border-bottom: 2px dashed #ddd;
-      font-size: 1.1rem;
+      padding: 18px 0 18px 50px;
+      border-bottom: 3px dashed rgba(0,0,0,0.1);
+      font-size: 1.15rem;
       position: relative;
       transition: all 0.3s ease;
-    }
-    
-    #rulesContent li:hover {
-      background: rgba(255,255,255,0.5);
-      padding-right: 10px;
+      margin-bottom: 10px;
+      border-radius: 10px;
     }
     
     #rulesContent li::before {
-      content: '✓';
+      content: '✨';
       position: absolute;
       right: 0;
       color: var(--secondary-color);
       font-weight: bold;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
+      transition: transform 0.3s ease;
+    }
+    
+    #rulesContent li:hover {
+      background: rgba(255,255,255,0.6);
+      padding-right: 15px;
+      transform: translateX(-5px);
+    }
+    
+    #rulesContent li:hover::before {
+      transform: scale(1.2) rotate(15deg);
     }
     
     #rulesContent li:last-child {
       border-bottom: none;
     }
     
-    /* تحسين الخريطة */
-    .ratio-16x9 {
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-      border: 3px solid var(--primary-color);
-    }
-    
-    /* تحسين زر الإشعارات */
-    #notifyBtn {
-      position: fixed;
-      top: 90px;
-      left: 20px;
-      z-index: 9999;
-      background: linear-gradient(135deg, #ffc107, #ff9800);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 24px;
-      box-shadow: 0 6px 20px rgba(255,193,7,0.5);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: none;
-    }
-    
-    #notifyBtn:hover {
-      transform: scale(1.15) rotate(15deg);
-      box-shadow: 0 10px 30px rgba(255,193,7,0.7);
-    }
-    
     /* زر التثبيت الرئيسي المحسن */
     #installBtn {
       position: fixed;
-      top: 90px;
-      right: 20px;
+      top: 100px;
+      right: 25px;
       z-index: 10000;
-      background: linear-gradient(135deg, #4CAF50, #2E7D32);
+      background: var(--success-gradient);
       color: white;
       border: none;
-      border-radius: 30px;
-      padding: 15px 25px;
-      font-size: 16px;
+      border-radius: 35px;
+      padding: 18px 30px;
+      font-size: 17px;
       font-weight: bold;
-      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+      box-shadow: 
+        0 8px 30px rgba(76, 175, 80, 0.4),
+        0 0 20px rgba(76, 175, 80, 0.3);
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 10px;
-      transition: all 0.3s ease;
-      animation: installPulse 2s infinite;
-      display: none;
+      gap: 12px;
+      transition: all 0.4s ease;
+      animation: installPulse 2s infinite, floatInstall 6s ease-in-out infinite;
       backdrop-filter: blur(10px);
-      border: 2px solid white;
+      border: 3px solid rgba(255,255,255,0.8);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     }
     
-    #installBtn:hover {
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 10px 30px rgba(76, 175, 80, 0.7);
-      background: linear-gradient(135deg, #2E7D32, #1B5E20);
-    }
-    
-    #installBtn i {
-      font-size: 18px;
-      animation: downloadIcon 1.5s infinite;
+    @keyframes floatInstall {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
     
     @keyframes installPulse {
       0% { 
-        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5); 
-        transform: scale(1);
+        box-shadow: 
+          0 8px 30px rgba(76, 175, 80, 0.4),
+          0 0 20px rgba(76, 175, 80, 0.3);
       }
       50% { 
-        box-shadow: 0 6px 30px rgba(76, 175, 80, 0.8); 
-        transform: scale(1.03);
+        box-shadow: 
+          0 8px 40px rgba(76, 175, 80, 0.6),
+          0 0 30px rgba(76, 175, 80, 0.5);
       }
       100% { 
-        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5); 
-        transform: scale(1);
+        box-shadow: 
+          0 8px 30px rgba(76, 175, 80, 0.4),
+          0 0 20px rgba(76, 175, 80, 0.3);
       }
+    }
+    
+    #installBtn:hover {
+      transform: translateY(-8px) scale(1.08);
+      box-shadow: 
+        0 15px 45px rgba(76, 175, 80, 0.5),
+        0 0 35px rgba(76, 175, 80, 0.4);
+      background: linear-gradient(135deg, #2E7D32, #1B5E20);
+      border-color: rgba(255,255,255,1);
+    }
+    
+    #installBtn i {
+      font-size: 20px;
+      animation: downloadIcon 2s ease-in-out infinite;
     }
     
     @keyframes downloadIcon {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
-      100% { transform: translateY(0); }
+      0%, 100% { transform: translateY(0) rotate(0); }
+      25% { transform: translateY(-5px) rotate(5deg); }
+      50% { transform: translateY(0) rotate(0); }
+      75% { transform: translateY(-3px) rotate(-5deg); }
     }
     
-    /* زر تحميل ثانوي دائري */
+    /* زر التثبيت الثانوي */
     #secondaryInstallBtn {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
+      bottom: 35px;
+      right: 35px;
       z-index: 9999;
-      background: linear-gradient(135deg, #FF9800, #F57C00);
+      background: var(--warning-gradient);
       color: white;
       border: none;
       border-radius: 50%;
-      width: 70px;
-      height: 70px;
-      font-size: 28px;
-      box-shadow: 0 8px 25px rgba(255,152,0,0.5);
+      width: 80px;
+      height: 80px;
+      font-size: 32px;
+      box-shadow: 
+        0 10px 35px rgba(255,152,0,0.4),
+        0 0 25px rgba(255,152,0,0.3);
       cursor: pointer;
-      display: none;
+      display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
-      animation: float 3s ease-in-out infinite;
+      transition: all 0.4s ease;
+      animation: floatSecondary 4s ease-in-out infinite, rotate 20s linear infinite;
+      border: 3px solid rgba(255,255,255,0.9);
+    }
+    
+    @keyframes floatSecondary {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      33% { transform: translateY(-15px) rotate(5deg); }
+      66% { transform: translateY(-5px) rotate(-5deg); }
     }
     
     #secondaryInstallBtn:hover {
-      transform: scale(1.1) rotate(15deg);
-      box-shadow: 0 12px 35px rgba(255,152,0,0.7);
+      transform: scale(1.15) rotate(30deg);
+      box-shadow: 
+        0 15px 50px rgba(255,152,0,0.6),
+        0 0 40px rgba(255,152,0,0.5);
       background: linear-gradient(135deg, #F57C00, #EF6C00);
+      animation-play-state: paused;
     }
     
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
-    
-    /* شريط التثبيت العلوي المحسن */
+    /* شريط التثبيت العلوي */
     #installBanner {
       position: fixed;
       top: 0;
@@ -540,79 +813,81 @@
       right: 0;
       background: linear-gradient(135deg, rgba(33, 150, 243, 0.95), rgba(13, 71, 161, 0.95));
       color: white;
-      padding: 15px 20px;
+      padding: 20px;
       text-align: center;
       z-index: 9998;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      box-shadow: 0 5px 25px rgba(0,0,0,0.3);
       display: none;
-      backdrop-filter: blur(10px);
-      animation: slideDown 0.5s ease-out;
+      backdrop-filter: blur(15px);
+      animation: slideDown 0.6s ease-out, bannerGlow 3s ease-in-out infinite;
+      border-bottom: 3px solid rgba(76, 175, 80, 0.8);
     }
     
-    @keyframes slideDown {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(0); }
+    @keyframes bannerGlow {
+      0%, 100% { border-bottom-color: rgba(76, 175, 80, 0.8); }
+      50% { border-bottom-color: rgba(255, 193, 7, 0.8); }
     }
     
     #installBannerContent {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
+      gap: 20px;
       flex-wrap: wrap;
     }
     
     #installBanner span {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 500;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     }
     
     #installBanner i {
-      font-size: 20px;
-      color: #4CAF50;
-      animation: bellRing 2s infinite;
+      font-size: 24px;
+      color: #FFEB3B;
+      animation: bellRing 2.5s infinite, bellSpin 5s linear infinite;
     }
     
-    @keyframes bellRing {
+    @keyframes bellSpin {
       0% { transform: rotate(0); }
-      5% { transform: rotate(15deg); }
-      10% { transform: rotate(-15deg); }
-      15% { transform: rotate(15deg); }
-      20% { transform: rotate(0); }
+      25% { transform: rotate(10deg); }
+      75% { transform: rotate(-10deg); }
       100% { transform: rotate(0); }
     }
     
     #installBannerBtn {
-      background: white;
+      background: linear-gradient(135deg, #ffffff, #f0f0f0);
       color: #2196F3;
       border: none;
-      border-radius: 25px;
-      padding: 10px 25px;
+      border-radius: 30px;
+      padding: 12px 30px;
       font-weight: bold;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.4s ease;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      text-shadow: none;
     }
     
     #installBannerBtn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-      background: #f8f9fa;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      background: linear-gradient(135deg, #f8f9fa, #e8e8e8);
+      color: #1976D2;
     }
     
     #closeBanner {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.15);
       color: white;
-      border: none;
+      border: 2px solid rgba(255,255,255,0.3);
       border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      font-size: 18px;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -620,105 +895,72 @@
     }
     
     #closeBanner:hover {
-      background: rgba(255,255,255,0.3);
-      transform: rotate(90deg);
+      background: rgba(255,255,255,0.25);
+      transform: rotate(180deg) scale(1.1);
+      border-color: rgba(255,255,255,0.5);
     }
     
-    /* إشعار التثبيت العائم */
-    #installNotification {
-      position: fixed;
-      bottom: 120px;
-      right: 30px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-      padding: 25px;
-      z-index: 10001;
-      display: none;
-      max-width: 380px;
-      border-left: 6px solid #4CAF50;
-      animation: slideIn 0.5s ease-out;
-      border: 1px solid #e0e0e0;
-    }
-    
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    
-    @keyframes slideOut {
-      from { transform: translateX(0); opacity: 1; }
-      to { transform: translateX(100%); opacity: 0; }
-    }
-    
-    .install-notification-content {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    
-    .install-notification-content h4 {
-      color: #1a237e;
-      margin: 0;
-      font-size: 20px;
-      font-weight: bold;
-    }
-    
-    .install-notification-content p {
-      color: #666;
-      margin: 0;
-      font-size: 15px;
-      line-height: 1.5;
-    }
-    
-    .install-notification-buttons {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      margin-top: 10px;
-    }
-    
-    .install-notification-buttons button {
-      padding: 10px 25px;
-      border-radius: 25px;
+    /* كروت الأنشطة */
+    .activity-card {
+      transition: all 0.5s ease;
       border: none;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 14px;
-      transition: all 0.3s ease;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      position: relative;
     }
     
-    #installNowBtn {
-      background: linear-gradient(135deg, #4CAF50, #2E7D32);
-      color: white;
+    .activity-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(26, 35, 126, 0.1), rgba(33, 150, 243, 0.1));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
     }
     
-    #installNowBtn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    .activity-card:hover::before {
+      opacity: 1;
     }
     
-    #installLaterBtn {
-      background: #f5f5f5;
-      color: #666;
-      border: 1px solid #ddd;
+    .activity-card:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 
+        0 20px 50px rgba(0,0,0,0.25),
+        0 0 40px rgba(33, 150, 243, 0.2);
     }
     
-    #installLaterBtn:hover {
-      background: #e0e0e0;
-      transform: translateY(-2px);
+    .activity-card img {
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    
+    .activity-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .activity-card .card-body {
+      background: white;
+      position: relative;
+      z-index: 1;
     }
     
     /* الفوتر */
     footer {
       background: var(--jeel-gradient);
       color: white;
-      padding: 40px 20px;
+      padding: 50px 20px;
       text-align: center;
-      margin-top: 60px;
+      margin-top: 80px;
       border-radius: 40px 40px 0 0;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
     }
     
     footer::before {
@@ -731,312 +973,239 @@
       background: linear-gradient(90deg, #4CAF50, #2196F3, #4CAF50);
     }
     
+    footer::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    
+    footer h4 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      position: relative;
+      display: inline-block;
+    }
+    
+    footer h4::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #4CAF50, #2196F3);
+      border-radius: 2px;
+    }
+    
     footer p {
-      margin: 10px 0;
+      margin: 12px 0;
       opacity: 0.95;
       font-size: 1.1rem;
+      position: relative;
+      z-index: 1;
     }
     
     .footer-contact {
       display: flex;
       justify-content: center;
-      gap: 30px;
-      margin-top: 20px;
+      gap: 35px;
+      margin-top: 30px;
       flex-wrap: wrap;
     }
     
     .contact-item {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       background: rgba(255,255,255,0.1);
-      padding: 10px 20px;
-      border-radius: 25px;
-      transition: all 0.3s ease;
+      padding: 12px 25px;
+      border-radius: 30px;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.2);
     }
     
     .contact-item:hover {
       background: rgba(255,255,255,0.2);
-      transform: translateY(-3px);
+      transform: translateY(-5px);
+      border-color: rgba(255,255,255,0.4);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    .contact-item i {
+      color: #4CAF50;
+      font-size: 1.2rem;
+    }
+    
+    /* تأثيرات إضافية */
+    .fade-in {
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+      from { 
+        opacity: 0; 
+        transform: translateY(50px) scale(0.95); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+      }
+    }
+    
+    .hover-lift {
+      transition: all 0.4s ease;
+    }
+    
+    .hover-lift:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 45px rgba(0,0,0,0.2) !important;
+    }
+    
+    /* شعار متحرك */
+    .logo-animation {
+      animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
+    }
+    
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      33% { transform: translateY(-15px) rotate(3deg); }
+      66% { transform: translateY(-5px) rotate(-3deg); }
+    }
+    
+    @keyframes logoGlow {
+      0%, 100% { 
+        box-shadow: 
+          0 12px 35px rgba(0,0,0,0.4),
+          0 0 20px rgba(33, 150, 243, 0.3); 
+      }
+      50% { 
+        box-shadow: 
+          0 15px 45px rgba(0,0,0,0.5),
+          0 0 30px rgba(33, 150, 243, 0.5); 
+      }
+    }
+    
+    /* إحصائيات النتائج */
+    .stats-chart {
+      background: white;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+      margin-top: 30px;
+    }
+    
+    .chart-bar {
+      height: 30px;
+      background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+      border-radius: 15px;
+      margin: 15px 0;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .chart-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
     }
     
     /* تحسينات للهواتف */
     @media (max-width: 768px) {
-      body {
-        padding-top: 60px;
-      }
-      
-      header {
-        padding: 70px 15px 30px;
-        border-radius: 0 0 30px 30px;
-      }
-      
       header h1 {
-        font-size: 2rem;
-      }
-      
-      header .lead {
-        font-size: 1.1rem;
-      }
-      
-      header img {
-        height: 90px;
-        margin-top: 20px;
+        font-size: 2.2rem;
       }
       
       section {
         padding: 40px 15px;
         margin: 30px 10px;
-        border-radius: 20px;
-      }
-      
-      section h2 {
-        font-size: 1.8rem;
-      }
-      
-      .btn {
-        padding: 12px 20px;
-        font-size: 1rem;
-      }
-      
-      .row-cols-2 .btn {
-        padding: 15px;
-        font-size: 1rem;
-      }
-      
-      #notifyBtn {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        top: 80px;
-        left: 10px;
       }
       
       #installBtn {
-        width: auto;
-        padding: 12px 20px;
+        padding: 14px 20px;
         font-size: 14px;
-        top: 80px;
-        right: 10px;
+        top: 85px;
+        right: 15px;
       }
       
       #secondaryInstallBtn {
-        width: 60px;
-        height: 60px;
-        font-size: 24px;
+        width: 65px;
+        height: 65px;
+        font-size: 26px;
         bottom: 20px;
         right: 20px;
       }
-      
-      #installNotification {
-        max-width: 320px;
-        bottom: 100px;
-        right: 20px;
-        padding: 20px;
-      }
-      
-      .navbar-brand {
-        font-size: 1.2rem;
-      }
-      
-      #about .col-md-4 {
-        margin-bottom: 20px;
-      }
-      
-      .footer-contact {
-        flex-direction: column;
-        gap: 15px;
-        align-items: center;
-      }
-      
-      .section-img img {
-        transform: none;
-      }
-      
-      .section-img img:hover {
-        transform: scale(1.02);
-      }
     }
     
-    @media (max-width: 480px) {
-      .row-cols-2 {
-        grid-template-columns: 1fr !important;
-      }
-      
-      header h1 {
-        font-size: 1.6rem;
-      }
-      
-      header .lead {
-        font-size: 1rem;
-      }
-      
-      section h2 {
-        font-size: 1.5rem;
-      }
-      
-      #installBtn {
-        padding: 10px 15px;
-        font-size: 12px;
-        top: 70px;
-      }
-      
-      #installNotification {
-        max-width: 280px;
-        padding: 15px;
-      }
-      
-      .install-notification-buttons {
-        flex-direction: column;
-      }
+    /* رسائل النظام */
+    .message-system {
+      position: fixed;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10002;
+      animation: messageSlide 0.4s ease-out;
     }
     
-    /* تأثيرات إضافية */
-    .fade-in {
-      animation: fadeIn 1s ease-in;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .hover-lift {
-      transition: all 0.3s ease;
-    }
-    
-    .hover-lift:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.15) !important;
-    }
-    
-    /* شعار متحرك */
-    .logo-animation {
-      animation: float 3s ease-in-out infinite;
-    }
-    
-    /* قسم الإحصاءات */
-    .stats-box {
-      background: white;
-      padding: 25px;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      transition: all 0.3s ease;
-      border-top: 5px solid var(--accent-color);
-    }
-    
-    .stats-box:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    }
-    
-    .stats-box .number {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: var(--primary-color);
-      display: block;
-      margin-bottom: 10px;
-    }
-    
-    .stats-box .label {
-      font-size: 1.1rem;
-      color: #666;
-    }
-    
-    /* رسائل التنبيه */
-    @keyframes slideDownMessage {
+    @keyframes messageSlide {
       from { transform: translate(-50%, -100%); opacity: 0; }
       to { transform: translate(-50%, 0); opacity: 1; }
     }
     
-    @keyframes slideUpMessage {
-      from { transform: translate(-50%, 0); opacity: 1; }
-      to { transform: translate(-50%, -100%); opacity: 0; }
+    /* تأثيرات النص */
+    .text-gradient {
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     
-    @keyframes fadeInModal {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    /* تأثيرات الظل */
+    .shadow-soft {
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
     }
     
-    @keyframes scaleInModal {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    .shadow-hard {
+      box-shadow: 0 15px 50px rgba(0,0,0,0.2);
     }
     
-    /* كروت التنبيهات */
-    .alert-card {
-      border-right: 5px solid;
-      border-radius: 15px;
-      margin-bottom: 20px;
+    /* تأثيرات الانعكاس */
+    .reflection {
+      position: relative;
     }
     
-    .alert-warning {
-      border-right-color: #ff9800;
-      background: #fff8e1;
-    }
-    
-    .alert-info {
-      border-right-color: #2196F3;
-      background: #e3f2fd;
-    }
-    
-    /* أنشطة */
-    .activity-card {
-      transition: all 0.3s ease;
-      border: none;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-    
-    .activity-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
-    }
-    
-    .activity-card img {
-      height: 200px;
-      object-fit: cover;
-    }
-    
-    /* معلومات الاتصال */
-    .contact-info-card {
-      background: white;
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      height: 100%;
-      border-top: 5px solid var(--accent-color);
-    }
-    
-    .contact-info-card h5 {
-      color: var(--primary-color);
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #f0f0f0;
-    }
-    
-    .contact-info-card ul {
-      list-style: none;
-      padding: 0;
-    }
-    
-    .contact-info-card li {
-      padding: 10px 0;
-      border-bottom: 1px solid #f5f5f5;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .contact-info-card li:last-child {
-      border-bottom: none;
-    }
-    
-    .contact-info-card i {
-      color: var(--accent-color);
-      width: 20px;
+    .reflection::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 10%;
+      width: 80%;
+      height: 20px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.1));
+      border-radius: 50%;
+      filter: blur(5px);
+      opacity: 0.5;
     }
   </style>
 </head>
@@ -1063,18 +1232,6 @@
     <i class="fas fa-download"></i>
   </button>
 
-  <!-- إشعار التثبيت العائم -->
-  <div id="installNotification">
-    <div class="install-notification-content">
-      <h4><i class="fas fa-rocket me-2"></i>تثبيت التطبيق</h4>
-      <p>ثبّت تطبيق مدارس جيل النهضة الحديثة للوصول السريع والاستفادة من جميع المميزات بدون الحاجة للإنترنت.</p>
-      <div class="install-notification-buttons">
-        <button id="installLaterBtn">لاحقاً</button>
-        <button id="installNowBtn">تثبيت الآن</button>
-      </div>
-    </div>
-  </div>
-
   <!-- شريط التنقل -->
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -1093,7 +1250,7 @@
           <li class="nav-item"><a class="nav-link" href="#absence"><i class="fas fa-user-clock me-1"></i> غياب الطلاب</a></li>
           <li class="nav-item"><a class="nav-link" href="#activities"><i class="fas fa-trophy me-1"></i> الأنشطة الدراسية</a></li>
           <li class="nav-item"><a class="nav-link" href="#rules"><i class="fas fa-gavel me-1"></i> الأنظمة والقوانين</a></li>
-          <li class="nav-item"><a class="nav-link" href="#location"><i class="fas fa-map-marker-alt me-1"></i> موقع مدارس النهضة</a></li>
+          <li class="nav-item"><a class="nav-link" href="#location"><i class="fas fa-map-marker-alt me-1"></i> موقع المجمع</a></li>
         </ul>
       </div>
     </div>
@@ -1106,7 +1263,7 @@
         <div class="col-md-8">
           <h1 class="fade-in">مدارس جيل النهضة الحديثة</h1>
           <p class="lead mt-3 fade-in">نحو جيل واعي.. مستقبل مشرق</p>
-          <p class="fade-in">تميز في التعليم · جودة في المناهج · إبداع في الأساليب</p>
+          <p class="fade-in text-gradient">تميز في التعليم · جودة في المناهج · إبداع في الأساليب</p>
         </div>
         <div class="col-md-4">
           <img src="logo.png" alt="شعار مدارس جيل النهضة الحديثة" class="img-fluid fade-in logo-animation">
@@ -1120,11 +1277,27 @@
     <div class="container">
       <h2><i class="fas fa-school me-2"></i>عن مدارس جيل النهضة الحديثة</h2>
       <p class="text-center mb-5 lead">نظام تعليمي متكامل يهدف إلى بناء جيل متميز علميًا وأخلاقيًا</p>
-     
+      <div class="row g-4">
+        <div class="col-md-4">
+          <i class="fas fa-bullseye"></i>
+          <h4>رؤيتنا</h4>
+          <p>الريادة في تقديم تعليم متميز يواكب تطورات العصر، ويسهم في بناء جيل قادر على الابتكار والإبداع والمساهمة في تنمية المجتمع.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-tasks"></i>
+          <h4>رسالتنا</h4>
+          <p>توفير بيئة تعليمية محفزة ومتوازنة تعزز القيم الإسلامية والهوية الوطنية، وتنمي المهارات العلمية والعملية للطلاب.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-star"></i>
+          <h4>أهدافنا</h4>
+          <p>تطوير قدرات الطلاب المعرفية والمهارية، وغرس القيم الأخلاقية، وإعداد جيل قادر على مواجهة تحديات المستقبل.</p>
+        </div>
+      </div>
       
       <div class="row mt-5">
         <div class="col-md-6">
-          <div class="vision-box">
+          <div class="vision-box hover-lift">
             <h3><i class="fas fa-eye me-2"></i>قيمنا</h3>
             <ul class="list-unstyled">
               <li><i class="fas fa-check text-success me-2"></i> الجودة والتميز في التعليم</li>
@@ -1136,7 +1309,7 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div class="mission-box">
+          <div class="mission-box hover-lift">
             <h3><i class="fas fa-bullhorn me-2"></i>مميزاتنا</h3>
             <ul class="list-unstyled">
               <li><i class="fas fa-check text-primary me-2"></i> معلمون مؤهلون ومدربون</li>
@@ -1159,20 +1332,20 @@
       <div class="row g-4">
         <div class="col-md-3 col-sm-6">
           <div class="stats-box">
-            <span class="number">+1200</span>
+            <span class="number">+1500</span>
             <span class="label">طالب وطالبة</span>
           </div>
         </div>
         <div class="col-md-3 col-sm-6">
           <div class="stats-box">
-            <span class="number">+80</span>
+            <span class="number">+120</span>
             <span class="label">معلم ومعلمة</span>
           </div>
         </div>
         <div class="col-md-3 col-sm-6">
           <div class="stats-box">
-            <span class="number">8</span>
-            <span class="label">سنوات من التميز</span>
+            <span class="number">15</span>
+            <span class="label">عامًا من التميز</span>
           </div>
         </div>
         <div class="col-md-3 col-sm-6">
@@ -1210,10 +1383,28 @@
         <div class="col"><a href="results_grade8.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>الثامن الأساسي</a></div>
         <div class="col"><a href="results_grade9.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>التاسع الأساسي</a></div>
         <div class="col"><a href="results_secondary.html" class="btn btn-success w-100"><i class="fas fa-graduation-cap me-2"></i>الثانوية العامة</a></div>
-     
-              </div>
-            </form>
+      </div>
+      
+      <div class="stats-chart mt-5">
+        <h4><i class="fas fa-chart-pie me-2"></i>إحصائيات النتائج الأخيرة</h4>
+        <div class="mt-4">
+          <div class="d-flex justify-content-between mb-2">
+            <span>الصف الأول: 92%</span>
+            <span>92%</span>
           </div>
+          <div class="chart-bar" style="width: 92%"></div>
+          
+          <div class="d-flex justify-content-between mb-2">
+            <span>الصف الثاني: 88%</span>
+            <span>88%</span>
+          </div>
+          <div class="chart-bar" style="width: 88%"></div>
+          
+          <div class="d-flex justify-content-between mb-2">
+            <span>الصف الثالث: 90%</span>
+            <span>90%</span>
+          </div>
+          <div class="chart-bar" style="width: 90%"></div>
         </div>
       </div>
     </div>
@@ -1231,9 +1422,11 @@
       
       <div class="row mt-5">
         <div class="col-md-6">
-          <div class="card alert-card alert-warning hover-lift">
+          <div class="card hover-lift shadow-soft">
+            <div class="card-header bg-warning text-white">
+              <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>تنبيهات الغياب</h5>
+            </div>
             <div class="card-body">
-              <h5 class="card-title"><i class="fas fa-exclamation-triangle me-2"></i>تنبيهات الغياب</h5>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">● 3 أيام غياب: تنبيه لأولياء الأمور</li>
                 <li class="list-group-item">● 5 أيام غياب: اجتماع مع ولي الأمر</li>
@@ -1244,9 +1437,11 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div class="card alert-card alert-info hover-lift">
+          <div class="card hover-lift shadow-soft">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0"><i class="fas fa-clock me-2"></i>إجراءات التعامل مع الغياب</h5>
+            </div>
             <div class="card-body">
-              <h5 class="card-title"><i class="fas fa-clock me-2"></i>إجراءات التعامل مع الغياب</h5>
               <p>تتبع المدرسة نظامًا دقيقًا لمتابعة غياب الطلاب يشمل:</p>
               <ul>
                 <li>متابعة يومية لحضور الطلاب</li>
@@ -1316,7 +1511,7 @@
       <div id="rulesContent" style="display: none;">
         <h4 class="text-center mb-4">لائحة النظام الداخلي لمدارس جيل النهضة الحديثة</h4>
         <ul>
-          <li>❖ الالتزام بالحضور اليومي وعدم التأخير عن الحصص الدراسية، ويغلق الباب الساعة 7:30 صباحًا.</li>
+          <li>❖ الالتزام بالحضور اليومي وعدم التأخير عن الحصص الدراسية، ويغلق الباب الساعة 7:15 صباحًا.</li>
           <li>❖ احترام المعلمين والإداريين والزملاء في جميع الأوقات داخل وخارج المدرسة.</li>
           <li>❖ الحفاظ على نظافة الصف والمرافق العامة داخل المجمع والمشاركة في أنشطة النظافة.</li>
           <li>❖ يمنع استخدام الهاتف المحمول أو أي أجهزة إلكترونية أخرى أثناء الدوام الدراسي.</li>
@@ -1325,41 +1520,7 @@
           <li>❖ المحافظة على الكتب والوسائل التعليمية من التلف أو الضياع، والتعويض عن التلف.</li>
           <li>❖ يمنع مغادرة المدرسة أثناء الدوام إلا بإذن خطي من الإدارة وموافقة ولي الأمر.</li>
           <li>❖ المشاركة الإيجابية في الأنشطة المدرسية والفعاليات التربوية التي تنظمها المدرسة.</li>
-          <li>❖ احترام الممتلكات العامة للمدرسة وعدم العبث بالمعدات والأثاث المدرسي.</li>
-          <li>❖ الالتزام بالمواعيد الرسمية للتسليم والتسلم والاختبارات والأنشطة.</li>
-          <li>❖ يمنع التدخين أو تعاطي أي مواد مضرة بالصحة داخل حرم المدرسة.</li>
-          <li>❖ التواصل مع الإدارة عبر القنوات الرسمية لمعالجة أي مشكلة أو تقديم اقتراح.</li>
         </ul>
-        
-        <div class="mt-5">
-          <h5><i class="fas fa-exclamation-circle text-danger me-2"></i>العقوبات التأديبية:</h5>
-          <div class="row mt-3">
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-body">
-                  <h6>إنذار شفهي</h6>
-                  <p>للحالات البسيطة والمخالفات الأولية</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-body">
-                  <h6>إنذار خطي</h6>
-                  <p>للحالات المتكررة مع إشعار ولي الأمر</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-body">
-                  <h6>الحرمان من الاختبار</h6>
-                  <p>للحالات المتطورة والمخالفات الجسيمة</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -1381,28 +1542,25 @@
       
       <div class="row mt-4">
         <div class="col-md-6">
-          <div class="contact-info-card">
+          <div class="card contact-info-card hover-lift">
             <h5><i class="fas fa-info-circle me-2"></i>معلومات الاتصال</h5>
             <ul>
               <li><i class="fas fa-map-marker-alt"></i> <strong>العنوان:</strong> جمعية القشيبي ،عمران، اليمن</li>
-              <li><i class="fas fa-phone"></i> <strong>الهاتف:</strong> 77    </li>
+              <li><i class="fas fa-phone"></i> <strong>الهاتف:</strong> 77      </li>
               <li><i class="fas fa-envelope"></i> <strong>البريد الإلكتروني:</strong> info@jeel-alnahdah.edu.ye</li>
               <li><i class="fas fa-clock"></i> <strong>ساعات العمل:</strong> 7:00 صباحًا - 2:00 ظهرًا</li>
-              <li><i class="fas fa-fax"></i> <strong>الفاكس:</strong> 77     </li>
             </ul>
           </div>
         </div>
         <div class="col-md-6">
-          <div class="contact-info-card">
+          <div class="card contact-info-card hover-lift">
             <h5><i class="fas fa-directions me-2"></i>كيفية الوصول ووسائل النقل</h5>
             <p>يمكن الوصول إلى المدارس عبر:</p>
             <ul>
-              <li><i class="fas fa-bus"></i> <strong>وسائل النقل العام:</strong> الباصات المتجهة إلى منطقة المدارس</li>
-              <li><i class="fas fa-taxi"></i> <strong>وسائل النقل الخاصة:</strong> الاشتراك في وسائل النقل التي توفرها المدرسة</li>
+              <li><i class="fas fa-bus"></i> <strong>وسائل النقل العام:</strong> الحافلات المتجهة إلى منطقة المدارس</li>
+              <li><i class="fas fa-taxi"></i> <strong>سيارات الأجرة:</strong> التاكسي المتوفر في جميع أنحاء المدينة</li>
               <li><i class="fas fa-car"></i> <strong>المركبات الخاصة:</strong> مواقف سيارات متاحة داخل وخارج المجمع</li>
-              <li><i class="fas fa-walking"></i> <strong>سيرًا على الأقدام:</strong> للمقيمين في المناطق القريبة</li>
             </ul>
-            <p class="text-muted mt-3"><small><i class="fas fa-lightbulb me-1"></i> ننصح بالحضور قبل وقت كافٍ لتجنب الازدحام خاصة في أوقات الذروة</small></p>
           </div>
         </div>
       </div>
@@ -1413,13 +1571,13 @@
   <footer class="fade-in">
     <div class="container">
       <h4 class="mb-4">مدارس جيل النهضة الحديثة</h4>
-      <p>© 2026 جميع الحقوق محفوظة لمدارس جيل النهضة الحديثة.</p>
+      <p>© 2024 جميع الحقوق محفوظة لمدارس جيل النهضة الحديثة.</p>
       <p>نظام النتائج الإلكتروني - الإصدار 2.0</p>
       
       <div class="footer-contact mt-4">
         <div class="contact-item">
           <i class="fas fa-phone"></i>
-          <span>77   </span>
+          <span>77      </span>
         </div>
         <div class="contact-item">
           <i class="fas fa-envelope"></i>
@@ -1427,19 +1585,8 @@
         </div>
         <div class="contact-item">
           <i class="fas fa-map-marker-alt"></i>
-          <span>عمران - اليمن</span>
+          <span>جمعية القشيبي ،عمران - اليمن</span>
         </div>
-        <div class="contact-item">
-          <i class="fas fa-clock"></i>
-          <span>7:00 ص - 1:00 م</span>
-        </div>
-      </div>
-      
-      <div class="mt-4">
-        <a href="#" class="text-white me-3"><i class="fab fa-facebook fa-lg"></i></a>
-        <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-lg"></i></a>
-        <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-lg"></i></a>
-        <a href="#" class="text-white"><i class="fab fa-youtube fa-lg"></i></a>
       </div>
       
       <p class="mt-4 mb-0"><small>تم التطوير بواسطة <strong>فريق مدارس جيل النهضة الحديثة</strong> لتقديم أفضل الخدمات التعليمية</small></p>
@@ -1449,172 +1596,94 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // إدارة زر الإشعارات
-    const notifyBtn = document.getElementById('notifyBtn');
-    notifyBtn.style.display = 'none';
-
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(function(OneSignal) {
-      OneSignal.isPushNotificationsEnabled().then(function(isEnabled) {
-        if (!isEnabled) {
-          notifyBtn.style.display = 'block';
-        }
-      });
-
-      notifyBtn.addEventListener('click', function () {
-        OneSignal.showSlidedownPrompt().catch(function (error) {
-          showMessage('error', 'حدث خطأ أثناء محاولة تفعيل الإشعارات.');
-          console.error(error);
-        });
-      });
-    });
-
-    // إدارة زر التثبيت
+    // ========== نظام التثبيت المحسن مع التأثيرات ==========
+    
     let deferredPrompt;
     let installPromptShown = false;
+    
     const installBtn = document.getElementById('installBtn');
     const secondaryInstallBtn = document.getElementById('secondaryInstallBtn');
     const installBanner = document.getElementById('installBanner');
     const installBannerBtn = document.getElementById('installBannerBtn');
     const closeBanner = document.getElementById('closeBanner');
-    const installNotification = document.getElementById('installNotification');
-    const installNowBtn = document.getElementById('installNowBtn');
-    const installLaterBtn = document.getElementById('installLaterBtn');
-
-    // التحقق مما إذا كان التطبيق مثبتًا بالفعل
+    
+    // 1. التحقق من التثبيت
     function checkIfAppIsInstalled() {
       if (window.matchMedia('(display-mode: standalone)').matches) {
-        console.log('✅ التطبيق مثبت بالفعل (display-mode)');
-        localStorage.setItem('appInstalled', 'true');
+        console.log('✅ التطبيق مثبت بالفعل');
         return true;
       }
       
       if (window.navigator.standalone === true) {
-        console.log('✅ التطبيق مثبت بالفعل (navigator.standalone)');
-        localStorage.setItem('appInstalled', 'true');
+        console.log('✅ التطبيق مثبت (iOS)');
         return true;
       }
       
       if (localStorage.getItem('appInstalled') === 'true') {
+        console.log('✅ التطبيق مثبت (localStorage)');
         return true;
       }
       
-      console.log('⚠️ التطبيق غير مثبت');
-      localStorage.removeItem('appInstalled');
       return false;
     }
-
-    // وظيفة لعرض الرسائل
+    
+    // 2. عرض رسائل متطورة
     function showMessage(type, text) {
       const messageDiv = document.createElement('div');
-      messageDiv.style.cssText = `
-        position: fixed;
-        top: 100px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 15px 25px;
-        border-radius: 10px;
-        color: white;
-        font-weight: bold;
-        z-index: 10002;
-        animation: slideDownMessage 0.3s ease-out;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        max-width: 90%;
-        text-align: center;
-      `;
+      messageDiv.className = 'message-system';
       
-      if (type === 'success') {
-        messageDiv.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
-      } else if (type === 'error') {
-        messageDiv.style.background = 'linear-gradient(135deg, #f44336, #d32f2f)';
-      } else {
-        messageDiv.style.background = 'linear-gradient(135deg, #2196F3, #1976D2)';
+      let icon = 'info-circle';
+      let gradient = 'linear-gradient(135deg, #2196F3, #1976D2)';
+      
+      switch(type) {
+        case 'success':
+          icon = 'check-circle';
+          gradient = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+          break;
+        case 'error':
+          icon = 'exclamation-circle';
+          gradient = 'linear-gradient(135deg, #f44336, #d32f2f)';
+          break;
+        case 'warning':
+          icon = 'exclamation-triangle';
+          gradient = 'linear-gradient(135deg, #FF9800, #F57C00)';
+          break;
       }
       
+      messageDiv.style.cssText = `
+        background: ${gradient};
+        color: white;
+        padding: 18px 30px;
+        border-radius: 20px;
+        font-weight: bold;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        max-width: 500px;
+        width: 90%;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255,255,255,0.3);
+        z-index: 10002;
+      `;
+      
       messageDiv.innerHTML = `
-        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-        ${text}
+        <i class="fas fa-${icon}" style="font-size: 22px;"></i>
+        <span>${text}</span>
       `;
       
       document.body.appendChild(messageDiv);
       
       setTimeout(() => {
-        messageDiv.style.animation = 'slideUpMessage 0.3s ease-out';
+        messageDiv.style.opacity = '0';
+        messageDiv.style.transform = 'translate(-50%, -20px)';
         setTimeout(() => {
           document.body.removeChild(messageDiv);
         }, 300);
-      }, 3000);
+      }, 4000);
     }
-
-    // عرض إشعار التثبيت
-    function showInstallNotification() {
-      if (installPromptShown) return;
-      
-      installNotification.style.display = 'block';
-      installNotification.style.animation = 'slideIn 0.5s ease-out';
-      installPromptShown = true;
-      
-      setTimeout(() => {
-        if (installNotification.style.display === 'block') {
-          hideInstallNotification();
-        }
-      }, 10000);
-    }
-
-    // إخفاء إشعار التثبيت
-    function hideInstallNotification() {
-      installNotification.style.animation = 'slideOut 0.3s ease-out';
-      setTimeout(() => {
-        installNotification.style.display = 'none';
-        installNotification.style.animation = '';
-      }, 300);
-    }
-
-    // تثبيت التطبيق
-    async function installApp() {
-      if (!deferredPrompt) {
-        showMessage('info', 'انتظر قليلاً...');
-        return;
-      }
-      
-      try {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        
-        if (outcome === 'accepted') {
-          console.log('✅ تم قبول تثبيت التطبيق');
-          localStorage.setItem('appInstalled', 'true');
-          hideAllInstallButtons();
-          showMessage('success', '🎉 تم تثبيت التطبيق بنجاح!');
-          
-          setTimeout(() => {
-            showInstallSuccessModal();
-          }, 1000);
-        } else {
-          console.log('❌ تم رفض تثبيت التطبيق');
-          showMessage('info', 'يمكنك تثبيت التطبيق لاحقًا من زر التثبيت');
-          localStorage.setItem('installDeclined', 'true');
-        }
-        
-        deferredPrompt = null;
-      } catch (error) {
-        console.error('❌ خطأ في التثبيت:', error);
-        showMessage('error', 'حدث خطأ أثناء التثبيت. حاول مرة أخرى.');
-      }
-    }
-
-    // إخفاء جميع أزرار التثبيت
-    function hideAllInstallButtons() {
-      installBtn.style.display = 'none';
-      secondaryInstallBtn.style.display = 'none';
-      installBanner.style.display = 'none';
-      hideInstallNotification();
-    }
-
-    // عرض نافذة نجاح التثبيت
+    
+    // 3. عرض نافذة نجاح التثبيت متطورة
     function showInstallSuccessModal() {
       const modal = document.createElement('div');
       modal.innerHTML = `
@@ -1624,49 +1693,69 @@
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(0,0,0,0.7);
+          background: rgba(0,0,0,0.8);
           display: flex;
           align-items: center;
           justify-content: center;
           z-index: 10003;
-          animation: fadeInModal 0.3s ease-out;
+          animation: fadeIn 0.5s ease-out;
         ">
           <div style="
-            background: white;
-            border-radius: 25px;
-            padding: 40px;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 35px;
+            padding: 50px;
             max-width: 500px;
             width: 90%;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: scaleInModal 0.3s ease-out;
+            box-shadow: 
+              0 30px 80px rgba(0,0,0,0.4),
+              0 0 60px rgba(76, 175, 80, 0.4);
+            animation: scaleIn 0.5s ease-out;
+            border: 4px solid rgba(76, 175, 80, 0.3);
+            position: relative;
+            overflow: hidden;
           ">
-            <div style="font-size: 80px; color: #4CAF50; margin-bottom: 20px;">🎉</div>
-            <h3 style="color: #1a237e; margin-bottom: 15px;">تم التثبيت بنجاح!</h3>
-            <p style="color: #666; margin-bottom: 25px; line-height: 1.6;">
-              تم تثبيت تطبيق <strong>مدارس جيل النهضة الحديثة</strong> بنجاح على جهازك.<br>
+            <div style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              height: 5px;
+              background: linear-gradient(90deg, #4CAF50, #2196F3, #4CAF50);
+            "></div>
+            
+            <div style="font-size: 80px; color: #4CAF50; margin-bottom: 25px; animation: bounce 2s infinite;">🎉</div>
+            <h3 style="color: #1a237e; margin-bottom: 20px; font-size: 28px;">تم التثبيت بنجاح!</h3>
+            <p style="color: #666; margin-bottom: 30px; line-height: 1.6; font-size: 16px;">
+              تم تثبيت تطبيق <strong style="color: #1a237e;">مدارس جيل النهضة الحديثة</strong> بنجاح على جهازك.<br>
               يمكنك الآن الوصول إليه مباشرة من شاشتك الرئيسية.
             </p>
-            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
+            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 35px;">
               <button onclick="location.reload()" style="
                 background: linear-gradient(135deg, #1a237e, #283593);
                 color: white;
                 border: none;
-                border-radius: 25px;
-                padding: 12px 30px;
+                border-radius: 30px;
+                padding: 15px 35px;
                 font-weight: bold;
+                font-size: 16px;
                 cursor: pointer;
                 transition: all 0.3s ease;
+                box-shadow: 0 8px 25px rgba(26, 35, 126, 0.3);
+                display: flex;
+                align-items: center;
+                gap: 10px;
               ">
-                <i class="fas fa-rocket me-2"></i>فتح التطبيق
+                <i class="fas fa-rocket"></i>فتح التطبيق
               </button>
               <button onclick="this.closest('div[style*=\"position: fixed\"]').remove()" style="
                 background: #f5f5f5;
                 color: #666;
-                border: none;
-                border-radius: 25px;
-                padding: 12px 30px;
+                border: 2px solid #ddd;
+                border-radius: 30px;
+                padding: 15px 35px;
                 font-weight: bold;
+                font-size: 16px;
                 cursor: pointer;
                 transition: all 0.3s ease;
               ">
@@ -1685,57 +1774,104 @@
         }
       });
     }
-
-    // تهيئة أزرار التثبيت
+    
+    // 4. إخفاء أزرار التثبيت
+    function hideAllInstallButtons() {
+      installBtn.style.display = 'none';
+      secondaryInstallBtn.style.display = 'none';
+      installBanner.style.display = 'none';
+    }
+    
+    // 5. تثبيت التطبيق
+    async function installApp() {
+      if (!deferredPrompt) {
+        showMessage('info', '💡 يمكنك تثبيت التطبيق يدويًا من قائمة المتصفح (الثلاث نقاط → تثبيت التطبيق)');
+        return;
+      }
+      
+      try {
+        // تأثيرات قبل التثبيت
+        installBtn.style.animation = 'none';
+        installBtn.style.transform = 'scale(0.95)';
+        installBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التثبيت...';
+        
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        if (outcome === 'accepted') {
+          console.log('✅ تم قبول تثبيت التطبيق');
+          localStorage.setItem('appInstalled', 'true');
+          hideAllInstallButtons();
+          showMessage('success', '🎉 تم تثبيت التطبيق بنجاح!');
+          
+          setTimeout(() => {
+            showInstallSuccessModal();
+          }, 1500);
+        } else {
+          console.log('❌ تم رفض تثبيت التطبيق');
+          showMessage('warning', 'يمكنك تثبيت التطبيق لاحقًا من زر التثبيت');
+          localStorage.setItem('installDeclined', 'true');
+          
+          // استعادة تأثيرات الزر
+          setTimeout(() => {
+            installBtn.style.animation = 'installPulse 2s infinite, floatInstall 6s ease-in-out infinite';
+            installBtn.style.transform = '';
+            installBtn.innerHTML = '<i class="fas fa-download"></i> تثبيت التطبيق';
+          }, 1000);
+        }
+        
+        deferredPrompt = null;
+      } catch (error) {
+        console.error('❌ خطأ في التثبيت:', error);
+        showMessage('error', '⚠️ حدث خطأ أثناء التثبيت. حاول مرة أخرى.');
+        
+        // استعادة تأثيرات الزر
+        installBtn.style.animation = 'installPulse 2s infinite, floatInstall 6s ease-in-out infinite';
+        installBtn.style.transform = '';
+        installBtn.innerHTML = '<i class="fas fa-download"></i> تثبيت التطبيق';
+      }
+    }
+    
+    // 6. تهيئة أزرار التثبيت
     function initializeInstallButtons() {
       const isInstalled = checkIfAppIsInstalled();
-      const installDeclined = localStorage.getItem('installDeclined');
       
       if (isInstalled) {
         hideAllInstallButtons();
         return;
       }
       
-      // إظهار الأزرار بعد تأخير
+      // عرض الأزرار مع تأثيرات
       setTimeout(() => {
-        if (!installDeclined) {
-          installBtn.style.display = 'flex';
-          secondaryInstallBtn.style.display = 'flex';
-          
-          // عرض البانر بعد 3 ثوان
-          setTimeout(() => {
-            if (!localStorage.getItem('bannerClosed')) {
-              installBanner.style.display = 'block';
-            }
-          }, 3000);
-          
-          // عرض الإشعار بعد 8 ثوان
-          setTimeout(() => {
-            if (!installPromptShown) {
-              showInstallNotification();
-            }
-          }, 8000);
-        }
+        installBtn.style.display = 'flex';
+        secondaryInstallBtn.style.display = 'flex';
+        
+        // إظهار البانر بعد تأخير
+        setTimeout(() => {
+          if (!localStorage.getItem('bannerClosed')) {
+            installBanner.style.display = 'block';
+            showMessage('info', '📱 متاح تثبيت التطبيق للوصول السريع!');
+          }
+        }, 3000);
       }, 1000);
     }
-
-    // استماع لحدث beforeinstallprompt
+    
+    // 7. استماع لحدث beforeinstallprompt
     window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('🎯 حدث beforeinstallprompt متاح للتثبيت');
       e.preventDefault();
       deferredPrompt = e;
-      console.log('🎯 حدث beforeinstallprompt متاح للتثبيت');
       
-      // تهيئة الأزرار عند توفر إمكانية التثبيت
-      initializeInstallButtons();
-      
-      // ربط أحداث النقر
+      // ربط الأحداث
       installBtn.addEventListener('click', installApp);
       secondaryInstallBtn.addEventListener('click', installApp);
       installBannerBtn.addEventListener('click', installApp);
-      installNowBtn.addEventListener('click', installApp);
+      
+      // عرض رسالة ترحيبية
+      showMessage('success', '🎉 متاح الآن تثبيت تطبيق مدارس جيل النهضة الحديثة!');
     });
-
-    // حدث appinstalled
+    
+    // 8. حدث appinstalled
     window.addEventListener('appinstalled', () => {
       console.log('✅ حدث appinstalled: تم تثبيت التطبيق');
       localStorage.setItem('appInstalled', 'true');
@@ -1743,82 +1879,61 @@
       
       setTimeout(() => {
         showInstallSuccessModal();
-      }, 500);
+      }, 1000);
     });
-
-    // أحداث أخرى
+    
+    // 9. تهيئة الصفحة
+    window.addEventListener('load', () => {
+      console.log('🚀 مدارس جيل النهضة الحديثة - النظام جاهز');
+      
+      initializeInstallButtons();
+      
+      // رسالة ترحيبية
+      setTimeout(() => {
+        showMessage('info', 'مرحبًا بكم في نظام نتائج مدارس جيل النهضة الحديثة ✨');
+      }, 2000);
+      
+      // كشف المتصفحات غير المدعومة
+      if (!('beforeinstallprompt' in window)) {
+        console.log('⚠️ هذا المتصفح لا يدعم تثبيت التطبيات بشكل كامل');
+      }
+    });
+    
+    // 10. أحداث أخرى
     closeBanner.addEventListener('click', () => {
       installBanner.style.display = 'none';
       localStorage.setItem('bannerClosed', 'true');
     });
-
-    installLaterBtn.addEventListener('click', () => {
-      hideInstallNotification();
-      localStorage.setItem('installDeclined', 'true');
-    });
-
-    // تهيئة عند تحميل الصفحة
-    window.addEventListener('load', () => {
-      initializeInstallButtons();
-      
-      // إذا كان التطبيق مثبتًا، اخفِ الأزرار
-      if (checkIfAppIsInstalled()) {
-        hideAllInstallButtons();
-      }
-      
-      // معالجة الصور المفقودة
-      document.querySelectorAll('img').forEach(img => {
-        img.onerror = function() {
-          this.style.opacity = '0.5';
-        };
-      });
-    });
-
-    // تحديث دوري لحالة التثبيت
+    
+    // 11. تحديث دوري
     setInterval(() => {
       if (checkIfAppIsInstalled()) {
         hideAllInstallButtons();
       }
-    }, 5000);
-
-    // Service Worker للتطبيق
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/alnhdah/sw.js')
-          .then(registration => {
-            console.log('✅ Service Worker مسجل:', registration.scope);
-          })
-          .catch(error => {
-            console.log('❌ فشل تسجيل Service Worker:', error);
-          });
-      });
-    }
-
-    // إظهار/إخفاء القوانين
+    }, 15000);
+    
+    // ========== نظام القوانين ==========
     const showRulesBtn = document.getElementById("showRulesBtn");
     const rulesContent = document.getElementById("rulesContent");
-
+    
     if (showRulesBtn && rulesContent) {
       showRulesBtn.addEventListener("click", function(e) {
         e.preventDefault();
-        rulesContent.style.display = rulesContent.style.display === "none" ? "block" : "none";
-        this.innerHTML = rulesContent.style.display === "none" ? 
+        const isVisible = rulesContent.style.display === "block";
+        rulesContent.style.display = isVisible ? "none" : "block";
+        this.innerHTML = isVisible ? 
           '<i class="fas fa-scroll me-2"></i>قراءة اللوائح' : 
           '<i class="fas fa-times me-2"></i>إخفاء اللوائح';
+        
+        // تأثير عند النقر
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 200);
       });
     }
-
-    // وظائف البحث والإحصائيات
-    function showSearchForm() {
-      const searchForm = document.getElementById('searchForm');
-      searchForm.style.display = searchForm.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function showStats() {
-      showMessage('info', 'قريبًا: إحصائيات النتائج للفصل الدراسي الحالي');
-    }
-
-    // تفعيل التنقل السلس
+    
+    // ========== التنقل السلس ==========
     document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -1828,6 +1943,13 @@
           
           const targetElement = document.querySelector(targetId);
           if (targetElement) {
+            // تأثير النقر
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              this.style.transform = '';
+            }, 200);
+            
+            // التنقل السلس
             window.scrollTo({
               top: targetElement.offsetTop - 80,
               behavior: 'smooth'
@@ -1836,8 +1958,34 @@
         });
       });
     });
-
-    // وظيفة لإعادة تعيين التثبيت (للتجربة)
+    
+    // ========== تأثيرات الصور ==========
+    document.querySelectorAll('img').forEach(img => {
+      img.onerror = function() {
+        this.style.opacity = '0.7';
+        this.style.filter = 'grayscale(30%)';
+      };
+    });
+    
+    // ========== إضافة أنماط الحركة ==========
+    const animationStyles = document.createElement('style');
+    animationStyles.textContent = `
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes scaleIn {
+        from { transform: scale(0.8); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+      }
+    `;
+    document.head.appendChild(animationStyles);
+    
+    // ========== وظيفة إعادة تعيين للتجربة ==========
     window.resetInstall = function() {
       localStorage.removeItem('appInstalled');
       localStorage.removeItem('installDeclined');
@@ -1847,14 +1995,16 @@
       installBtn.style.display = 'flex';
       secondaryInstallBtn.style.display = 'flex';
       installBanner.style.display = 'block';
-      installNotification.style.display = 'none';
       
-      showMessage('success', 'تم إعادة تعيين إعدادات التثبيت');
+      showMessage('success', '🔄 تم إعادة تعيين إعدادات التثبيت');
       console.log('🔄 تم إعادة تعيين إعدادات التثبيت');
     };
-
-    // أضف زر إعادة التعيين في الكونسول
-    console.log('%c🔄 لإعادة تعيين التثبيت، استخدم: resetInstall()', 'color: #2196F3; font-weight: bold;');
+    
+    // ========== رسائل الكونسول ==========
+    console.log('%c🚀 مدارس جيل النهضة الحديثة - نظام النتائج', 'color: #1a237e; font-size: 18px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);');
+    console.log('%c💡 لإعادة تعيين التثبيت، استخدم: resetInstall()', 'color: #2196F3; font-weight: bold;');
+    console.log('%c📱 يمكنك تثبيت التطبيق للوصول السريع', 'color: #4CAF50; font-weight: bold;');
+    console.log('%c✨ تصميم متطور مع تأثيرات متقدمة', 'color: #FF9800; font-weight: bold;');
 </script>
 </body>
 </html>
