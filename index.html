@@ -1596,7 +1596,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // ========== نظام التثبيت المحسن مع التأثيرات ==========
+    // ========== نظام التثبيت المحسّن مع دليل يدوي ==========
     
     let deferredPrompt;
     let installPromptShown = false;
@@ -1607,86 +1607,108 @@
     const installBannerBtn = document.getElementById('installBannerBtn');
     const closeBanner = document.getElementById('closeBanner');
     
-    // 1. التحقق من التثبيت
+    // 1. التحقق من التثبيت بطرق متعددة
     function checkIfAppIsInstalled() {
+      // طريقة 1: display-mode
       if (window.matchMedia('(display-mode: standalone)').matches) {
-        console.log('✅ التطبيق مثبت بالفعل');
+        console.log('✅ التطبيق مثبت (display-mode)');
+        localStorage.setItem('appInstalled', 'true');
         return true;
       }
       
+      // طريقة 2: navigator.standalone (لـ iOS)
       if (window.navigator.standalone === true) {
-        console.log('✅ التطبيق مثبت (iOS)');
+        console.log('✅ التطبيق مثبت (iOS standalone)');
+        localStorage.setItem('appInstalled', 'true');
         return true;
       }
       
+      // طريقة 3: localStorage
       if (localStorage.getItem('appInstalled') === 'true') {
         console.log('✅ التطبيق مثبت (localStorage)');
         return true;
       }
       
+      // طريقة 4: التحقق من الـ Referrer
+      if (document.referrer.includes('android-app://') || 
+          document.referrer.includes('ios-app://')) {
+        console.log('✅ التطبيق مثبت (من خلال referrer)');
+        localStorage.setItem('appInstalled', 'true');
+        return true;
+      }
+      
+      console.log('⚠️ التطبيق غير مثبت أو لم يتم الكشف عنه');
       return false;
     }
     
     // 2. عرض رسائل متطورة
-    function showMessage(type, text) {
+    function showMessage(type, text, duration = 4000) {
+      // إزالة الرسائل القديمة
+      document.querySelectorAll('.custom-message').forEach(msg => msg.remove());
+      
       const messageDiv = document.createElement('div');
-      messageDiv.className = 'message-system';
+      messageDiv.className = 'custom-message';
       
-      let icon = 'info-circle';
-      let gradient = 'linear-gradient(135deg, #2196F3, #1976D2)';
+      const icons = {
+        success: 'check-circle',
+        error: 'exclamation-circle',
+        warning: 'exclamation-triangle',
+        info: 'info-circle'
+      };
       
-      switch(type) {
-        case 'success':
-          icon = 'check-circle';
-          gradient = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
-          break;
-        case 'error':
-          icon = 'exclamation-circle';
-          gradient = 'linear-gradient(135deg, #f44336, #d32f2f)';
-          break;
-        case 'warning':
-          icon = 'exclamation-triangle';
-          gradient = 'linear-gradient(135deg, #FF9800, #F57C00)';
-          break;
-      }
+      const gradients = {
+        success: 'linear-gradient(135deg, #4CAF50, #2E7D32)',
+        error: 'linear-gradient(135deg, #f44336, #d32f2f)',
+        warning: 'linear-gradient(135deg, #FF9800, #F57C00)',
+        info: 'linear-gradient(135deg, #2196F3, #1976D2)'
+      };
       
       messageDiv.style.cssText = `
-        background: ${gradient};
+        position: fixed;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: ${gradients[type] || gradients.info};
         color: white;
-        padding: 18px 30px;
+        padding: 16px 28px;
         border-radius: 20px;
         font-weight: bold;
-        box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.25);
         display: flex;
         align-items: center;
         gap: 15px;
-        max-width: 500px;
-        width: 90%;
+        max-width: 90%;
+        width: auto;
+        z-index: 10002;
+        animation: messageSlideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         backdrop-filter: blur(10px);
         border: 2px solid rgba(255,255,255,0.3);
-        z-index: 10002;
+        font-size: 15px;
+        text-align: center;
       `;
       
       messageDiv.innerHTML = `
-        <i class="fas fa-${icon}" style="font-size: 22px;"></i>
+        <i class="fas fa-${icons[type] || 'info-circle'}" style="font-size: 20px;"></i>
         <span>${text}</span>
       `;
       
       document.body.appendChild(messageDiv);
       
+      // إخفاء الرسالة بعد المدة
       setTimeout(() => {
-        messageDiv.style.opacity = '0';
-        messageDiv.style.transform = 'translate(-50%, -20px)';
+        messageDiv.style.animation = 'messageSlideOut 0.3s ease-out forwards';
         setTimeout(() => {
-          document.body.removeChild(messageDiv);
+          if (messageDiv.parentNode) {
+            messageDiv.parentNode.removeChild(messageDiv);
+          }
         }, 300);
-      }, 4000);
+      }, duration);
     }
     
-    // 3. عرض نافذة نجاح التثبيت متطورة
-    function showInstallSuccessModal() {
-      const modal = document.createElement('div');
-      modal.innerHTML = `
+    // 3. عرض دليل التثبيت اليدوي
+    function showManualInstallGuide() {
+      const guideDiv = document.createElement('div');
+      guideDiv.innerHTML = `
         <div style="
           position: fixed;
           top: 0;
@@ -1697,21 +1719,21 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          z-index: 10003;
-          animation: fadeIn 0.5s ease-out;
+          z-index: 10004;
+          animation: fadeIn 0.3s ease-out;
         ">
           <div style="
             background: linear-gradient(145deg, #ffffff, #f0f0f0);
-            border-radius: 35px;
-            padding: 50px;
-            max-width: 500px;
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 600px;
             width: 90%;
             text-align: center;
             box-shadow: 
-              0 30px 80px rgba(0,0,0,0.4),
-              0 0 60px rgba(76, 175, 80, 0.4);
-            animation: scaleIn 0.5s ease-out;
-            border: 4px solid rgba(76, 175, 80, 0.3);
+              0 25px 70px rgba(0,0,0,0.4),
+              0 0 50px rgba(76, 175, 80, 0.3);
+            animation: scaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 4px solid rgba(33, 150, 243, 0.2);
             position: relative;
             overflow: hidden;
           ">
@@ -1724,44 +1746,240 @@
               background: linear-gradient(90deg, #4CAF50, #2196F3, #4CAF50);
             "></div>
             
-            <div style="font-size: 80px; color: #4CAF50; margin-bottom: 25px; animation: bounce 2s infinite;">🎉</div>
-            <h3 style="color: #1a237e; margin-bottom: 20px; font-size: 28px;">تم التثبيت بنجاح!</h3>
-            <p style="color: #666; margin-bottom: 30px; line-height: 1.6; font-size: 16px;">
-              تم تثبيت تطبيق <strong style="color: #1a237e;">مدارس جيل النهضة الحديثة</strong> بنجاح على جهازك.<br>
-              يمكنك الآن الوصول إليه مباشرة من شاشتك الرئيسية.
-            </p>
-            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 35px;">
-              <button onclick="location.reload()" style="
-                background: linear-gradient(135deg, #1a237e, #283593);
+            <div style="font-size: 70px; color: #1a237e; margin-bottom: 20px;">📱</div>
+            <h3 style="color: #1a237e; margin-bottom: 15px; font-size: 26px;">كيفية تثبيت التطبيق يدويًا</h3>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; margin: 20px 0; text-align: right;">
+              <h4 style="color: #333; margin-bottom: 15px; text-align: center;">📝 الخطوات:</h4>
+              
+              <div style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; padding: 10px; background: white; border-radius: 10px;">
+                <div style="background: #1a237e; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
+                <div style="flex: 1; text-align: right;">
+                  <strong>في الكمبيوتر (Chrome/Edge):</strong><br>
+                  انقر على <span style="background: #e0e0e0; padding: 2px 8px; border-radius: 4px; font-family: monospace;">⋮</span> → <strong>"تثبيت مدارس جيل النهضة الحديثة"</strong>
+                </div>
+              </div>
+              
+              <div style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; padding: 10px; background: white; border-radius: 10px;">
+                <div style="background: #1a237e; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
+                <div style="flex: 1; text-align: right;">
+                  <strong>في الجوال (Android/Chrome):</strong><br>
+                  انقر على <span style="background: #e0e0e0; padding: 2px 8px; border-radius: 4px; font-family: monospace;">⋮</span> → <strong>"إضافة إلى الشاشة الرئيسية"</strong>
+                </div>
+              </div>
+              
+              <div style="display: flex; align-items: flex-start; gap: 15px; padding: 10px; background: white; border-radius: 10px;">
+                <div style="background: #1a237e; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
+                <div style="flex: 1; text-align: right;">
+                  <strong>في الجوال (iOS/Safari):</strong><br>
+                  انقر على <span style="background: #e0e0e0; padding: 2px 8px; border-radius: 4px; font-family: monospace;">↗</span> → <strong>"أضف إلى الشاشة الرئيسية"</strong>
+                </div>
+              </div>
+            </div>
+            
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 25px; flex-wrap: wrap;">
+              <button onclick="testInstallPrompt()" style="
+                background: linear-gradient(135deg, #4CAF50, #2E7D32);
                 color: white;
                 border: none;
                 border-radius: 30px;
-                padding: 15px 35px;
+                padding: 14px 30px;
                 font-weight: bold;
                 font-size: 16px;
                 cursor: pointer;
                 transition: all 0.3s ease;
-                box-shadow: 0 8px 25px rgba(26, 35, 126, 0.3);
+                box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
                 display: flex;
                 align-items: center;
                 gap: 10px;
               ">
-                <i class="fas fa-rocket"></i>فتح التطبيق
+                <i class="fas fa-bolt"></i>محاولة التثبيت التلقائي
               </button>
+              
               <button onclick="this.closest('div[style*=\"position: fixed\"]').remove()" style="
                 background: #f5f5f5;
                 color: #666;
                 border: 2px solid #ddd;
                 border-radius: 30px;
-                padding: 15px 35px;
+                padding: 14px 30px;
                 font-weight: bold;
                 font-size: 16px;
                 cursor: pointer;
                 transition: all 0.3s ease;
               ">
-                موافق
+                <i class="fas fa-check"></i>فهمت
               </button>
             </div>
+            
+            <p style="margin-top: 25px; color: #666; font-size: 14px;">
+              <i class="fas fa-lightbulb"></i> 
+              <strong>ملاحظة:</strong> يجب أن يكون الموقع على HTTPS ليعمل التثبيت التلقائي
+            </p>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(guideDiv);
+      
+      // إغلاق بالنقر خارج الصندوق
+      guideDiv.addEventListener('click', (e) => {
+        if (e.target === guideDiv) {
+          guideDiv.remove();
+        }
+      });
+    }
+    
+    // 4. محاولة التثبيت التلقائي (وظيفة مساعدة)
+    window.testInstallPrompt = function() {
+      if (deferredPrompt) {
+        installApp();
+      } else {
+        showMessage('info', '📱 لم يتم الكشف عن إمكانية التثبيت التلقائي. استخدم الدليل اليدوي أعلاه.');
+      }
+    };
+    
+    // 5. إخفاء أزرار التثبيت
+    function hideAllInstallButtons() {
+      installBtn.style.display = 'none';
+      secondaryInstallBtn.style.display = 'none';
+      installBanner.style.display = 'none';
+    }
+    
+    // 6. محاولة التثبيت
+    async function installApp() {
+      if (!deferredPrompt) {
+        showMessage('info', '🔧 استخدم الدليل اليدوي للتثبيت', 5000);
+        setTimeout(() => {
+          showManualInstallGuide();
+        }, 1000);
+        return;
+      }
+      
+      try {
+        // تأثيرات أثناء التثبيت
+        installBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التثبيت...';
+        installBtn.style.animation = 'none';
+        
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        if (outcome === 'accepted') {
+          console.log('✅ تم قبول التثبيت');
+          localStorage.setItem('appInstalled', 'true');
+          hideAllInstallButtons();
+          showMessage('success', '🎉 تم تثبيت التطبيق بنجاح!', 3000);
+          
+          setTimeout(() => {
+            showInstallSuccessModal();
+          }, 1500);
+        } else {
+          console.log('❌ تم رفض التثبيت');
+          showMessage('warning', 'يمكنك التثبيت لاحقًا من زر التثبيت', 3000);
+          localStorage.setItem('installDeclined', 'true');
+          
+          // استعادة الزر
+          setTimeout(() => {
+            installBtn.innerHTML = '<i class="fas fa-download"></i> تثبيت التطبيق';
+            installBtn.style.animation = 'installPulse 2s infinite, floatInstall 6s ease-in-out infinite';
+          }, 1000);
+        }
+        
+        deferredPrompt = null;
+      } catch (error) {
+        console.error('❌ خطأ في التثبيت:', error);
+        showMessage('error', '⚠️ حدث خطأ. استخدم الدليل اليدوي', 4000);
+        
+        // استعادة الزر وعرض الدليل
+        installBtn.innerHTML = '<i class="fas fa-download"></i> تثبيت التطبيق';
+        installBtn.style.animation = 'installPulse 2s infinite, floatInstall 6s ease-in-out infinite';
+        
+        setTimeout(() => {
+          showManualInstallGuide();
+        }, 1500);
+      }
+    }
+    
+    // 7. عرض نافذة النجاح
+    function showInstallSuccessModal() {
+      const modal = document.createElement('div');
+      modal.innerHTML = `
+        <div style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0,0,0,0.85);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10005;
+          animation: fadeIn 0.4s ease-out;
+        ">
+          <div style="
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 35px;
+            padding: 50px 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 
+              0 30px 80px rgba(0,0,0,0.5),
+              0 0 70px rgba(76, 175, 80, 0.4);
+            animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 5px solid rgba(76, 175, 80, 0.4);
+            position: relative;
+            overflow: hidden;
+          ">
+            <div style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              height: 5px;
+              background: linear-gradient(90deg, #4CAF50, #2196F3, #4CAF50);
+            "></div>
+            
+            <div style="font-size: 80px; color: #4CAF50; margin-bottom: 25px; animation: bounce 2s infinite;">🎊</div>
+            <h3 style="color: #1a237e; margin-bottom: 20px; font-size: 28px;">مبروك! التطبيق مثبت</h3>
+            <p style="color: #666; margin-bottom: 30px; line-height: 1.6; font-size: 16px;">
+              تم تثبيت تطبيق <strong style="color: #1a237e;">مدارس جيل النهضة الحديثة</strong> بنجاح.<br>
+              يمكنك الآن الوصول إليه مباشرة من شاشتك الرئيسية.
+            </p>
+            
+            <div style="background: #f0f7ff; padding: 20px; border-radius: 20px; margin: 25px 0; text-align: right;">
+              <h4 style="color: #1a237e; margin-bottom: 15px;">🎯 مميزات التطبيق المثبت:</h4>
+              <ul style="list-style: none; padding: 0; text-align: right;">
+                <li style="margin-bottom: 10px; padding-right: 25px; position: relative;">
+                  <i class="fas fa-check-circle" style="color: #4CAF50; position: absolute; right: 0;"></i>
+                  وصول سريع بدون كتابة الرابط
+                </li>
+                <li style="margin-bottom: 10px; padding-right: 25px; position: relative;">
+                  <i class="fas fa-check-circle" style="color: #4CAF50; position: absolute; right: 0;"></i>
+                  عمل بدون اتصال بالإنترنت
+                </li>
+                <li style="margin-bottom: 10px; padding-right: 25px; position: relative;">
+                  <i class="fas fa-check-circle" style="color: #4CAF50; position: absolute; right: 0;"></i>
+                  إشعارات فورية بالنتائج
+                </li>
+              </ul>
+            </div>
+            
+            <button onclick="this.closest('div[style*=\"position: fixed\"]').remove(); location.reload();" style="
+              background: linear-gradient(135deg, #1a237e, #283593);
+              color: white;
+              border: none;
+              border-radius: 30px;
+              padding: 16px 40px;
+              font-weight: bold;
+              font-size: 17px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              box-shadow: 0 10px 30px rgba(26, 35, 126, 0.3);
+              margin-top: 10px;
+            ">
+              <i class="fas fa-rocket"></i> افتح التطبيق الآن
+            </button>
           </div>
         </div>
       `;
@@ -1775,90 +1993,37 @@
       });
     }
     
-    // 4. إخفاء أزرار التثبيت
-    function hideAllInstallButtons() {
-      installBtn.style.display = 'none';
-      secondaryInstallBtn.style.display = 'none';
-      installBanner.style.display = 'none';
-    }
-    
-    // 5. تثبيت التطبيق
-    async function installApp() {
-      if (!deferredPrompt) {
-        showMessage('info', '💡 يمكنك تثبيت التطبيق يدويًا من قائمة المتصفح (الثلاث نقاط → تثبيت التطبيق)');
-        return;
-      }
-      
-      try {
-        // تأثيرات قبل التثبيت
-        installBtn.style.animation = 'none';
-        installBtn.style.transform = 'scale(0.95)';
-        installBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التثبيت...';
-        
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        
-        if (outcome === 'accepted') {
-          console.log('✅ تم قبول تثبيت التطبيق');
-          localStorage.setItem('appInstalled', 'true');
-          hideAllInstallButtons();
-          showMessage('success', '🎉 تم تثبيت التطبيق بنجاح!');
-          
-          setTimeout(() => {
-            showInstallSuccessModal();
-          }, 1500);
-        } else {
-          console.log('❌ تم رفض تثبيت التطبيق');
-          showMessage('warning', 'يمكنك تثبيت التطبيق لاحقًا من زر التثبيت');
-          localStorage.setItem('installDeclined', 'true');
-          
-          // استعادة تأثيرات الزر
-          setTimeout(() => {
-            installBtn.style.animation = 'installPulse 2s infinite, floatInstall 6s ease-in-out infinite';
-            installBtn.style.transform = '';
-            installBtn.innerHTML = '<i class="fas fa-download"></i> تثبيت التطبيق';
-          }, 1000);
-        }
-        
-        deferredPrompt = null;
-      } catch (error) {
-        console.error('❌ خطأ في التثبيت:', error);
-        showMessage('error', '⚠️ حدث خطأ أثناء التثبيت. حاول مرة أخرى.');
-        
-        // استعادة تأثيرات الزر
-        installBtn.style.animation = 'installPulse 2s infinite, floatInstall 6s ease-in-out infinite';
-        installBtn.style.transform = '';
-        installBtn.innerHTML = '<i class="fas fa-download"></i> تثبيت التطبيق';
-      }
-    }
-    
-    // 6. تهيئة أزرار التثبيت
+    // 8. تهيئة أزرار التثبيت
     function initializeInstallButtons() {
       const isInstalled = checkIfAppIsInstalled();
       
       if (isInstalled) {
         hideAllInstallButtons();
+        console.log('✅ التطبيق مثبت - إخفاء الأزرار');
         return;
       }
       
-      // عرض الأزرار مع تأثيرات
+      // عرض الأزرار دائماً (بغض النظر عن beforeinstallprompt)
+      installBtn.style.display = 'flex';
+      secondaryInstallBtn.style.display = 'flex';
+      
+      // إظهار البانر بعد 2 ثانية إذا لم يكن مغلقًا
       setTimeout(() => {
-        installBtn.style.display = 'flex';
-        secondaryInstallBtn.style.display = 'flex';
-        
-        // إظهار البانر بعد تأخير
-        setTimeout(() => {
-          if (!localStorage.getItem('bannerClosed')) {
-            installBanner.style.display = 'block';
-            showMessage('info', '📱 متاح تثبيت التطبيق للوصول السريع!');
-          }
-        }, 3000);
+        if (!localStorage.getItem('bannerClosed')) {
+          installBanner.style.display = 'block';
+          console.log('📢 عرض بانر التثبيت');
+        }
+      }, 2000);
+      
+      // رسالة ترحيبية
+      setTimeout(() => {
+        showMessage('info', 'مرحبًا بكم في مدارس جيل النهضة الحديثة ✨', 3000);
       }, 1000);
     }
     
-    // 7. استماع لحدث beforeinstallprompt
+    // 9. استماع لأحداث التثبيت
     window.addEventListener('beforeinstallprompt', (e) => {
-      console.log('🎯 حدث beforeinstallprompt متاح للتثبيت');
+      console.log('🎯 حدث beforeinstallprompt متاح!');
       e.preventDefault();
       deferredPrompt = e;
       
@@ -1867,13 +2032,12 @@
       secondaryInstallBtn.addEventListener('click', installApp);
       installBannerBtn.addEventListener('click', installApp);
       
-      // عرض رسالة ترحيبية
-      showMessage('success', '🎉 متاح الآن تثبيت تطبيق مدارس جيل النهضة الحديثة!');
+      showMessage('success', '🎉 متاح الآن التثبيت التلقائي! انقر على زر التثبيت', 4000);
     });
     
-    // 8. حدث appinstalled
+    // 10. حدث عند التثبيت
     window.addEventListener('appinstalled', () => {
-      console.log('✅ حدث appinstalled: تم تثبيت التطبيق');
+      console.log('✅ حدث appinstalled: تم التثبيت!');
       localStorage.setItem('appInstalled', 'true');
       hideAllInstallButtons();
       
@@ -1882,92 +2046,66 @@
       }, 1000);
     });
     
-    // 9. تهيئة الصفحة
+    // 11. تهيئة الصفحة
     window.addEventListener('load', () => {
-      console.log('🚀 مدارس جيل النهضة الحديثة - النظام جاهز');
+      console.log('🚀 صفحة مدارس جيل النهضة الحديثة جاهزة');
       
       initializeInstallButtons();
       
-      // رسالة ترحيبية
-      setTimeout(() => {
-        showMessage('info', 'مرحبًا بكم في نظام نتائج مدارس جيل النهضة الحديثة ✨');
-      }, 2000);
-      
-      // كشف المتصفحات غير المدعومة
-      if (!('beforeinstallprompt' in window)) {
-        console.log('⚠️ هذا المتصفح لا يدعم تثبيت التطبيات بشكل كامل');
+      // عرض إشعار خاص إذا كان على HTTP
+      if (window.location.protocol !== 'https:') {
+        setTimeout(() => {
+          showMessage('warning', '🔒 للحصول على تثبيت تلقائي، استخدم HTTPS', 5000);
+        }, 3000);
       }
     });
     
-    // 10. أحداث أخرى
+    // 12. أحداث إضافية
     closeBanner.addEventListener('click', () => {
       installBanner.style.display = 'none';
       localStorage.setItem('bannerClosed', 'true');
+      showMessage('info', 'يمكنك التثبيت لاحقًا من الزر في الزاوية', 3000);
     });
     
-    // 11. تحديث دوري
+    // 13. تحديث دوري
     setInterval(() => {
       if (checkIfAppIsInstalled()) {
         hideAllInstallButtons();
       }
-    }, 15000);
+    }, 10000);
     
-    // ========== نظام القوانين ==========
-    const showRulesBtn = document.getElementById("showRulesBtn");
-    const rulesContent = document.getElementById("rulesContent");
+    // 14. وظيفة إعادة تعيين
+    window.resetInstall = function() {
+      localStorage.removeItem('appInstalled');
+      localStorage.removeItem('installDeclined');
+      localStorage.removeItem('bannerClosed');
+      
+      installBtn.style.display = 'flex';
+      secondaryInstallBtn.style.display = 'flex';
+      installBanner.style.display = 'block';
+      installBtn.innerHTML = '<i class="fas fa-download"></i> تثبيت التطبيق';
+      installBtn.style.animation = 'installPulse 2s infinite, floatInstall 6s ease-in-out infinite';
+      
+      showMessage('success', '🔄 تم إعادة تعيين إعدادات التثبيت', 3000);
+      console.log('🔄 تم إعادة تعيين إعدادات التثبيت');
+    };
     
-    if (showRulesBtn && rulesContent) {
-      showRulesBtn.addEventListener("click", function(e) {
+    // 15. دليل التثبيت عند الطلب
+    installBtn.addEventListener('click', function(e) {
+      if (!deferredPrompt) {
         e.preventDefault();
-        const isVisible = rulesContent.style.display === "block";
-        rulesContent.style.display = isVisible ? "none" : "block";
-        this.innerHTML = isVisible ? 
-          '<i class="fas fa-scroll me-2"></i>قراءة اللوائح' : 
-          '<i class="fas fa-times me-2"></i>إخفاء اللوائح';
-        
-        // تأثير عند النقر
-        this.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-          this.style.transform = '';
-        }, 200);
-      });
-    }
-    
-    // ========== التنقل السلس ==========
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href');
-          if (targetId === '#') return;
-          
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            // تأثير النقر
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-              this.style.transform = '';
-            }, 200);
-            
-            // التنقل السلس
-            window.scrollTo({
-              top: targetElement.offsetTop - 80,
-              behavior: 'smooth'
-            });
-          }
-        });
-      });
+        showManualInstallGuide();
+      }
     });
     
-    // ========== تأثيرات الصور ==========
-    document.querySelectorAll('img').forEach(img => {
-      img.onerror = function() {
-        this.style.opacity = '0.7';
-        this.style.filter = 'grayscale(30%)';
-      };
+    secondaryInstallBtn.addEventListener('click', function(e) {
+      if (!deferredPrompt) {
+        e.preventDefault();
+        showManualInstallGuide();
+      }
     });
     
-    // ========== إضافة أنماط الحركة ==========
+    // ========== أنماط الحركة الإضافية ==========
     const animationStyles = document.createElement('style');
     animationStyles.textContent = `
       @keyframes fadeIn {
@@ -1975,36 +2113,33 @@
         to { opacity: 1; }
       }
       @keyframes scaleIn {
-        from { transform: scale(0.8); opacity: 0; }
+        from { transform: scale(0.9); opacity: 0; }
         to { transform: scale(1); opacity: 1; }
       }
       @keyframes bounce {
         0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-20px); }
+        50% { transform: translateY(-15px); }
+      }
+      @keyframes messageSlideIn {
+        from { transform: translate(-50%, -100px); opacity: 0; }
+        to { transform: translate(-50%, 0); opacity: 1; }
+      }
+      @keyframes messageSlideOut {
+        from { transform: translate(-50%, 0); opacity: 1; }
+        to { transform: translate(-50%, -100px); opacity: 0; }
       }
     `;
     document.head.appendChild(animationStyles);
     
-    // ========== وظيفة إعادة تعيين للتجربة ==========
-    window.resetInstall = function() {
-      localStorage.removeItem('appInstalled');
-      localStorage.removeItem('installDeclined');
-      localStorage.removeItem('bannerClosed');
-      installPromptShown = false;
-      
-      installBtn.style.display = 'flex';
-      secondaryInstallBtn.style.display = 'flex';
-      installBanner.style.display = 'block';
-      
-      showMessage('success', '🔄 تم إعادة تعيين إعدادات التثبيت');
-      console.log('🔄 تم إعادة تعيين إعدادات التثبيت');
-    };
-    
     // ========== رسائل الكونسول ==========
-    console.log('%c🚀 مدارس جيل النهضة الحديثة - نظام النتائج', 'color: #1a237e; font-size: 18px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);');
-    console.log('%c💡 لإعادة تعيين التثبيت، استخدم: resetInstall()', 'color: #2196F3; font-weight: bold;');
-    console.log('%c📱 يمكنك تثبيت التطبيق للوصول السريع', 'color: #4CAF50; font-weight: bold;');
-    console.log('%c✨ تصميم متطور مع تأثيرات متقدمة', 'color: #FF9800; font-weight: bold;');
+    console.log('%c🚀 مدارس جيل النهضة الحديثة - نظام متطور', 
+      'color: #1a237e; font-size: 18px; font-weight: bold; padding: 10px; background: linear-gradient(45deg, #e3f2fd, #bbdefb); border-radius: 5px;');
+    console.log('%c💡 للمساعدة: resetInstall() - إعادة تعيين التثبيت', 
+      'color: #2196F3; font-weight: bold;');
+    console.log('%c📱 استخدم HTTPS للتثبيت التلقائي الكامل', 
+      'color: #4CAF50; font-weight: bold;');
+    console.log('%c✨ نظام تثبيت بديل كامل يعمل على جميع المتصفحات', 
+      'color: #FF9800; font-weight: bold;');
 </script>
 </body>
 </html>
