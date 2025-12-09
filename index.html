@@ -2,10 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>مدارس النهظة الاهلية - نظام النتائج الإلكتروني</title>
-  <meta name="description" content="مدارس النهظة الاهلية - النتائج الإلكترونية للطلاب، محصلات شهرية، نتائج نصف العام وآخر العام. نظام نتائج إلكتروني آمن وسريع.">
-  <meta name="keywords" content="مدارس النهظة الاهلية, نتائج الطلاب, نتائج مدرسية, نظام نتائج, النهظة, التعليم اليمني, نتائج الامتحانات">
-  <meta name="author" content="مدارس النهظة الاهلية">
+  <title>مدارس جيل النهضة الحديثة - نظام النتائج الإلكتروني</title>
+  <meta name="description" content="مدارس جيل النهضة الحديثة - النتائج الإلكترونية للطلاب، محصلات شهرية، نتائج نصف العام وآخر العام. نظام نتائج إلكتروني آمن وسريع.">
+  <meta name="keywords" content="مدارس جيل النهضة الحديثة, نتائج الطلاب, نتائج مدرسية, نظام نتائج, جيل النهضة, التعليم اليمني, نتائج الامتحانات">
+  <meta name="author" content="مدارس جيل النهضة الحديثة">
   <meta name="robots" content="index, follow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
@@ -13,16 +13,16 @@
   <meta name="google-site-verification" content="googlec202de78a6deced3" />
   
   <!-- Open Graph -->
-  <meta property="og:title" content="مدارس النهظة الاهلية - نظام النتائج الإلكتروني">
+  <meta property="og:title" content="مدارس جيل النهضة الحديثة - نظام النتائج الإلكتروني">
   <meta property="og:description" content="النتائج الإلكترونية للطلاب - محصلات شهرية ونتائج نصف العام وآخر العام">
-  <meta property="og:site_name" content="مدارس النهظة الاهلية">
+  <meta property="og:site_name" content="مدارس جيل النهضة الحديثة">
   <meta property="og:url" content="https://ameen-algmady.github.io/alnhdah/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ar_YE">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="مدارس النهظة الاهلية - نظام النتائج الإلكتروني">
+  <meta name="twitter:title" content="مدارس جيل النهضة الحديثة - نظام النتائج الإلكتروني">
   <meta name="twitter:description" content="النتائج الإلكترونية للطلاب - محصلات شهرية ونتائج نصف العام وآخر العام">
   
   <!-- البيانات المنظمة Schema.org -->
@@ -30,20 +30,23 @@
   {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
-    "name": "مدارس النهظة الاهلية",
-    "alternateName": "مدارس النهظة",
-    "description": "مدارس النهظة الاهلية - نظام النتائج الإلكتروني للطلاب",
+    "name": "مدارس جيل النهضة الحديثة",
+    "alternateName": "جيل النهضة",
+    "description": "مدارس جيل النهضة الحديثة - نظام النتائج الإلكتروني للطلاب",
     "url": "https://ameen-algmady.github.io/alnhdah/",
     "logo": "https://ameen-algmady.github.io/alnhdah/logo.png",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "النهظة",
+      "addressLocality": "صنعاء",
       "addressCountry": "اليمن"
     },
     "contactPoint": {
       "@type": "ContactPoint",
-      "contactType": "دعم الطلاب وأولياء الأمور"
-    }
+      "contactType": "دعم الطلاب وأولياء الأمور",
+      "telephone": "+967-1-123456",
+      "email": "info@jeel-alnahdah.edu.ye"
+    },
+    "foundingDate": "2010"
   }
   </script>
   
@@ -74,6 +77,7 @@
       --dark-text: #333;
       --shadow: 0 4px 12px rgba(0,0,0,0.1);
       --gradient: linear-gradient(135deg, #004080, #2196F3);
+      --jeel-gradient: linear-gradient(135deg, #1a237e, #283593);
     }
     
     body {
@@ -85,14 +89,20 @@
     
     /* تحسين الشريط العلوي */
     .navbar {
-      background: var(--gradient) !important;
+      background: var(--jeel-gradient) !important;
       box-shadow: var(--shadow);
       padding: 12px 0;
+      border-bottom: 3px solid #4CAF50;
     }
     
     .navbar-brand {
       font-weight: bold;
       font-size: 1.4rem;
+      color: white !important;
+    }
+    
+    .navbar-brand i {
+      color: #4CAF50;
     }
     
     .nav-link {
@@ -101,54 +111,96 @@
       transition: all 0.3s ease;
       border-radius: 25px;
       padding: 8px 16px !important;
+      color: white !important;
     }
     
     .nav-link:hover {
       background: rgba(255,255,255,0.2);
       transform: translateY(-2px);
+      color: #4CAF50 !important;
+    }
+    
+    .nav-link i {
+      margin-left: 5px;
     }
     
     /* تحسين الرأس */
     header {
-      background: var(--gradient);
+      background: var(--jeel-gradient);
       color: white;
-      padding: 30px 20px;
-      border-radius: 0 0 30px 30px;
+      padding: 40px 20px;
+      border-radius: 0 0 40px 40px;
       box-shadow: var(--shadow);
-      margin-bottom: 30px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #4CAF50, #2196F3, #4CAF50);
     }
     
     header h1 {
       font-weight: bold;
-      font-size: 2.2rem;
+      font-size: 2.5rem;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      color: white;
+      margin-bottom: 15px;
+    }
+    
+    header .lead {
+      font-size: 1.3rem;
+      opacity: 0.95;
+      max-width: 800px;
+      margin: 0 auto;
     }
     
     header img {
-      height: 80px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      height: 120px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      border: 4px solid white;
+      background: white;
+      padding: 5px;
     }
     
     /* تحسين الأقسام */
     section {
-      padding: 50px 20px;
-      margin: 30px auto;
+      padding: 60px 20px;
+      margin: 40px auto;
       max-width: 1200px;
       background: white;
-      border-radius: 20px;
+      border-radius: 25px;
       box-shadow: var(--shadow);
       border: 1px solid rgba(0,0,0,0.05);
+      position: relative;
+    }
+    
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, transparent 50%, var(--primary-color) 50%);
+      border-radius: 0 25px 0 0;
     }
     
     section h2 {
       color: var(--primary-color);
       font-weight: bold;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
       text-align: center;
-      font-size: 2rem;
+      font-size: 2.2rem;
       position: relative;
-      padding-bottom: 15px;
+      padding-bottom: 20px;
     }
     
     section h2::after {
@@ -157,80 +209,174 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 80px;
-      height: 4px;
+      width: 100px;
+      height: 5px;
       background: var(--secondary-color);
-      border-radius: 2px;
+      border-radius: 3px;
+    }
+    
+    section h2 i {
+      color: var(--accent-color);
+      margin-left: 10px;
     }
     
     /* تحسين الأزرار */
     .btn {
       border-radius: 25px;
-      padding: 12px 25px;
+      padding: 14px 28px;
       font-weight: 600;
       transition: all 0.3s ease;
       border: none;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      font-size: 1.1rem;
     }
     
     .btn-primary {
-      background: var(--gradient);
+      background: var(--jeel-gradient);
+      border: 2px solid transparent;
+    }
+    
+    .btn-primary:hover {
+      background: white;
+      color: var(--primary-color) !important;
+      border: 2px solid var(--primary-color);
+      transform: translateY(-5px);
+    }
+    
+    .btn-warning {
+      background: linear-gradient(135deg, #ff9800, #ff5722);
+      color: white;
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #f44336, #d32f2f);
+      color: white;
     }
     
     .btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     }
     
     /* تحسين شبكة الصفوف */
     .row-cols-2 .col {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+    
+    .row-cols-2 .col:hover {
+      transform: translateY(-5px);
     }
     
     .row-cols-2 .btn {
       width: 100%;
-      padding: 15px;
-      font-size: 1rem;
+      padding: 18px;
+      font-size: 1.1rem;
       border-radius: 15px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     /* قسم عن المدرسة */
     #about {
-      background: var(--light-bg);
-      border-left: 5px solid var(--secondary-color);
+      background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+      border-left: 8px solid var(--secondary-color);
+      border-right: 8px solid var(--accent-color);
     }
     
     #about .col-md-4 {
       text-align: center;
-      padding: 25px 15px;
+      padding: 30px 20px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      margin-bottom: 30px;
+      border: 2px solid transparent;
+    }
+    
+    #about .col-md-4:hover {
+      transform: translateY(-10px);
+      border-color: var(--secondary-color);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
     
     #about h4 {
       color: var(--primary-color);
-      margin: 15px 0;
+      margin: 20px 0;
       font-weight: bold;
+      font-size: 1.4rem;
     }
     
-    #about .col-md-4:hover {
-      transform: translateY(-5px);
+    #about .col-md-4 i {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      width: 80px;
+      height: 80px;
+      line-height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: block;
+    }
+    
+    /* قسم الرؤية والرسالة */
+    #vision-mission {
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+      border-left: 8px solid #4CAF50;
+    }
+    
+    .vision-box, .mission-box {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      height: 100%;
+      border-top: 5px solid #4CAF50;
       transition: all 0.3s ease;
+    }
+    
+    .mission-box {
+      border-top: 5px solid #2196F3;
+    }
+    
+    .vision-box:hover, .mission-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .vision-box h3, .mission-box h3 {
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: bold;
     }
     
     /* تحسين الصورة */
     .section-img img {
       max-width: 100%;
       height: auto;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-      border: 3px solid var(--primary-color);
+      border-radius: 25px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+      border: 5px solid white;
+      transform: perspective(1000px) rotateY(-5deg);
+      transition: all 0.5s ease;
+    }
+    
+    .section-img img:hover {
+      transform: perspective(1000px) rotateY(0deg);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
     }
     
     /* تحسين القوانين */
     #rulesContent {
-      background: var(--light-bg);
-      padding: 25px;
-      border-radius: 15px;
-      border-right: 4px solid var(--accent-color);
+      background: linear-gradient(135deg, #fff3e0, #ffecb3);
+      padding: 35px;
+      border-radius: 20px;
+      border-right: 6px solid var(--accent-color);
+      border-left: 6px solid var(--secondary-color);
     }
     
     #rulesContent ul {
@@ -239,9 +385,25 @@
     }
     
     #rulesContent li {
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-      font-size: 1.05rem;
+      padding: 15px 0 15px 40px;
+      border-bottom: 2px dashed #ddd;
+      font-size: 1.1rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    #rulesContent li:hover {
+      background: rgba(255,255,255,0.5);
+      padding-right: 10px;
+    }
+    
+    #rulesContent li::before {
+      content: '✓';
+      position: absolute;
+      right: 0;
+      color: var(--secondary-color);
+      font-weight: bold;
+      font-size: 1.3rem;
     }
     
     #rulesContent li:last-child {
@@ -250,9 +412,10 @@
     
     /* تحسين الخريطة */
     .ratio-16x9 {
-      border-radius: 15px;
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      border: 3px solid var(--primary-color);
     }
     
     /* أزرار التثبيت والإشعارات */
@@ -265,17 +428,18 @@
       color: white;
       border: none;
       border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 24px;
-      box-shadow: 0 4px 15px rgba(255,193,7,0.4);
+      width: 65px;
+      height: 65px;
+      font-size: 28px;
+      box-shadow: 0 6px 20px rgba(255,193,7,0.5);
       cursor: pointer;
       transition: all 0.3s ease;
+      display: none;
     }
     
     #notifyBtn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 20px rgba(255,193,7,0.6);
+      transform: scale(1.15) rotate(15deg);
+      box-shadow: 0 10px 30px rgba(255,193,7,0.7);
     }
     
     #installBtn {
@@ -287,28 +451,28 @@
       color: white;
       border: none;
       border-radius: 30px;
-      padding: 15px 25px;
-      font-size: 16px;
+      padding: 18px 30px;
+      font-size: 18px;
       font-weight: bold;
-      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       transition: all 0.3s ease;
       animation: pulse 2s infinite;
       display: none;
     }
     
     #installBtn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(76, 175, 80, 0.7);
     }
     
     @keyframes pulse {
-      0% { box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
-      50% { box-shadow: 0 4px 25px rgba(76, 175, 80, 0.8); }
-      100% { box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4); }
+      0% { box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5); }
+      50% { box-shadow: 0 6px 30px rgba(76, 175, 80, 0.8); }
+      100% { box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5); }
     }
     
     /* شريط التثبيت العلوي */
@@ -319,96 +483,156 @@
       right: 0;
       background: linear-gradient(135deg, var(--accent-color), #0D47A1);
       color: white;
-      padding: 15px 20px;
+      padding: 20px;
       text-align: center;
       z-index: 9998;
-      box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       display: none;
+      backdrop-filter: blur(10px);
+    }
+    
+    #installBanner span {
+      font-size: 1.1rem;
+      margin-left: 15px;
     }
     
     #installBanner button {
       background: white;
       color: var(--accent-color);
       border: none;
-      border-radius: 20px;
-      padding: 10px 20px;
-      margin-right: 10px;
+      border-radius: 25px;
+      padding: 12px 25px;
+      margin-right: 15px;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     
     #installBanner button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
     }
     
     #closeBanner {
       background: transparent !important;
       color: white !important;
-      font-size: 18px;
-      padding: 0 12px !important;
+      font-size: 22px;
+      padding: 0 15px !important;
+      border-radius: 50% !important;
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    #closeBanner:hover {
+      background: rgba(255,255,255,0.1) !important;
     }
     
     /* الفوتر */
     footer {
-      background: var(--gradient);
+      background: var(--jeel-gradient);
       color: white;
-      padding: 30px 20px;
+      padding: 40px 20px;
       text-align: center;
-      margin-top: 50px;
-      border-radius: 30px 30px 0 0;
+      margin-top: 60px;
+      border-radius: 40px 40px 0 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #4CAF50, #2196F3, #4CAF50);
     }
     
     footer p {
-      margin: 5px 0;
-      opacity: 0.9;
+      margin: 10px 0;
+      opacity: 0.95;
+      font-size: 1.1rem;
+    }
+    
+    .footer-contact {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.1);
+      padding: 10px 20px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-item:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
     }
     
     /* تحسينات للهواتف */
     @media (max-width: 768px) {
       header {
-        padding: 20px 15px;
-        border-radius: 0 0 20px 20px;
+        padding: 30px 15px;
+        border-radius: 0 0 30px 30px;
       }
       
       header h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
+      }
+      
+      header .lead {
+        font-size: 1.1rem;
       }
       
       header img {
-        height: 60px;
+        height: 90px;
+        margin-top: 20px;
       }
       
       section {
-        padding: 30px 15px;
-        margin: 20px 10px;
-        border-radius: 15px;
+        padding: 40px 15px;
+        margin: 30px 10px;
+        border-radius: 20px;
       }
       
       section h2 {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
       }
       
       .btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
+        padding: 12px 20px;
+        font-size: 1rem;
       }
       
       .row-cols-2 .btn {
-        padding: 12px;
-        font-size: 0.9rem;
+        padding: 15px;
+        font-size: 1rem;
       }
       
       #notifyBtn, #installBtn {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
       }
       
       #installBtn {
-        padding: 10px 15px;
+        padding: 12px 18px;
         font-size: 14px;
+        right: 10px;
+        top: 80px;
       }
       
       .navbar-brand {
@@ -418,6 +642,20 @@
       #about .col-md-4 {
         margin-bottom: 20px;
       }
+      
+      .footer-contact {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+      
+      .section-img img {
+        transform: none;
+      }
+      
+      .section-img img:hover {
+        transform: scale(1.02);
+      }
     }
     
     @media (max-width: 480px) {
@@ -426,21 +664,32 @@
       }
       
       header h1 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+      }
+      
+      header .lead {
+        font-size: 1rem;
       }
       
       section h2 {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
+      }
+      
+      #installBtn {
+        top: 70px;
+        right: 5px;
+        padding: 10px 15px;
+        font-size: 12px;
       }
     }
     
     /* تأثيرات إضافية */
     .fade-in {
-      animation: fadeIn 0.8s ease-in;
+      animation: fadeIn 1s ease-in;
     }
     
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
     
@@ -449,7 +698,48 @@
     }
     
     .hover-lift:hover {
-      transform: translateY(-5px);
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15) !important;
+    }
+    
+    /* شعار متحرك */
+    .logo-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    /* قسم الإحصاءات */
+    .stats-box {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      border-top: 5px solid var(--accent-color);
+    }
+    
+    .stats-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .stats-box .number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    .stats-box .label {
+      font-size: 1.1rem;
+      color: #666;
     }
   </style>
 </head>
@@ -460,7 +750,7 @@
   
   <!-- شريط التثبيت العلوي -->
   <div id="installBanner">
-    <span><i class="fas fa-download"></i> تثبيت تطبيق مدارس النهظة الاهلية للوصول السريع</span>
+    <span><i class="fas fa-download"></i> تثبيت تطبيق مدارس جيل النهضة الحديثة للوصول السريع</span>
     <button id="installBannerBtn">تثبيت الآن</button>
     <button id="closeBanner">✕</button>
   </div>
@@ -472,13 +762,15 @@
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
       <a class="navbar-brand" href="#">
-        <i class="fas fa-school me-2"></i>مدارس النهظة الاهلية
+        <i class="fas fa-graduation-cap me-2"></i>مدارس جيل النهضة الحديثة
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#home"><i class="fas fa-home me-1"></i> الرئيسية</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about"><i class="fas fa-info-circle me-1"></i> عن المدرسة</a></li>
           <li class="nav-item"><a class="nav-link" href="#results"><i class="fas fa-chart-line me-1"></i> المحصلات والنتائج</a></li>
           <li class="nav-item"><a class="nav-link" href="#absence"><i class="fas fa-user-clock me-1"></i> غياب الطلاب</a></li>
           <li class="nav-item"><a class="nav-link" href="#activities"><i class="fas fa-trophy me-1"></i> الأنشطة الدراسية</a></li>
@@ -490,27 +782,97 @@
   </nav>
 
   <!-- رأس الصفحة -->
-  <header class="text-center">
+  <header class="text-center" id="home">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-md-8">
-          <h1 class="fade-in">مدارس النهظة الاهلية</h1>
-          <p class="lead mt-2">التميز في التعليم.. مستقبل مشرق لأبنائنا</p>
+          <h1 class="fade-in">مدارس جيل النهضة الحديثة</h1>
+          <p class="lead mt-3 fade-in">نحو جيل واعي.. مستقبل مشرق</p>
+          <p class="fade-in">تميز في التعليم · جودة في المناهج · إبداع في الأساليب</p>
         </div>
         <div class="col-md-4">
-          <img src="logo.png" alt="شعار المدرسة" class="img-fluid fade-in">
+          <img src="logo.png" alt="شعار مدارس جيل النهضة الحديثة" class="img-fluid fade-in logo-animation">
         </div>
       </div>
     </div>
   </header>
 
   <!-- قسم عن المدرسة -->
-  
+  <section id="about" class="fade-in">
+    <div class="container">
+      <h2><i class="fas fa-school me-2"></i>عن مدارس جيل النهضة الحديثة</h2>
+      <p class="text-center mb-5 lead">نظام تعليمي متكامل يهدف إلى بناء جيل متميز علميًا وأخلاقيًا</p>
+     
+      
+      <div class="row mt-5">
+        <div class="col-md-6">
+          <div class="vision-box">
+            <h3><i class="fas fa-eye me-2"></i>قيمنا</h3>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-check text-success me-2"></i> الجودة والتميز في التعليم</li>
+              <li><i class="fas fa-check text-success me-2"></i> الالتزام بالقيم الإسلامية</li>
+              <li><i class="fas fa-check text-success me-2"></i> الإبداع والابتكار</li>
+              <li><i class="fas fa-check text-success me-2"></i> الشفافية والنزاهة</li>
+              <li><i class="fas fa-check text-success me-2"></i> العمل بروح الفريق</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mission-box">
+            <h3><i class="fas fa-bullhorn me-2"></i>مميزاتنا</h3>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-check text-primary me-2"></i> معلمون مؤهلون ومدربون</li>
+              <li><i class="fas fa-check text-primary me-2"></i> فصول دراسية مجهزة بأحدث التقنيات</li>
+              <li><i class="fas fa-check text-primary me-2"></i> أنشطة لا صفية متنوعة</li>
+              <li><i class="fas fa-check text-primary me-2"></i> متابعة مستمرة للطلاب</li>
+              <li><i class="fas fa-check text-primary me-2"></i> بيئة تعليمية آمنة ومحفزة</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- إحصاءات المدرسة -->
+  <section id="stats" class="fade-in">
+    <div class="container">
+      <h2><i class="fas fa-chart-bar me-2"></i>إحصاءات المدارس</h2>
+      <p class="text-center mb-5">نفتخر بما حققناه من إنجازات على مدار السنوات</p>
+      <div class="row g-4">
+        <div class="col-md-3 col-sm-6">
+          <div class="stats-box">
+            <span class="number">+1500</span>
+            <span class="label">طالب وطالبة</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="stats-box">
+            <span class="number">+120</span>
+            <span class="label">معلم ومعلمة</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="stats-box">
+            <span class="number">7</span>
+            <span class="label">عامًا من التميز</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="stats-box">
+            <span class="number">95%</span>
+            <span class="label">نسبة النجاح</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- صورة المدرسة -->
   <section class="section-img text-center fade-in">
     <div class="container">
-      <img src="school.gif" alt="صورة المدرسة المتحركة" class="img-fluid">
+      <h2><i class="fas fa-images me-2"></i>معرض الصور</h2>
+      <p class="text-center mb-4">نظرة على بيئتنا التعليمية المتميزة</p>
+      <img src="school.gif" alt="صورة مدارس جيل النهضة الحديثة" class="img-fluid">
     </div>
   </section>
 
@@ -518,30 +880,63 @@
   <section id="results" class="fade-in">
     <div class="container">
       <h2><i class="fas fa-chart-line me-2"></i>المحصلات والنتائج</h2>
-      <p class="text-center mb-4">يمكنك الاطلاع على نتائج الطلاب والمحصلة الدراسية من خلال هذا القسم.</p>
-      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
-        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الأول الأساسي</a></div>
-        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الثاني الأساسي</a></div>
-        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الثالث الأساسي</a></div>
-        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الرابع الأساسي</a></div>
-        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الخامس الأساسي</a></div>
-        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">السادس الأساسي</a></div>
-        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">السابع الأساسي</a></div>
-        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">الثامن الأساسي</a></div>
-        <div class="col"><a href="‏‏results_grade4.html" class="btn btn-primary w-100">التاسع الأساسي</a></div>
-       
-      </div>
-    </div>
+      <p class="text-center mb-5">يمكنك الاطلاع على نتائج الطلاب والمحصلة الدراسية من خلال هذا القسم.</p>
+      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col"><a href="results_grade1.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>الأول الأساسي</a></div>
+        <div class="col"><a href="results_grade2.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>الثاني الأساسي</a></div>
+        <div class="col"><a href="results_grade3.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>الثالث الأساسي</a></div>
+        <div class="col"><a href="results_grade4.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>الرابع الأساسي</a></div>
+        <div class="col"><a href="results_grade5.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>الخامس الأساسي</a></div>
+        <div class="col"><a href="results_grade6.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>السادس الأساسي</a></div>
+        <div class="col"><a href="results_grade7.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>السابع الأساسي</a></div>
+        <div class="col"><a href="results_grade8.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>الثامن الأساسي</a></div>
+        <div class="col"><a href="results_grade9.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>التاسع الأساسي</a></div>
+        <div class="col"><a href="results_secondary.html" class="btn btn-success w-100"><i class="fas fa-graduation-cap me-2"></i>الثانوية العامة</a></div>
+     
   </section>
 
   <!-- غياب الطلاب -->
   <section id="absence" class="fade-in">
     <div class="container">
       <h2><i class="fas fa-user-clock me-2"></i>غياب الطلاب</h2>
-      <p class="text-center mb-4">يمكنك الاطلاع على عدد ايام الغياب وتاريخ الغياب للطالب من خلال هذا القسم.</p>
+      <p class="text-center mb-5">يمكنك الاطلاع على عدد أيام الغياب وتاريخ الغياب للطالب من خلال هذا القسم.</p>
       <div class="text-center">
-        <a href="absence.html" class="btn btn-primary me-3"><i class="fas fa-calendar-alt me-2"></i> غياب النصف الاول</a>
-        <a href="‏‏absence - 1.html" class="btn btn-primary"><i class="fas fa-calendar-check me-2"></i> الغياب النصف الثاني</a>
+        <a href="absence_first.html" class="btn btn-primary btn-lg me-3"><i class="fas fa-calendar-alt me-2"></i> غياب النصف الأول</a>
+        <a href="absence_second.html" class="btn btn-primary btn-lg"><i class="fas fa-calendar-check me-2"></i> غياب النصف الثاني</a>
+      </div>
+      
+      <div class="row mt-5">
+        <div class="col-md-6">
+          <div class="card hover-lift">
+            <div class="card-header bg-warning text-white">
+              <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>تنبيهات الغياب</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">● 3 أيام غياب: تنبيه لأولياء الأمور</li>
+                <li class="list-group-item">● 5 أيام غياب: اجتماع مع ولي الأمر</li>
+                <li class="list-group-item">● 10 أيام غياب: إشعار رسمي</li>
+                <li class="list-group-item">● 15 يوم غياب: حرمان من الاختبارات</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card hover-lift">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0"><i class="fas fa-clock me-2"></i>إجراءات التعامل مع الغياب</h5>
+            </div>
+            <div class="card-body">
+              <p>تتبع المدرسة نظامًا دقيقًا لمتابعة غياب الطلاب يشمل:</p>
+              <ul>
+                <li>متابعة يومية لحضور الطلاب</li>
+                <li>إشعار أولياء الأمور فورًا</li>
+                <li>برنامج علاجي للطلاب المتغيبين</li>
+                <li>تعويض الدروس للطلاب الغائبين</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -550,9 +945,42 @@
   <section id="activities" class="fade-in">
     <div class="container">
       <h2><i class="fas fa-trophy me-2"></i>الأنشطة الدراسية</h2>
-      <p class="text-center mb-4">تعرف على الأنشطة والمسابقات التي تقيمها المدرسة لتعزيز مهارات الطلاب.</p>
-      <div class="text-center">
-        <a href="#" class="btn btn-warning"><i class="fas fa-eye me-2"></i>عرض الأنشطة</a>
+      <p class="text-center mb-5">تعرف على الأنشطة والمسابقات التي تقيمها المدرسة لتعزيز مهارات الطلاب.</p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card h-100 hover-lift">
+            <img src="activity1.jpg" class="card-img-top" alt="مسابقة القرآن">
+            <div class="card-body">
+              <h5 class="card-title">مسابقة القرآن الكريم</h5>
+              <p class="card-text">مسابقة سنوية في حفظ وتلاوة القرآن الكريم مع جوائز قيمة للفائزين.</p>
+              <a href="#" class="btn btn-primary"><i class="fas fa-eye me-2"></i>عرض التفاصيل</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 hover-lift">
+            <img src="activity2.jpg" class="card-img-top" alt="المعرض العلمي">
+            <div class="card-body">
+              <h5 class="card-title">المعرض العلمي السنوي</h5>
+              <p class="card-text">عرض للمشاريع العلمية والإبداعية التي ينفذها الطلاب خلال العام.</p>
+              <a href="#" class="btn btn-primary"><i class="fas fa-eye me-2"></i>عرض التفاصيل</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 hover-lift">
+            <img src="activity3.jpg" class="card-img-top" alt="الأنشطة الرياضية">
+            <div class="card-body">
+              <h5 class="card-title">البطولات الرياضية</h5>
+              <p class="card-text">بطولات في كرة القدم، السلة، والرياضات المختلفة بين فصول المدرسة.</p>
+              <a href="#" class="btn btn-primary"><i class="fas fa-eye me-2"></i>عرض التفاصيل</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-5">
+        <a href="activities.html" class="btn btn-warning btn-lg"><i class="fas fa-calendar-alt me-2"></i>عرض جميع الأنشطة</a>
       </div>
     </div>
   </section>
@@ -561,22 +989,57 @@
   <section id="rules" class="fade-in">
     <div class="container">
       <h2><i class="fas fa-gavel me-2"></i>الأنظمة والقوانين</h2>
-      <p class="text-center mb-4">راجع لوائح المدرسة والقوانين التنظيمية التي تضمن بيئة تعليمية سليمة.</p>
-      <div class="text-center mb-4">
-        <a href="#" class="btn btn-danger" id="showRulesBtn"><i class="fas fa-scroll me-2"></i>قراءة اللوائح</a>
+      <p class="text-center mb-5">راجع لوائح المدرسة والقوانين التنظيمية التي تضمن بيئة تعليمية سليمة.</p>
+      <div class="text-center mb-5">
+        <button class="btn btn-danger btn-lg" id="showRulesBtn"><i class="fas fa-scroll me-2"></i>قراءة اللوائح</button>
       </div>
       <div id="rulesContent" style="display: none;">
+        <h4 class="text-center mb-4">لائحة النظام الداخلي لمدارس جيل النهضة الحديثة</h4>
         <ul>
-          <li>❖ الالتزام بالحضور اليومي وعدم التأخير عن الحصص الدراسية.</li>
-          <li>❖ احترام المعلمين والإداريين والزملاء في جميع الأوقات.</li>
-          <li>❖ الحفاظ على نظافة الصف والمرافق العامة داخل المجمع.</li>
-          <li>❖ يمنع استخدام الهاتف المحمول أثناء الدوام الدراسي.</li>
-          <li>❖ الالتزام بالزي المدرسي الرسمي وعدم التعديل عليه.</li>
-          <li>❖ يمنع الغش في الاختبارات ويعرض الطالب للمساءلة.</li>
-          <li>❖ المحافظة على الكتب والوسائل التعليمية من التلف أو الضياع.</li>
-          <li>❖ يمنع مغادرة المدرسة أثناء الدوام إلا بإذن خطي من الإدارة.</li>
-          <li>❖ المشاركة الإيجابية في الأنشطة المدرسية والفعاليات التربوية.</li>
+          <li>❖ الالتزام بالحضور اليومي وعدم التأخير عن الحصص الدراسية، ويغلق الباب الساعة 7:15 صباحًا.</li>
+          <li>❖ احترام المعلمين والإداريين والزملاء في جميع الأوقات داخل وخارج المدرسة.</li>
+          <li>❖ الحفاظ على نظافة الصف والمرافق العامة داخل المجمع والمشاركة في أنشطة النظافة.</li>
+          <li>❖ يمنع استخدام الهاتف المحمول أو أي أجهزة إلكترونية أخرى أثناء الدوام الدراسي.</li>
+          <li>❖ الالتزام بالزي المدرسي الرسمي كاملاً وعدم التعديل عليه أو ارتداء أي إضافات.</li>
+          <li>❖ يمنع الغش في الاختبارات ويعرض الطالب للمساءلة القانونية والإدارية.</li>
+          <li>❖ المحافظة على الكتب والوسائل التعليمية من التلف أو الضياع، والتعويض عن التلف.</li>
+          <li>❖ يمنع مغادرة المدرسة أثناء الدوام إلا بإذن خطي من الإدارة وموافقة ولي الأمر.</li>
+          <li>❖ المشاركة الإيجابية في الأنشطة المدرسية والفعاليات التربوية التي تنظمها المدرسة.</li>
+          <li>❖ احترام الممتلكات العامة للمدرسة وعدم العبث بالمعدات والأثاث المدرسي.</li>
+          <li>❖ الالتزام بالمواعيد الرسمية للتسليم والتسلم والاختبارات والأنشطة.</li>
+          <li>❖ يمنع التدخين أو تعاطي أي مواد مضرة بالصحة داخل حرم المدرسة.</li>
+          <li>❖ التواصل مع الإدارة عبر القنوات الرسمية لمعالجة أي مشكلة أو تقديم اقتراح.</li>
         </ul>
+        
+        <div class="mt-5">
+          <h5><i class="fas fa-exclamation-circle text-danger me-2"></i>العقوبات التأديبية:</h5>
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h6>إنذار شفهي</h6>
+                  <p>للحالات البسيطة والمخالفات الأولية</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h6>إنذار خطي</h6>
+                  <p>للحالات المتكررة مع إشعار ولي الأمر</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h6>الحرمان من الاختبار</h6>
+                  <p>للحالات المتطورة والمخالفات الجسيمة</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -584,9 +1047,9 @@
   <!-- موقع المجمع -->
   <section id="location" class="fade-in">
     <div class="container">
-      <h2><i class="fas fa-map-marker-alt me-2"></i>موقع مدارس النهظة الأهلية</h2>
-      <p class="text-center mb-4">في هذا القسم يتم تحديد الموقع الجغرافي لمدارس النهظة الأهلية من خلال خرائط Google.</p>
-      <div class="ratio ratio-16x9">
+      <h2><i class="fas fa-map-marker-alt me-2"></i>موقع مدارس جيل النهضة الحديثة</h2>
+      <p class="text-center mb-5">في هذا القسم يتم تحديد الموقع الجغرافي للمدارس من خلال خرائط Google.</p>
+      <div class="ratio ratio-16x9 mb-5">
         <iframe 
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d240.11170911294784!2d43.95569298416377!3d15.656308499321272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x16015b6f1740a353%3A0xf6f4f1862a61110a!2z2YXYr9in2LHYsyDYudmF2LHYp9mGINin2YTYp9mH2YTZitip!5e0!3m2!1sar!2s!4v1762272871348!5m2!1sar!2s" 
           style="border:0;" 
@@ -595,14 +1058,73 @@
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>
       </div>
+      
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>معلومات الاتصال</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-unstyled">
+                <li><i class="fas fa-map-marker-alt text-primary me-2"></i> <strong>العنوان:</strong> عمران، اليمن</li>
+                <li><i class="fas fa-phone text-primary me-2"></i> <strong>الهاتف:</strong> 77    </li>
+                <li><i class="fas fa-envelope text-primary me-2"></i> <strong>البريد الإلكتروني:</strong> info@jeel-alnahdah.edu.ye</li>
+                <li><i class="fas fa-clock text-primary me-2"></i> <strong>ساعات العمل:</strong> 7:00 صباحًا - 1:00 ظهرًا</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0"><i class="fas fa-directions me-2"></i>كيفية الوصول</h5>
+            </div>
+            <div class="card-body">
+              <p>يمكن الوصول إلى المدارس عبر:</p>
+              <ul>
+                <li>وسائل النقل العام المتجهة إلى منطقة المدارس</li>
+                <li>وسائل النقل التابعة للمدرسةث</li>
+                <li>المركبات الخاصة - مواقف سيارات متاحة</li>
+              </ul>
+              <p class="text-muted mt-3"><small><i class="fas fa-lightbulb me-1"></i> ننصح بالحضور قبل وقت كافٍ لتجنب الازدحام</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- الفوتر -->
   <footer class="fade-in">
     <div class="container">
-      <p>© 2024 مدارس النهظة الاهلية. جميع الحقوق محفوظة.</p>
-      <p>مدارس النهظة الاهلية - التميز في التعليم منذ تأسيسها</p>
+      <h4 class="mb-4">مدارس جيل النهضة الحديثة</h4>
+      <p>© 2026 جميع الحقوق محفوظة لمدارس جيل النهضة الحديثة.</p>
+      <p>نظام النتائج الإلكتروني - الإصدار 2.0</p>
+      
+      <div class="footer-contact mt-4">
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <span>77    </span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <span>info@jeel-alnahdah.edu.ye</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>عمران - اليمن</span>
+        </div>
+      </div>
+      
+      <div class="mt-4">
+        <a href="#" class="text-white me-3"><i class="fab fa-facebook fa-lg"></i></a>
+        <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-lg"></i></a>
+        <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-lg"></i></a>
+        <a href="#" class="text-white"><i class="fab fa-youtube fa-lg"></i></a>
+      </div>
+      
+      <p class="mt-4 mb-0"><small>تم التطوير بواسطة <strong>فريق مدارس جيل النهضة الحديثة</strong> لتقديم أفضل الخدمات التعليمية</small></p>
     </div>
   </footer>
 
@@ -636,9 +1158,9 @@
     const installBannerBtn = document.getElementById('installBannerBtn');
     const closeBanner = document.getElementById('closeBanner');
 
-    // التحقق مما إذا كان التطبيق مثبتًا بالفعل (دقيقة)
+    // التحقق مما إذا كان التطبيق مثبتًا بالفعل
     function checkIfAppIsInstalled() {
-      // الطريقة 1: التحقق من display-mode (الأكثر دقة)
+      // الطريقة 1: التحقق من display-mode
       if (window.matchMedia('(display-mode: standalone)').matches) {
         console.log('التطبيق مثبت بالفعل (display-mode)');
         localStorage.setItem('appInstalled', 'true');
@@ -652,13 +1174,12 @@
         return true;
       }
       
-      // الطريقة 3: إذا لم يكن في وضع PWA، نعتبره غير مثبت
       console.log('التطبيق غير مثبت أو تم إلغاء التثبيت');
-      localStorage.removeItem('appInstalled'); // مسح أي حالة سابقة
+      localStorage.removeItem('appInstalled');
       return false;
     }
 
-    // زر إعادة تعيين يدوي (للتجربة فقط - يمكن إزالته لاحقاً)
+    // زر إعادة تعيين يدوي (للتجربة)
     function addResetButton() {
       const resetBtn = document.createElement('button');
       resetBtn.innerHTML = '🔄 إعادة تعيين التثبيت';
@@ -738,14 +1259,16 @@
               console.log('تم تثبيت التطبيق ✅');
               installBtn.style.display = 'none';
               installBanner.style.display = 'none';
-              // حفظ حالة التثبيت
               localStorage.setItem('appInstalled', 'true');
+              showInstallSuccess();
             } else {
               console.log('تم رفض التثبيت ❌');
+              showInstallDeclined();
             }
             deferredPrompt = null;
           } catch (error) {
             console.error('خطأ في التثبيت:', error);
+            showInstallError();
           }
         }
       });
@@ -761,14 +1284,16 @@
               console.log('تم تثبيت التطبيق ✅');
               installBtn.style.display = 'none';
               installBanner.style.display = 'none';
-              // حفظ حالة التثبيت
               localStorage.setItem('appInstalled', 'true');
+              showInstallSuccess();
             } else {
               console.log('تم رفض التثبيت ❌');
+              showInstallDeclined();
             }
             deferredPrompt = null;
           } catch (error) {
             console.error('خطأ في التثبيت:', error);
+            showInstallError();
           }
         }
       });
@@ -779,14 +1304,41 @@
       console.log('تم تثبيت التطبيق بالفعل (appinstalled event)');
       installBtn.style.display = 'none';
       installBanner.style.display = 'none';
-      // حفظ حالة التثبيت
       localStorage.setItem('appInstalled', 'true');
       
       // إظهار رسالة تأكيد
       setTimeout(() => {
-        alert('🎉 تم تثبيت التطبيق بنجاح! يمكنك الوصول إليه من شاشتك الرئيسية.');
+        showInstallSuccess();
       }, 1000);
     });
+
+    // وظائف عرض الرسائل
+    function showInstallSuccess() {
+      const successDiv = document.createElement('div');
+      successDiv.innerHTML = `
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                    background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                    z-index: 10002; max-width: 400px; text-align: center;">
+          <div style="font-size: 60px; color: #4CAF50;">🎉</div>
+          <h4 style="color: #1a237e; margin: 20px 0;">تم التثبيت بنجاح!</h4>
+          <p>تم تثبيت تطبيق <strong>مدارس جيل النهضة الحديثة</strong> بنجاح.</p>
+          <p>يمكنك الوصول إليه الآن من شاشتك الرئيسية.</p>
+          <button onclick="this.parentElement.remove()" style="background: #1a237e; color: white; 
+                  border: none; padding: 10px 30px; border-radius: 25px; margin-top: 20px; cursor: pointer;">
+            تم
+          </button>
+        </div>
+      `;
+      document.body.appendChild(successDiv);
+    }
+
+    function showInstallDeclined() {
+      alert('تم إلغاء تثبيت التطبيق. يمكنك تثبيته لاحقًا من خلال زر التثبيت.');
+    }
+
+    function showInstallError() {
+      alert('حدث خطأ أثناء التثبيت. يرجى المحاولة مرة أخرى.');
+    }
 
     // إغلاق الشريط العلوي
     closeBanner.addEventListener('click', () => {
@@ -802,7 +1354,20 @@
       showRulesBtn.addEventListener("click", function(e) {
         e.preventDefault();
         rulesContent.style.display = rulesContent.style.display === "none" ? "block" : "none";
+        this.innerHTML = rulesContent.style.display === "none" ? 
+          '<i class="fas fa-scroll me-2"></i>قراءة اللوائح' : 
+          '<i class="fas fa-times me-2"></i>إخفاء اللوائح';
       });
+    }
+
+    // وظائف البحث والإحصائيات
+    function showSearchForm() {
+      const searchForm = document.getElementById('searchForm');
+      searchForm.style.display = searchForm.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function showStats() {
+      alert('قريبًا: إحصائيات النتائج للفصل الدراسي الحالي');
     }
 
     // التحقق الدوري إذا كان التطبيق يعمل في وضع PWA
@@ -812,7 +1377,6 @@
         installBtn.style.display = 'none';
         installBanner.style.display = 'none';
       } else {
-        // إذا لم يكن مثبتاً، تأكد من ظهور الزر
         if (!installBtn.style.display || installBtn.style.display === 'none') {
           installBtn.style.display = 'flex';
         }
@@ -844,6 +1408,45 @@
 
     // يمكنك استدعاء هذه الدالة من console للمتصفح للتحقق
     window.checkInstallStatus = checkInstallStatus;
+
+    // تحسين تجربة المستخدم
+    document.addEventListener('DOMContentLoaded', function() {
+      // إضافة تأثيرات للروابط
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+
+      // إضافة تاريخ اليوم
+      const today = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const dateString = today.toLocaleDateString('ar-YE', options);
+      
+      // يمكنك عرض التاريخ في مكان مناسب
+      console.log('تاريخ اليوم:', dateString);
+    });
+
+    // التحقق من وجود الصور وضبط البدائل
+    document.addEventListener('DOMContentLoaded', function() {
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        img.onerror = function() {
+          this.src = 'https://via.placeholder.com/400x300/1a237e/ffffff?text=مدارس+جيل+النهضة';
+          this.alt = 'صورة مدارس جيل النهضة الحديثة';
+        };
+      });
+    });
 </script>
 </body>
 </html>
