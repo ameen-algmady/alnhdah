@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام الواجبات المنزلية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap&subset=arabic" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f9ff;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 25px 0;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .grade-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+        
+        .grade-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border-color: #2a5298;
+        }
+        
+        .grade-card i {
+            font-size: 2.5rem;
+            color: #2a5298;
+            margin-bottom: 15px;
+        }
+        
+        .grade-card h3 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+        
+        .homework-table {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        
+        .homework-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .back-btn {
+            background: #f0f5ff;
+            color: #2a5298;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #2a5298;
+            color: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background-color: #2a5298;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:hover {
+            background-color: #f9fbff;
+        }
+        
+        .subject-header {
+            background-color: #f0f5ff;
+            font-weight: 700;
+            color: #1e3c72;
+        }
+        
+        .homework-item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 5px 0;
+            text-align: right;
+        }
+        
+        .homework-date {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .no-homework {
+            color: #888;
+            font-style: italic;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #2a5298;
+            font-size: 1.2rem;
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .message {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .grades-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .homework-table {
+                padding: 15px;
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+            
+            th, td {
+                padding: 10px 5px;
+            }
+            
+            .homework-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-book-open"></i> نظام الواجبات المنزلية</h1>
+            <p>اختر الصف الدراسي لعرض الواجبات المطلوبة</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div id="message" class="message"></div>
+        
+        <div id="grades-container" class="grades-grid">
+            <!-- سيتم ملئها بواسطة الجافاسكريبت -->
+        </div>
+        
+        <div id="homework-container" class="homework-table">
+            <!-- سيتم ملئها بواسطة الجافاسكريبت -->
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>جاري تحميل الواجبات...</p>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>جميع الحقوق محفوظة &copy; 2024 نظام الواجبات المنزلية</p>
+            <p>تم التطوير باستخدام Google Sheets و Google Apps Script</p>
+        </div>
+    </footer>
+    
+    <script>
+        // رابط Google Apps Script
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwSWWEx5yFJYUY66ZtfPfnWThCUUg4-gM5CjxCPhiNHjhrrjLSPeeTrSB6YFdu4ero2/exec';
+        
+        // الصفوف الدراسية
+        const grades = [
+            { id: 1, name: "الصف الأول الابتدائي", icon: "fas fa-child" },
+            { id: 2, name: "الصف الثاني الابتدائي", icon: "fas fa-child" },
+            { id: 3, name: "الصف الثالث الابتدائي", icon: "fas fa-child" },
+            { id: 4, name: "الصف الرابع الابتدائي", icon: "fas fa-user-graduate" },
+            { id: 5, name: "الصف الخامس الابتدائي", icon: "fas fa-user-graduate" },
+            { id: 6, name: "الصف السادس الابتدائي", icon: "fas fa-user-graduate" },
+            { id: 7, name: "الصف السابع", icon: "fas fa-user-graduate" },
+            { id: 8, name: "الصف الثامن", icon: "fas fa-user-graduate" },
+            { id: 9, name: "الصف التاسع", icon: "fas fa-user-graduate" }
+        ];
+        
+        // أيام الأسبوع الدراسية
+        const days = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء"];
+        
+        // دالة لعرض الرسائل
+        function showMessage(text, type = 'error') {
+            const messageEl = document.getElementById('message');
+            messageEl.innerHTML = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+            
+            if (type === 'success' || type === 'info') {
+                setTimeout(() => {
+                    messageEl.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // عرض الصفوف الدراسية
+        function renderGrades() {
+            const container = document.getElementById('grades-container');
+            container.innerHTML = '';
+            
+            grades.forEach(grade => {
+                const gradeCard = document.createElement('div');
+                gradeCard.className = 'grade-card';
+                gradeCard.innerHTML = `
+                    <i class="${grade.icon}"></i>
+                    <h3>${grade.name}</h3>
+                `;
+                
+                gradeCard.addEventListener('click', () => {
+                    loadHomework(grade.id, grade.name);
+                });
+                
+                container.appendChild(gradeCard);
+            });
+            
+            // إظهار الحاوية بعد تعبئتها
+            container.style.display = 'grid';
+        }
+        
+        // دالة للحصول على المواد حسب الصف (للنسخة الاحتياطية)
+        function getSubjectsForGrade(gradeId) {
+            const gradeNum = parseInt(gradeId);
+            
+            if (gradeNum === 1 || gradeNum === 2) {
+                return [
+                    "القرآن الكريم",
+                    "التربية الإسلامية",
+                    "اللغة العربية",
+                    "الرياضيات"
+                ];
+            } else if (gradeNum === 3) {
+                return [
+                    "القرآن الكريم",
+                    "التربية الإسلامية",
+                    "اللغة العربية",
+                    "الرياضيات",
+                    "العلوم",
+                    "الاجتماعيات"
+                ];
+            } else if (gradeNum >= 4 && gradeNum <= 8) {
+                return [
+                    "القرآن الكريم",
+                    "التربية الإسلامية",
+                    "اللغة العربية",
+                    "اللغة الإنجليزية",
+                    "الرياضيات",
+                    "العلوم",
+                    "الاجتماعيات",
+                    "الحاسوب"
+                ];
+            } else if (gradeNum === 9) {
+                return [
+                    "القرآن الكريم",
+                    "التربية الإسلامية",
+                    "اللغة العربية",
+                    "اللغة الإنجليزية",
+                    "الرياضيات",
+                    "العلوم",
+                    "الاجتماعيات"
+                ];
+            } else {
+                return [];
+            }
+        }
+        
+        // دالة محسنة لجلب البيانات
+        function loadHomework(gradeId, gradeName) {
+            document.getElementById('grades-container').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('message').style.display = 'none';
+            document.getElementById('homework-container').style.display = 'none';
+            
+            console.log(`جاري تحميل واجبات الصف ${gradeId} (${gradeName})`);
+            
+            // استخدام JSONP
+            const callbackName = 'callback_' + Date.now();
+            
+            window[callbackName] = function(data) {
+                delete window[callbackName];
+                document.getElementById('loading').style.display = 'none';
+                
+                console.log('الرد من السيرفر:', data);
+                
+                if (data.error) {
+                    showMessage(`خطأ: ${data.error}`, 'error');
+                    showGradesList();
+                } else {
+                    showHomeworkTable(gradeId, gradeName, data);
+                    showMessage(`تم تحميل واجبات ${gradeName} بنجاح`, 'success');
+                }
+            };
+            
+            // إنشاء عنصر script لطلب JSONP
+            const script = document.createElement('script');
+            const url = `${SCRIPT_URL}?action=getHomework&grade=${gradeId}&callback=${callbackName}&t=${Date.now()}`;
+            script.src = url;
+            
+            script.onerror = function(error) {
+                console.error('خطأ في تحميل السكريبت:', error);
+                delete window[callbackName];
+                document.getElementById('loading').style.display = 'none';
+                
+                // استخدام هيكل فارغ مع المواد الصحيحة
+                const emptyData = {
+                    grade: gradeId,
+                    subjects: getSubjectsForGrade(gradeId),
+                    homework: {}
+                };
+                showHomeworkTable(gradeId, gradeName, emptyData);
+                showMessage('لا توجد واجبات لهذا الصف', 'info');
+            };
+            
+            document.body.appendChild(script);
+        }
+        
+        // دالة لعرض جدول الواجبات
+        function showHomeworkTable(gradeId, gradeName, data) {
+            const container = document.getElementById('homework-container');
+            const subjects = data.subjects || [];
+            const homeworkData = data.homework || {};
+            
+            // إنشاء رأس الجدول
+            let tableHTML = `
+                <div class="homework-header">
+                    <h2>واجبات ${gradeName}</h2>
+                    <button class="back-btn" onclick="showGradesList()">
+                        <i class="fas fa-arrow-right"></i> العودة لقائمة الصفوف
+                    </button>
+                </div>
+            `;
+            
+            if (subjects.length === 0) {
+                tableHTML += `
+                    <div style="text-align: center; padding: 50px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ffc107; margin-bottom: 20px;"></i>
+                        <h3 style="color: #666;">لا توجد مواد مسجلة لهذا الصف</h3>
+                        <p style="color: #888; margin-top: 10px;">يرجى التحقق من بيانات الصف</p>
+                    </div>
+                `;
+                
+                container.innerHTML = tableHTML;
+                container.style.display = 'block';
+                return;
+            }
+            
+            tableHTML += `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>المادة</th>
+            `;
+            
+            // إضافة أيام الأسبوع
+            days.forEach(day => {
+                tableHTML += `<th>${day}</th>`;
+            });
+            
+            tableHTML += `</tr></thead><tbody>`;
+            
+            // إضافة البيانات لكل مادة
+            subjects.forEach(subject => {
+                tableHTML += `<tr><td class="subject-header">${subject}</td>`;
+                
+                // إضافة الواجبات لكل يوم
+                days.forEach(day => {
+                    const homeworks = homeworkData[day] && homeworkData[day][subject] 
+                        ? homeworkData[day][subject] 
+                        : [];
+                    
+                    tableHTML += `<td>`;
+                    
+                    if (homeworks.length > 0) {
+                        homeworks.forEach(hw => {
+                            tableHTML += `
+                                <div class="homework-item">
+                                    ${hw.homework}
+                                    <div class="homework-date">${hw.date || ''}</div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        tableHTML += `<div class="no-homework">لا يوجد واجبات</div>`;
+                    }
+                    
+                    tableHTML += `</td>`;
+                });
+                
+                tableHTML += `</tr>`;
+            });
+            
+            tableHTML += `</tbody></table>`;
+            
+            container.innerHTML = tableHTML;
+            container.style.display = 'block';
+        }
+        
+        // العودة لقائمة الصفوف
+        function showGradesList() {
+            document.getElementById('homework-container').style.display = 'none';
+            document.getElementById('grades-container').style.display = 'grid';
+            document.getElementById('message').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
+        }
+        
+        // اختبار الاتصال بالسكريبت
+        function testConnection() {
+            showMessage('جاري اختبار الاتصال...', 'info');
+            
+            const callbackName = 'test_callback_' + Date.now();
+            
+            window[callbackName] = function(data) {
+                delete window[callbackName];
+                
+                if (data && !data.error) {
+                    showMessage('✓ الاتصال بالسكريبت يعمل بشكل صحيح', 'success');
+                } else {
+                    showMessage('✗ هناك مشكلة في الاتصال بالسكريبت', 'error');
+                }
+            };
+            
+            const script = document.createElement('script');
+            script.src = `${SCRIPT_URL}?action=getHomework&grade=1&callback=${callbackName}`;
+            script.onerror = function() {
+                showMessage('✗ فشل الاتصال بالسكريبت', 'error');
+                delete window[callbackName];
+            };
+            document.body.appendChild(script);
+        }
+        
+        // تهيئة الصفحة عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            // أولاً: عرض قائمة الفصول
+            renderGrades();
+            
+            // اختبار الاتصال بعد تحميل الصفحة
+            setTimeout(() => {
+                testConnection();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

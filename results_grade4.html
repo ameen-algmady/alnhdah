@@ -504,7 +504,7 @@
         <h2 id="pageTitle">نتائج الصفوف الاساسية</h2>
       </div>
       <div class="header-right">
-        <img src="logo.png" alt="شعار المدرسة" />
+        <img src="logo.png" alt="شعار المدرسة" onerror="this.style.display='none'" />
       </div>
     </div>
   </header>
@@ -564,7 +564,7 @@
         API_صفر: "https://script.google.com/macros/s/AKfycbyVy7VR-bzcgoy5RIY9NrYcE4xH82k-2aGvl_wn2JeDqS9szKObLjA78xyHZrLSl1vs_g/exec",
         API_ربيع_اول: "https://script.google.com/macros/s/yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy/exec",
          API_نصف_العام: "https://script.google.com/macros/s/AKfycbzsK-Uq97I6VPZzxHmGZUzF_HamKIpgKoArE2gbiAxnQ3EJbCy9PlZgehgHr8E3aif_/exec",
-        API_جماد_اول: "https://script.google.com/macros/s/AKfycbwFDDVvBR88pPpEUPhfnqpPNaqRWp3BCUkOc2BwAKB7Nwc802hV_Ojzp7V9e--RPxlY/exec",
+        API_جماد_اول: "https://script.google.com/macros/s/AKfycbwyb0wZDUVDHfuL0d_xj3dRGKg1uhw4cFUxT9qDNENu_i2KcdI5hxOi6oTwiRnXA_tz/exec",
         API_جماد_ثاني: "https://script.google.com/macros/s/AKfycby9X1FGkmI17UTR_8km_R_ahJehq0nrZop_3HP-GEWCmMKks41uHhEpbaOhLciKobnK/exec",
         API_رجب: "https://script.google.com/macros/s/AKfycbyuZ8XvrSSMbKFi3VuxlorkYCzheRzvr6b68cD-UKrjyl6n30C_20UEIKjtj41ahsdH/exec",
         API_آخر_العام: "https://script.google.com/macros/s/AKfycbzyke1TJBz043kykDBaCQgAGOO4nq8UWUktiaX-uSd_-qhVCvhwwVhyK68pxs0d5Gqm/exec",
@@ -622,19 +622,17 @@
         // حفظ بيانات الطالب للاستخدام لاحقاً
         currentStudentData = data;
 
-        // بيانات الطالب - تم تحديث الحقول حسب طلبك
+        // بيانات الطالب
         let studentInfo = `
           <div class="student-info">
             <h3>👤 بيانات الطالب</h3>
             <div class="info-grid">
         `;
         
-        // تحديث حقول بيانات الطالب حسب طلبك
         const studentFields = {
           "الاسم": data.بيانات_الطالب?.الاسم || "غير متوفر",
           "الصف": data.بيانات_الطالب?.الصف || "غير متوفر",
           "الشعبة": data.بيانات_الطالب?.الشعبة || "غير متوفر",
-         
         };
         
         for (const [key, value] of Object.entries(studentFields)) {
@@ -700,7 +698,7 @@
       });
   });
 
-  // دالة لإنشاء جدول المواد حسب نوع النتيجة - بدون عناوين
+  // دالة لإنشاء جدول المواد حسب نوع النتيجة
   function createSubjectsTable(subjectsData, resultType) {
     let tableHeader = "";
     let tableRows = "";
@@ -767,6 +765,7 @@
       }
     } 
     else {
+      // ترتيب الأعمدة الصحيح
       tableHeader = `
         <div class="no-title"></div>
         <div class="subjects-table-container">
@@ -774,10 +773,10 @@
             <thead>
               <tr>
                 <th>المادة</th>
-                <th>واجبات</th>
-                <th>شفهي</th>
-                <th>مواظبة</th>
                 <th>تحريري</th>
+                <th>شفهي</th>
+                <th>واجبات</th>
+                <th>مواظبة</th>
                 <th>المجموع</th>
               </tr>
             </thead>
@@ -790,10 +789,10 @@
         
         tableRows += `<tr>
           <td class="subject-name">${subject}</td>
-          <td class="${getGradeClass(grades.الواجبات, 10)}">${grades.الواجبات || "0"}</td>
-          <td class="${getGradeClass(grades.شفهي, 15)}">${grades.شفهي || "0"}</td>
-           <td class="${getGradeClass(grades.مواظبة, 10)}">${grades.مواظبة || "0"}</td>
-          <td class="${getGradeClass(grades.تحريري, 15)}">${grades.تحريري || "0"}</td>
+          <td class="${getGradeClass(grades.تحريري, 15)}">${grades.تحريري || ""}</td>
+          <td class="${getGradeClass(grades.شفهي, 15)}">${grades.شفهي || ""}</td>
+          <td class="${getGradeClass(grades.الواجبات, 10)}">${grades.الواجبات || ""}</td>
+          <td class="${getGradeClass(grades.مواظبة, 10)}">${grades.مواظبة || ""}</td>
           <td class="${gradeClass}">${total}</td>
         </tr>`;
       }
@@ -815,8 +814,7 @@
 
   // دالة لتسجيل عملية العرض في جدول جوجل شيت
   function logViewToGoogleSheet(studentCode, studentName, resultType) {
-    // رابط API لتسجيل العرض
-    const logApiUrl = "https://script.google.com/macros/s/AKfycbwFDDVvBR88pPpEUPhfnqpPNaqRWp3BCUkOc2BwAKB7Nwc802hV_Ojzp7V9e--RPxlY/exec";
+    const logApiUrl = "https://script.google.com/macros/s/AKfycbysty0g72ZvQ-hH1VAsREHnxKyg3IgNCQ3VbEyJKNQC8dbRHP5Gybthbl1FH1lEPf5I_w/exechttps://script.google.com/macros/s/AKfycbysty0g72ZvQ-hH1VAsREHnxKyg3IgNCQ3VbEyJKNQC8dbRHP5Gybthbl1FH1lEPf5I_w/exec";
     
     const logData = {
       studentCode: studentCode,
@@ -826,7 +824,6 @@
       action: "تم الاطلاع على النتيجة"
     };
 
-    // إرسال البيانات لتسجيلها
     fetch(logApiUrl, {
       method: "POST",
       body: JSON.stringify(logData)
@@ -840,85 +837,222 @@
     });
   }
 
-  // دالة لحفظ النتيجة كـ PDF
-  document.getElementById("savePdfButton").addEventListener("click", function() {
+  // دالة لحفظ النتيجة كـ PDF - حل مشكلة "Tainted canvases"
+  document.getElementById("savePdfButton").addEventListener("click", async function() {
+    console.log("تم النقر على زر حفظ PDF");
+    
     const element = document.getElementById("resultsOutput");
     const studentName = currentStudentData?.بيانات_الطالب?.الاسم || "طالب";
     const resultType = getResultTypeName(currentApiKey);
     
-    const options = {
-      margin: [5, 5, 5, 5],
-      filename: `نتيجة_${studentName}_${resultType}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { 
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        windowWidth: 850
-      },
-      jsPDF: { 
-        unit: 'mm', 
-        format: 'a4', 
-        orientation: 'portrait'
-      }
-    };
+    // التحقق من وجود البيانات
+    if (!currentStudentData) {
+      alert("لا توجد بيانات لحفظها كـ PDF. يرجى عرض النتائج أولاً.");
+      return;
+    }
 
-    // إنشاء نسخة من المحتوى للطباعة
-    const printContainer = document.createElement('div');
-    printContainer.style.padding = '5px';
-    printContainer.style.maxWidth = '800px';
-    printContainer.style.margin = '0 auto';
-    
-    // نسخ الرأس
-    const header = document.querySelector('header').cloneNode(true);
-    header.style.borderBottom = '1px solid #000';
-    header.style.marginBottom = '10px';
-    header.style.padding = '5px';
-    printContainer.appendChild(header);
-    
-    // نسخ النتائج
-    const resultsClone = element.cloneNode(true);
-    
-    // تطبيق تنسيقات الطباعة على النسخة
-    const style = document.createElement('style');
-    style.textContent = `
-      @media print {
-        .student-info { 
-          border: 1px solid #000 !important;
-          padding: 5px !important;
-          margin-bottom: 8px !important;
-        }
-        .subjects-table { 
-          border: 1px solid #000 !important;
-          font-size: 9px !important;
-        }
-        .subjects-table th { 
-          padding: 4px 3px !important;
-          height: 18px !important;
-        }
-        .subjects-table td { 
-          padding: 3px 3px !important;
-          height: 18px !important;
-        }
-        .final-results { 
-          border: 1px solid #000 !important;
-          padding: 8px !important;
-          margin-top: 10px !important;
-        }
-        .student-info h3 { font-size: 0.9em !important; }
-        .info-label { font-size: 0.75em !important; }
-        .info-value { font-size: 0.85em !important; }
-        .final-results h3 { font-size: 1em !important; }
-        .final-result-label { font-size: 0.75em !important; }
-        .final-result-value { font-size: 1.1em !important; }
-        .result-status { font-size: 0.9em !important; }
+    try {
+      // إنشاء حاوية للطباعة
+      const printContainer = document.createElement('div');
+      
+      // تطبيق الأنماط الأساسية - إصلاح مشكلة CORS
+      printContainer.style.cssText = `
+        width: 794px;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: white;
+        direction: rtl;
+        font-family: 'Cairo', sans-serif;
+        text-align: right;
+      `;
+      
+      // نسخ الرأس بدون الصور (لتجنب مشكلة CORS)
+      const header = document.querySelector('header').cloneNode(true);
+      
+      // إزالة الصورة من الرأس لمنع مشكلة Tainted canvas
+      const headerImg = header.querySelector('img');
+      if (headerImg) {
+        headerImg.remove();
       }
-    `;
-    printContainer.appendChild(style);
-    printContainer.appendChild(resultsClone);
-    
-    html2pdf().from(printContainer).set(options).save();
+      
+      // بدلاً من الصورة، نضيف نص بديل
+      const headerRight = header.querySelector('.header-right');
+      if (headerRight) {
+        headerRight.innerHTML = '<div style="height:50px; display:flex; align-items:center; justify-content:center; font-weight:bold; color:#4CAF50;">شعار المدرسة</div>';
+      }
+      
+      header.style.cssText = `
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 10px;
+        border-bottom: 2px solid #4CAF50;
+        box-sizing: border-box;
+      `;
+      printContainer.appendChild(header);
+      
+      // نسخ النتائج مع إضافة تنسيقات إضافية
+      const resultsClone = element.cloneNode(true);
+      
+      // إزالة أي صور من النتائج
+      const allImages = resultsClone.querySelectorAll('img');
+      allImages.forEach(img => img.remove());
+      
+      // إضافة تنسيقات إضافية للعناصر المنقولة
+      const studentInfoDiv = resultsClone.querySelector('.student-info');
+      if (studentInfoDiv) {
+        studentInfoDiv.style.marginBottom = '20px';
+      }
+      
+      const subjectsTableContainer = resultsClone.querySelector('.subjects-table-container');
+      if (subjectsTableContainer) {
+        subjectsTableContainer.style.margin = '20px 0';
+      }
+      
+      const finalResultsDiv = resultsClone.querySelector('.final-results');
+      if (finalResultsDiv) {
+        finalResultsDiv.style.marginTop = '20px';
+      }
+      
+      printContainer.appendChild(resultsClone);
+      
+      // إضافة أنماط CSS للطباعة
+      const style = document.createElement('style');
+      style.textContent = `
+        * {
+          box-sizing: border-box;
+        }
+        
+        .print-pdf-container {
+          width: 794px !important;
+          max-width: 100% !important;
+          margin: 0 auto !important;
+          padding: 20px !important;
+        }
+        
+        .student-info, .subjects-table-container, .final-results {
+          margin: 15px auto !important;
+          max-width: 100% !important;
+        }
+        
+        .subjects-table {
+          width: 100% !important;
+          border-collapse: collapse !important;
+        }
+        
+        .subjects-table th {
+          background: #4CAF50 !important;
+          color: white !important;
+          padding: 8px !important;
+        }
+        
+        .subjects-table td {
+          padding: 6px !important;
+          border: 1px solid #ddd !important;
+        }
+        
+        /* إخفاء أي عناصر قد تسبب مشاكل */
+        img {
+          display: none !important;
+        }
+        
+        @media print {
+          body {
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+        }
+      `;
+      printContainer.appendChild(style);
+      
+      // إضافة فئة للمحتوى
+      printContainer.classList.add('print-pdf-container');
+      
+      // خيارات html2pdf مع إصلاحات مشكلة CORS
+      const options = {
+        margin: [15, 15, 15, 15],
+        filename: `نتيجة_${studentName}_${resultType}.pdf`,
+        image: { 
+          type: 'jpeg', 
+          quality: 0.98 
+        },
+        html2canvas: { 
+          scale: 2,
+          useCORS: false, // تعيين إلى false لحل مشكلة Tainted canvas
+          allowTaint: false, // تعيين إلى false
+          logging: true,
+          windowWidth: 794,
+          width: 794,
+          backgroundColor: '#ffffff',
+          onclone: function(clonedDoc) {
+            // إزالة أي صور متبقية في النسخة المستنسخة
+            const images = clonedDoc.querySelectorAll('img');
+            images.forEach(img => {
+              img.style.display = 'none';
+              img.removeAttribute('src');
+            });
+          }
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'portrait',
+          compress: true
+        }
+      };
+
+      console.log("بدء عملية إنشاء PDF...");
+      
+      // إنشاء PDF
+      await html2pdf().set(options).from(printContainer).save();
+      
+      console.log("تم حفظ PDF بنجاح");
+      
+    } catch (error) {
+      console.error("خطأ في حفظ PDF:", error);
+      
+      // إذا فشلت الطريقة الأولى، نجرب طريقة بديلة
+      if (error.message.includes('Tainted canvases')) {
+        alert("جاري استخدام طريقة بديلة لحفظ PDF...");
+        await generatePDFAlternative();
+      } else {
+        alert("حدث خطأ أثناء حفظ PDF. يرجى المحاولة مرة أخرى.\n" + error.message);
+      }
+    }
   });
+
+  // طريقة بديلة لحفظ PDF بدون html2pdf (باستخدام طباعة المتصفح)
+  async function generatePDFAlternative() {
+    const studentName = currentStudentData?.بيانات_الطالب?.الاسم || "طالب";
+    const resultType = getResultTypeName(currentApiKey);
+    
+    // حفظ النتائج الحالية
+    const originalContent = document.getElementById('resultsOutput').innerHTML;
+    
+    try {
+      // إخفاء الأزرار أثناء الطباعة
+      document.querySelector('.home-button').style.display = 'none';
+      document.querySelector('.print-button').style.display = 'none';
+      document.getElementById('savePdfButton').style.display = 'none';
+      
+      // طباعة الصفحة
+      window.print();
+      
+      // إعادة الأزرار
+      setTimeout(() => {
+        document.querySelector('.home-button').style.display = 'inline-block';
+        document.querySelector('.print-button').style.display = 'inline-block';
+        document.getElementById('savePdfButton').style.display = 'inline-block';
+      }, 1000);
+      
+      console.log("تم حفظ PDF باستخدام الطباعة البديلة");
+      
+    } catch (error) {
+      console.error("خطأ في الطباعة البديلة:", error);
+      alert("يمكنك استخدام زر 'طباعة الصفحة' وحفظها كـ PDF يدوياً من خيارات الطباعة في المتصفح.");
+    }
+  }
 
   // دالة للحصول على اسم النتيجة بالعربية
   function getResultTypeName(apiKey) {
@@ -935,6 +1069,25 @@
     
     return typeNames[apiKey] || "نتيجة";
   }
-</script>
 
+  // إضافة معالج حدث للنموذج لمنع إعادة التحميل
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('resultsForm');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+      });
+    }
+    
+    // إضافة onerror للصور لمنع مشاكل التحميل
+    document.querySelectorAll('img').forEach(img => {
+      img.onerror = function() {
+        this.style.display = 'none';
+      };
+    });
+    
+    console.log("html2pdf متاحة:", typeof html2pdf !== 'undefined');
+  });
+</script>
+</body>
 </html>
