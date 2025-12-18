@@ -49,7 +49,7 @@
         .grades-container {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 25px;
             margin-bottom: 40px;
         }
         
@@ -66,39 +66,49 @@
             padding-bottom: 10px;
             border-bottom: 2px solid #f0f5ff;
             font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .section-title i {
-            margin-left: 10px;
+            color: #2a5298;
+        }
+        
+        .section-subtitle {
+            color: #666;
+            font-size: 0.95rem;
+            margin-top: 5px;
+            margin-bottom: 15px;
         }
         
         .grades-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 15px;
         }
         
         .grade-card {
-            background: #f8fafd;
+            background: linear-gradient(135deg, #f8fafd 0%, #f0f5ff 100%);
             border-radius: 10px;
             padding: 20px 15px;
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
-            border: 2px solid transparent;
+            border: 2px solid #e8efff;
         }
         
         .grade-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(42, 82, 152, 0.15);
             border-color: #2a5298;
             background: white;
         }
         
         .grade-card i {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #2a5298;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         
         .grade-card h3 {
@@ -109,12 +119,13 @@
         
         .grade-card .section {
             font-size: 0.9rem;
-            color: #666;
-            background: #e8efff;
-            padding: 3px 10px;
+            color: white;
+            background: #2a5298;
+            padding: 4px 12px;
             border-radius: 15px;
             display: inline-block;
-            margin-top: 5px;
+            margin-top: 8px;
+            font-weight: 600;
         }
         
         .homework-table {
@@ -349,32 +360,123 @@
     
     <script>
         // رابط Google Apps Script - ضع رابط نشرك هنا
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbws8q5AMuQomeFdjUm3c5SBfMIizFSmVHDneT8Tzz85T6GBr8y-8vTCLi7ZitQNcCQW/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzInq4VE2dmMB2E5FgrKw1qQPWg5pqC2bWiePyL3O1NMW0k4oCqd9JNpRObbWS9neYC/exec';
         
-        // تعريف الفصول والشعب
-        const schoolGrades = {
-            primary: {
+        // تعريف الفصول والشعب - نسخة مصححة
+        const schoolGrades = [
+            {
                 title: "الصفوف الابتدائية",
                 icon: "fas fa-child",
+                gradeLevel: "primary",
                 grades: [
-                    { id: "الأول", name: "الصف الأول", sections: ["أ"] },
-                    { id: "الثاني", name: "الصف الثاني", sections: ["أ"] },
-                    { id: "الثالث", name: "الصف الثالث", sections: ["أ"] }
+                    { 
+                        id: "الأول", 
+                        name: "الصف الأول الابتدائي", 
+                        sections: ["جميع الشعب"],
+                        icon: "fas fa-child",
+                        description: "المرحلة الابتدائية الأولى"
+                    },
+                    { 
+                        id: "الثاني", 
+                        name: "الصف الثاني الابتدائي", 
+                        sections: ["جميع الشعب"],
+                        icon: "fas fa-child",
+                        description: "المرحلة الابتدائية الثانية"
+                    },
+                    { 
+                        id: "الثالث", 
+                        name: "الصف الثالث الابتدائي", 
+                        sections: ["جميع الشعب"],
+                        icon: "fas fa-child",
+                        description: "المرحلة الابتدائية الثالثة"
+                    }
                 ]
             },
-            intermediate: {
-                title: "الصفوف الأساسية",
-                icon: "fas fa-user-graduate",
+            {
+                title: "الصف الرابع الأساسي",
+                icon: "fas fa-graduation-cap",
+                gradeLevel: "intermediate",
                 grades: [
-                    { id: "الرابع", name: "الصف الرابع", sections: ["أ", "ب", "ج"] },
-                    { id: "الخامس", name: "الصف الخامس", sections: ["أ", "ب", "ج"] },
-                    { id: "السادس", name: "الصف السادس", sections: ["أ", "ب", "ج"] },
-                    { id: "السابع", name: "الصف السابع", sections: ["أ", "ب", "ج"] },
-                    { id: "الثامن", name: "الصف الثامن", sections: ["أ", "ب", "ج"] },
-                    { id: "التاسع", name: "الصف التاسع", sections: ["أ", "ب", "ج"] }
+                    { 
+                        id: "الرابع", 
+                        name: "الصف الرابع الأساسي", 
+                        sections: ["أ", "ب", "ج"],
+                        icon: "fas fa-user-graduate",
+                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
+                    }
+                ]
+            },
+            {
+                title: "الصف الخامس الأساسي",
+                icon: "fas fa-graduation-cap",
+                gradeLevel: "intermediate",
+                grades: [
+                    { 
+                        id: "الخامس", 
+                        name: "الصف الخامس الأساسي", 
+                        sections: ["أ", "ب", "ج"],
+                        icon: "fas fa-user-graduate",
+                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
+                    }
+                ]
+            },
+            {
+                title: "الصف السادس الأساسي",
+                icon: "fas fa-graduation-cap",
+                gradeLevel: "intermediate",
+                grades: [
+                    { 
+                        id: "السادس", 
+                        name: "الصف السادس الأساسي", 
+                        sections: ["أ", "ب", "ج"],
+                        icon: "fas fa-user-graduate",
+                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
+                    }
+                ]
+            },
+            {
+                title: "الصف السابع الأساسي",
+                icon: "fas fa-graduation-cap",
+                gradeLevel: "intermediate",
+                grades: [
+                    { 
+                        id: "السابع", 
+                        name: "الصف السابع الأساسي", 
+                        sections: ["أ", "ب", "ج"],
+                        icon: "fas fa-user-graduate",
+                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
+                    }
+                ]
+            },
+            {
+                title: "الصف الثامن الأساسي",
+                icon: "fas fa-graduation-cap",
+                gradeLevel: "intermediate",
+                grades: [
+                    { 
+                        id: "الثامن", 
+                        name: "الصف الثامن الأساسي", 
+                        sections: ["أ", "ب", "ج"],
+                        icon: "fas fa-user-graduate",
+                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
+                    }
+                ]
+            },
+            {
+                title: "الصف التاسع الأساسي",
+                icon: "fas fa-graduation-cap",
+                gradeLevel: "intermediate",
+                grades: [
+                    { 
+                        id: "التاسع", 
+                        name: "الصف التاسع الأساسي", 
+                        sections: ["أ", "ب", "ج"],
+                        icon: "fas fa-user-graduate",
+                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
+                    }
                 ]
             }
-        };
+        ];
         
         // أيام الأسبوع الدراسية
         const days = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء"];
@@ -398,13 +500,11 @@
             const container = document.getElementById('grades-container');
             container.innerHTML = '';
             
-            // عرض الصفوف الابتدائية
-            const primarySection = createGradeSection(schoolGrades.primary);
-            container.appendChild(primarySection);
-            
-            // عرض الصفوف الأساسية
-            const intermediateSection = createGradeSection(schoolGrades.intermediate);
-            container.appendChild(intermediateSection);
+            // عرض كل قسم من أقسام الصفوف
+            schoolGrades.forEach(section => {
+                const sectionDiv = createGradeSection(section);
+                container.appendChild(sectionDiv);
+            });
         }
         
         // إنشاء قسم للصفوف
@@ -417,19 +517,29 @@
                     <i class="${sectionData.icon}"></i>
                     ${sectionData.title}
                 </div>
-                <div class="grades-grid">
             `;
+            
+            // إضافة الوصف إن وجد
+            if (sectionData.grades[0]?.description) {
+                sectionHTML += `
+                    <div class="section-subtitle">
+                        ${sectionData.grades[0].description}
+                    </div>
+                `;
+            }
+            
+            sectionHTML += `<div class="grades-grid">`;
             
             sectionData.grades.forEach(grade => {
                 grade.sections.forEach(section => {
-                    const gradeFullId = `${grade.id}_${section}`;
-                    const displayName = `${grade.name} - الشعبة ${section}`;
+                    const displayName = `${grade.name}`;
+                    const sectionLabel = section === "أ" ? "الشعبة أ" : `الشعبة ${section}`;
                     
                     sectionHTML += `
                         <div class="grade-card" data-grade="${grade.id}" data-section="${section}">
-                            <i class="fas fa-graduation-cap"></i>
+                            <i class="${grade.icon || sectionData.icon}"></i>
                             <h3>${grade.name}</h3>
-                            <div class="section">الشعبة ${section}</div>
+                            <div class="section">${sectionLabel}</div>
                         </div>
                     `;
                 });
@@ -444,7 +554,7 @@
                 card.addEventListener('click', function() {
                     const grade = this.getAttribute('data-grade');
                     const section = this.getAttribute('data-section');
-                    const gradeName = `الصف ${grade} - الشعبة ${section}`;
+                    const gradeName = `${getGradeFullName(grade)} - الشعبة ${section}`;
                     loadHomework(grade, section, gradeName);
                 });
             });
@@ -452,7 +562,24 @@
             return sectionDiv;
         }
         
-        // دالة لجلب البيانات من Google Sheets
+        // دالة للحصول على الاسم الكامل للصف
+        function getGradeFullName(gradeId) {
+            const gradeNames = {
+                "الأول": "الصف الأول الابتدائي",
+                "الثاني": "الصف الثاني الابتدائي",
+                "الثالث": "الصف الثالث الابتدائي",
+                "الرابع": "الصف الرابع الأساسي",
+                "الخامس": "الصف الخامس الأساسي",
+                "السادس": "الصف السادس الأساسي",
+                "السابع": "الصف السابع الأساسي",
+                "الثامن": "الصف الثامن الأساسي",
+                "التاسع": "الصف التاسع الأساسي"
+            };
+            
+            return gradeNames[gradeId] || `الصف ${gradeId}`;
+        }
+        
+        // دالة لجلب البيانات من Google Sheets - نسخة مصححة
         function loadHomework(grade, section, gradeName) {
             document.getElementById('grades-container').style.display = 'none';
             document.getElementById('loading').style.display = 'block';
@@ -470,15 +597,28 @@
                 
                 console.log('الرد من السيرفر:', data);
                 
-                if (data.error) {
+                // التصحيح: التحقق من البيانات بشكل صحيح
+                if (data && data.error) {
                     showMessage(`خطأ: ${data.error}`, 'error');
                     showGradesList();
-                } else if (!data.success) {
+                } else if (data && data.success === false) {
                     showMessage(`لم يتم العثور على واجبات: ${data.error || 'لا توجد بيانات'}`, 'error');
                     showGradesList();
-                } else {
+                } else if (data && data.success === true) {
                     showHomeworkTable(grade, section, gradeName, data);
                     showMessage(`تم تحميل واجبات ${gradeName} بنجاح`, 'success');
+                } else {
+                    // إذا لم يكن هناك success ولا error، ربما البيانات تأتي بصيغة مختلفة
+                    showMessage(`تنسيق البيانات غير متوقع. جاري المحاولة...`, 'info');
+                    
+                    // محاولة عرض البيانات حتى لو لم يكن هناك success
+                    if (data && data.homework) {
+                        showHomeworkTable(grade, section, gradeName, data);
+                        showMessage(`تم تحميل واجبات ${gradeName}`, 'success');
+                    } else {
+                        showMessage(`لا توجد بيانات للعرض`, 'error');
+                        showGradesList();
+                    }
                 }
             };
             
@@ -498,7 +638,7 @@
             document.body.appendChild(script);
         }
         
-        // دالة لعرض جدول الواجبات
+        // دالة لعرض جدول الواجبات - نسخة محسنة
         function showHomeworkTable(grade, section, gradeName, data) {
             const container = document.getElementById('homework-container');
             const homeworkData = data.homework || {};
@@ -529,9 +669,12 @@
             
             // التحقق من وجود بيانات
             let hasData = false;
+            let totalHomework = 0;
+            
             days.forEach(day => {
                 if (homeworkData[day] && homeworkData[day].length > 0) {
                     hasData = true;
+                    totalHomework += homeworkData[day].length;
                 }
             });
             
@@ -540,7 +683,10 @@
                     <div class="no-homework">
                         <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 20px; color: #ccc;"></i>
                         <h3>لا توجد واجبات لهذا الصف والشعبة</h3>
-                        <p>يبدو أنه لا توجد واجبات مسجلة في جدول البيانات</p>
+                        <p>تحقق من أن جدول البيانات يحتوي على بيانات للصف ${grade} والشعبة ${section}</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem;">
+                            <strong>نصيحة:</strong> افتح Console (F12) وانظر إلى "الرد من السيرفر" لترى البيانات الخام
+                        </p>
                     </div>
                 `;
                 
@@ -548,6 +694,14 @@
                 container.style.display = 'block';
                 return;
             }
+            
+            // إضافة معلومات حول العدد الإجمالي
+            tableHTML += `
+                <div class="data-info">
+                    <i class="fas fa-info-circle"></i>
+                    إجمالي الواجبات: ${totalHomework} واجباً موزعة على ${days.filter(day => homeworkData[day] && homeworkData[day].length > 0).length} يوم
+                </div>
+            `;
             
             // إنشاء جدول الواجبات
             tableHTML += `
@@ -606,27 +760,62 @@
             document.getElementById('loading').style.display = 'none';
         }
         
-        // اختبار الاتصال بالسكريبت
+        // اختبار الاتصال بالسكريبت - نسخة مصححة
         function testConnection() {
             const callbackName = 'test_callback_' + Date.now();
             
             window[callbackName] = function(data) {
                 delete window[callbackName];
                 
+                console.log('نتيجة اختبار الاتصال:', data);
+                
                 if (data && data.success) {
-                    console.log('اختبار الاتصال ناجح:', data);
-                    showMessage(`✓ الاتصال بنجاح مع جدول البيانات: ${data.spreadsheetName}`, 'success');
+                    let message = `✓ الاتصال بنجاح<br>`;
+                    message += `اسم الجدول: <strong>${data.sheetInfo?.name || 'غير معروف'}</strong><br>`;
+                    message += `عدد الأوراق: ${data.sheetInfo?.sheetsCount || 0}<br>`;
+                    
+                    if (data.homeworkSheet) {
+                        message += `✓ ورقة الواجبات موجودة<br>`;
+                        message += `الصفوف: ${data.homeworkSheet.rows || 0}<br>`;
+                        message += `الأعمدة: ${data.homeworkSheet.columns || 0}<br>`;
+                        message += `تحتوي بيانات: ${data.homeworkSheet.hasData ? 'نعم' : 'لا'}<br>`;
+                    } else {
+                        message += `⚠️ ورقة الواجبات غير موجودة<br>`;
+                    }
+                    
+                    showMessage(message, 'success');
                 } else {
-                    showMessage(`✗ مشكلة في الاتصال: ${data.error || 'غير معروف'}`, 'error');
+                    showMessage(`✗ مشكلة في الاتصال: ${data?.error || 'غير معروف'}`, 'error');
                 }
             };
             
             const script = document.createElement('script');
-            script.src = `${SCRIPT_URL}?action=test&callback=${callbackName}`;
+            script.src = `${SCRIPT_URL}?action=test&callback=${callbackName}&t=${Date.now()}`;
             script.onerror = function() {
                 showMessage('✗ فشل الاتصال بالسكريبت. تأكد من نشر السكريبت وإعدادات الوصول.', 'error');
                 delete window[callbackName];
             };
+            document.body.appendChild(script);
+        }
+        
+        // اختبار مباشر لجلب البيانات
+        function testDirectData() {
+            console.log('اختبار جلب البيانات مباشرة...');
+            
+            const testUrl = `${SCRIPT_URL}?action=getHomework&grade=الرابع&section=أ&callback=testDirect`;
+            
+            window.testDirect = function(data) {
+                console.log('البيانات الخام:', data);
+                delete window.testDirect;
+                
+                if (data && data.homework) {
+                    console.log('هيكل البيانات:', Object.keys(data.homework));
+                    console.log('البيانات المفصلة:', data);
+                }
+            };
+            
+            const script = document.createElement('script');
+            script.src = testUrl;
             document.body.appendChild(script);
         }
         
@@ -638,6 +827,11 @@
             // اختبار الاتصال بعد تحميل الصفحة
             setTimeout(() => {
                 testConnection();
+                
+                // اختبار جلب البيانات مباشرة بعد 2 ثانية
+                setTimeout(() => {
+                    testDirectData();
+                }, 2000);
             }, 1000);
         });
     </script>
