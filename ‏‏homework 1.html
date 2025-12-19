@@ -3,326 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الواجبات المنزلية</title>
+    <title>نظام الواجبات</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap&subset=arabic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
-        
-        body {
-            background-color: #f5f9ff;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        /* نفس الأنماط السابقة */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background-color: #f5f9ff; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
         
         header {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 25px 0;
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-bottom: 30px;
+            color: white; padding: 20px 0; text-align: center;
+            border-radius: 0 0 15px 15px; margin-bottom: 20px;
         }
         
-        header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-        
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .grades-container {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        
-        .grade-section {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
-        
-        .section-title {
-            color: #1e3c72;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f0f5ff;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .section-title i {
-            color: #2a5298;
-        }
-        
-        .section-subtitle {
-            color: #666;
-            font-size: 0.95rem;
-            margin-top: 5px;
-            margin-bottom: 15px;
-        }
-        
-        .grades-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-        }
+        .grades-container { display: flex; flex-direction: column; gap: 20px; }
+        .grade-section { background: white; border-radius: 10px; padding: 15px; }
+        .section-title { color: #1e3c72; margin-bottom: 15px; font-size: 1.2rem; }
+        .grades-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
         
         .grade-card {
-            background: linear-gradient(135deg, #f8fafd 0%, #f0f5ff 100%);
-            border-radius: 10px;
-            padding: 20px 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid #e8efff;
-        }
-        
-        .grade-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(42, 82, 152, 0.15);
-            border-color: #2a5298;
-            background: white;
-        }
-        
-        .grade-card i {
-            font-size: 2.2rem;
-            color: #2a5298;
-            margin-bottom: 12px;
-        }
-        
-        .grade-card h3 {
-            font-size: 1.3rem;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        
-        .grade-card .section {
-            font-size: 0.9rem;
-            color: white;
-            background: #2a5298;
-            padding: 4px 12px;
-            border-radius: 15px;
-            display: inline-block;
-            margin-top: 8px;
-            font-weight: 600;
-        }
-        
-        .homework-table {
-            display: none;
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            margin-top: 20px;
-            overflow-x: auto;
-        }
-        
-        .homework-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .homework-title {
-            color: #1e3c72;
-            font-size: 1.5rem;
-        }
-        
-        .back-btn {
-            background: #f0f5ff;
-            color: #2a5298;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            background: #f8fafd; border-radius: 8px; padding: 15px 10px;
+            text-align: center; cursor: pointer; border: 2px solid #e8efff;
             transition: all 0.3s;
         }
+        .grade-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .grade-card i { font-size: 1.8rem; color: #2a5298; margin-bottom: 8px; }
+        .grade-card h3 { font-size: 1.1rem; margin-bottom: 5px; }
+        .grade-card .section { background: #2a5298; color: white; padding: 3px 8px; border-radius: 10px; font-size: 0.8rem; }
         
-        .back-btn:hover {
-            background: #2a5298;
-            color: white;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        
-        th {
-            background-color: #2a5298;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-weight: 700;
-        }
-        
-        td {
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-        
-        tr:hover {
-            background-color: #f9fbff;
-        }
-        
-        .day-header {
-            background-color: #f0f5ff;
-            font-weight: 700;
-            color: #1e3c72;
-            text-align: right;
-            padding: 10px 15px;
-            width: 15%;
-        }
-        
-        .subject-item {
-            background-color: #f9f9f9;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 8px 0;
-            text-align: right;
-            border-right: 4px solid #2a5298;
-        }
-        
-        .subject-name {
-            font-weight: 700;
-            color: #1e3c72;
-            margin-bottom: 5px;
-            font-size: 1.1rem;
-        }
-        
-        .homework-text {
-            color: #333;
-            margin-top: 5px;
-        }
-        
-        .no-homework {
-            color: #888;
-            font-style: italic;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 50px;
-            color: #2a5298;
-            font-size: 1.2rem;
-        }
-        
-        .loading i {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-        
-        .message {
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 8px;
-            text-align: center;
-            display: none;
-        }
-        
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        
-        .data-info {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-            text-align: right;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-size: 0.9rem;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #666;
-            border-top: 1px solid #eee;
+        .mobile-warning {
+            background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px;
+            margin: 10px 0; text-align: center; display: none;
         }
         
         @media (max-width: 768px) {
-            .grades-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-            
-            .homework-table {
-                padding: 15px;
-            }
-            
-            table {
-                font-size: 0.9rem;
-            }
-            
-            th, td {
-                padding: 10px 5px;
-            }
-            
-            .homework-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .back-btn {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .grade-section {
-                padding: 15px;
-            }
-            
-            .day-header {
-                width: 20%;
-            }
+            .container { padding: 10px; }
+            .grades-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .mobile-warning { display: block; }
         }
     </style>
 </head>
@@ -330,509 +49,249 @@
     <header>
         <div class="container">
             <h1><i class="fas fa-book-open"></i> نظام الواجبات المنزلية</h1>
-            <p>اختر الصف الدراسي والشعبة لعرض الواجبات المطلوبة</p>
+            <p>اختر الصف والشعبة لعرض الواجبات</p>
         </div>
     </header>
     
     <div class="container">
-        <div id="message" class="message"></div>
-        
-        <div id="grades-container" class="grades-container">
-            <!-- سيتم ملئها بواسطة الجافاسكريبت -->
+        <div id="mobile-warning" class="mobile-warning">
+            <i class="fas fa-mobile-alt"></i>
+            <span id="mobile-status">جاري التحقق من الاتصال...</span>
         </div>
         
-        <div id="homework-container" class="homework-table">
-            <!-- سيتم ملئها بواسطة الجافاسكريبت -->
-        </div>
-        
-        <div id="loading" class="loading" style="display: none;">
+        <div id="message" class="message" style="display:none;"></div>
+        <div id="grades-container" class="grades-container"></div>
+        <div id="homework-container" class="homework-table" style="display:none;"></div>
+        <div id="loading" class="loading" style="display:none;">
             <i class="fas fa-spinner fa-spin"></i>
-            <p>جاري تحميل الواجبات...</p>
+            <p>جاري التحميل...</p>
         </div>
     </div>
     
-    <footer>
-        <div class="container">
-            <p>جميع الحقوق محفوظة &copy; 2024 نظام الواجبات المنزلية</p>
-            <p>تم التطوير باستخدام Google Sheets و Google Apps Script</p>
-        </div>
-    </footer>
-    
     <script>
-        // رابط Google Apps Script - ضع رابط نشرك هنا
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwO5gLTtLbajaWc8LfM49hEMzJMpx4OFFqZ4NtAmNVr0TWPL3pDAVmDjJD7Mor2jNCZ/exec';
+        // 🔴 ضع رابط النشر الجديد هنا 🔴
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-GGmcGBJjT_RGdZmZwBGG0sBEUEofKSlqZ2LpQ5pcNs5dNFJMRQ9DBOzZHtVzkT-v/exec';
         
-        // تعريف الفصول والشعب - نسخة مصححة
+        // تعريف الفصول
         const schoolGrades = [
-            {
-                title: "الصفوف الابتدائية",
-                icon: "fas fa-child",
-                gradeLevel: "primary",
-                grades: [
-                    { 
-                        id: "الأول", 
-                        name: "الصف الأول الابتدائي", 
-                        sections: ["جميع الشعب"],
-                        icon: "fas fa-child",
-                        description: "المرحلة الابتدائية الأولى"
-                    },
-                    { 
-                        id: "الثاني", 
-                        name: "الصف الثاني الابتدائي", 
-                        sections: ["جميع الشعب"],
-                        icon: "fas fa-child",
-                        description: "المرحلة الابتدائية الثانية"
-                    },
-                    { 
-                        id: "الثالث", 
-                        name: "الصف الثالث الابتدائي", 
-                        sections: ["جميع الشعب"],
-                        icon: "fas fa-child",
-                        description: "المرحلة الابتدائية الثالثة"
-                    }
-                ]
-            },
-            {
-                title: "الصف الرابع الأساسي",
-                icon: "fas fa-graduation-cap",
-                gradeLevel: "intermediate",
-                grades: [
-                    { 
-                        id: "الرابع", 
-                        name: "الصف الرابع الأساسي", 
-                        sections: ["أ", "ب", "ج"],
-                        icon: "fas fa-user-graduate",
-                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
-                    }
-                ]
-            },
-            {
-                title: "الصف الخامس الأساسي",
-                icon: "fas fa-graduation-cap",
-                gradeLevel: "intermediate",
-                grades: [
-                    { 
-                        id: "الخامس", 
-                        name: "الصف الخامس الأساسي", 
-                        sections: ["أ", "ب", "ج"],
-                        icon: "fas fa-user-graduate",
-                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
-                    }
-                ]
-            },
-            {
-                title: "الصف السادس الأساسي",
-                icon: "fas fa-graduation-cap",
-                gradeLevel: "intermediate",
-                grades: [
-                    { 
-                        id: "السادس", 
-                        name: "الصف السادس الأساسي", 
-                        sections: ["أ", "ب", "ج"],
-                        icon: "fas fa-user-graduate",
-                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
-                    }
-                ]
-            },
-            {
-                title: "الصف السابع الأساسي",
-                icon: "fas fa-graduation-cap",
-                gradeLevel: "intermediate",
-                grades: [
-                    { 
-                        id: "السابع", 
-                        name: "الصف السابع الأساسي", 
-                        sections: ["أ", "ب", "ج"],
-                        icon: "fas fa-user-graduate",
-                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
-                    }
-                ]
-            },
-            {
-                title: "الصف الثامن الأساسي",
-                icon: "fas fa-graduation-cap",
-                gradeLevel: "intermediate",
-                grades: [
-                    { 
-                        id: "الثامن", 
-                        name: "الصف الثامن الأساسي", 
-                        sections: ["أ", "ب", "ج"],
-                        icon: "fas fa-user-graduate",
-                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
-                    }
-                ]
-            },
-            {
-                title: "الصف التاسع الأساسي",
-                icon: "fas fa-graduation-cap",
-                gradeLevel: "intermediate",
-                grades: [
-                    { 
-                        id: "التاسع", 
-                        name: "الصف التاسع الأساسي", 
-                        sections: ["أ", "ب", "ج"],
-                        icon: "fas fa-user-graduate",
-                        description: "يحتوي على ثلاث شعب: أ، ب، ج"
-                    }
-                ]
-            }
+            { title: "الصفوف الابتدائية", icon: "fas fa-child", grades: [
+                { id: "الأول", name: "الصف الأول", sections: ["أ"] },
+                { id: "الثاني", name: "الصف الثاني", sections: ["أ"] },
+                { id: "الثالث", name: "الصف الثالث", sections: ["أ"] }
+            ]},
+            { title: "الصف الرابع", icon: "fas fa-graduation-cap", grades: [
+                { id: "الرابع", name: "الصف الرابع", sections: ["أ","ب","ج"] }
+            ]},
+            { title: "الصف الخامس", icon: "fas fa-graduation-cap", grades: [
+                { id: "الخامس", name: "الصف الخامس", sections: ["أ","ب","ج"] }
+            ]}
         ];
         
-        // أيام الأسبوع الدراسية
-        const days = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء"];
+        // كشف الهاتف
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
-        // دالة لعرض الرسائل
-        function showMessage(text, type = 'error') {
-            const messageEl = document.getElementById('message');
-            messageEl.innerHTML = text;
-            messageEl.className = `message ${type}`;
-            messageEl.style.display = 'block';
+        // 🔴 الحل الجديد: اختبار الاتصال على الهاتف أولاً 🔴
+        function initializeForMobile() {
+            if (!isMobile) return;
             
-            if (type === 'success' || type === 'info') {
-                setTimeout(() => {
-                    messageEl.style.display = 'none';
-                }, 5000);
-            }
+            document.getElementById('mobile-status').textContent = 'جاري تفعيل الاتصال للهاتف...';
+            
+            // الخطوة 1: طلب بسيط جداً لتفعيل السكريبت
+            const pingUrl = `${SCRIPT_URL}?action=ping&callback=mobilePing&_=${Date.now()}`;
+            
+            window.mobilePing = function(data) {
+                delete window.mobilePing;
+                if (data && data.success) {
+                    document.getElementById('mobile-status').textContent = '✓ الاتصال مفعل للهاتف';
+                    document.getElementById('mobile-warning').style.background = '#d4edda';
+                    document.getElementById('mobile-warning').style.color = '#155724';
+                    
+                    // بعد النجاح، جرب test connection
+                    setTimeout(() => testConnection(), 1000);
+                } else {
+                    document.getElementById('mobile-status').textContent = '⚠️ اضغط هنا لتفعيل الاتصال';
+                    document.getElementById('mobile-warning').style.cursor = 'pointer';
+                    document.getElementById('mobile-warning').onclick = activateMobileAccess;
+                }
+            };
+            
+            const script = document.createElement('script');
+            script.src = pingUrl;
+            script.onerror = () => {
+                document.getElementById('mobile-status').textContent = '❌ اضغط لتفعيل الاتصال';
+                document.getElementById('mobile-warning').style.cursor = 'pointer';
+                document.getElementById('mobile-warning').onclick = activateMobileAccess;
+            };
+            document.body.appendChild(script);
         }
         
-        // عرض الصفوف الدراسية مع الشعب
+        // 🔴 فتح نافذة جديدة لتفعيل الوصول على الهاتف 🔴
+        function activateMobileAccess() {
+            if (!isMobile) return;
+            
+            // افتح رابط السكريبت في نافذة جديدة لتفعيل الوصول
+            const authUrl = `${SCRIPT_URL}?action=test`;
+            window.open(authUrl, '_blank');
+            
+            // بعد 3 ثواني، حاول الاتصال مجدداً
+            setTimeout(() => {
+                document.getElementById('mobile-status').textContent = 'جاري المحاولة مرة أخرى...';
+                initializeForMobile();
+            }, 3000);
+        }
+        
+        // دالة الاتصال المحسنة للهواتف
+        function loadHomework(grade, section, gradeName) {
+            console.log(`📱 تحميل واجبات ${gradeName} على ${isMobile ? 'هاتف' : 'حاسوب'}`);
+            
+            document.getElementById('grades-container').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            
+            // 🔴 مفتاح الحل: إضافة معلمات خاصة للهاتف 🔴
+            const callbackName = 'hw_' + Date.now();
+            const timestamp = Date.now();
+            const deviceType = isMobile ? 'mobile' : 'desktop';
+            
+            window[callbackName] = function(data) {
+                delete window[callbackName];
+                document.getElementById('loading').style.display = 'none';
+                
+                if (data && data.success) {
+                    showHomeworkTable(grade, section, gradeName, data);
+                    showMessage(`✅ تم تحميل واجبات ${gradeName}`, 'success');
+                } else {
+                    let errorMsg = data?.error || 'فشل الاتصال';
+                    
+                    if (isMobile) {
+                        errorMsg += '<br><small>حاول: 1. إعادة تحميل الصفحة 2. فتح الرابط في نافذة جديدة</small>';
+                    }
+                    
+                    showMessage(errorMsg, 'error');
+                    showGradesList();
+                }
+            };
+            
+            // 🔴 URL محسن للهواتف 🔴
+            const url = `${SCRIPT_URL}?action=getHomework&grade=${encodeURIComponent(grade)}&section=${encodeURIComponent(section)}&callback=${callbackName}&device=${deviceType}&_t=${timestamp}&mode=simple`;
+            
+            const script = document.createElement('script');
+            script.src = url;
+            
+            script.onerror = function() {
+                delete window[callbackName];
+                document.getElementById('loading').style.display = 'none';
+                
+                if (isMobile) {
+                    showMessage(`
+                        📱 <strong>مشكلة في الاتصال على الهاتف</strong><br>
+                        <button onclick="window.open('${SCRIPT_URL}?action=test', '_blank')" style="background:#28a745;color:white;border:none;padding:8px 15px;border-radius:5px;margin-top:10px;">
+                            اضغط هنا لتفعيل الوصول
+                        </button>
+                    `, 'error');
+                } else {
+                    showMessage('فشل الاتصال', 'error');
+                }
+                showGradesList();
+            };
+            
+            // Timeout أقل للهواتف
+            setTimeout(() => {
+                if (window[callbackName]) {
+                    delete window[callbackName];
+                    document.getElementById('loading').style.display = 'none';
+                    
+                    if (isMobile) {
+                        showMessage('⏱️ الوقت طويل، جرب Wi-Fi', 'info');
+                    }
+                    showGradesList();
+                }
+            }, isMobile ? 10000 : 15000);
+            
+            document.body.appendChild(script);
+        }
+        
+        // اختبار الاتصال المحسن
+        function testConnection() {
+            const callbackName = 'test_' + Date.now();
+            
+            window[callbackName] = function(data) {
+                delete window[callbackName];
+                
+                if (data && data.success) {
+                    const msg = isMobile ? 
+                        `📱 <strong>الهاتف متصل!</strong><br>جرب تحميل واجبات` : 
+                        `💻 <strong>الحاسوب متصل!</strong>`;
+                    showMessage(msg, 'success');
+                } else {
+                    showMessage(`❌ فشل الاتصال: ${data?.error || ''}`, 'error');
+                }
+            };
+            
+            const url = `${SCRIPT_URL}?action=test&callback=${callbackName}&_=${Date.now()}`;
+            const script = document.createElement('script');
+            script.src = url;
+            document.body.appendChild(script);
+        }
+        
+        // بقية الدوال
+        function showMessage(text, type) {
+            const el = document.getElementById('message');
+            el.innerHTML = text;
+            el.className = `message ${type}`;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 4000);
+        }
+        
         function renderGrades() {
             const container = document.getElementById('grades-container');
             container.innerHTML = '';
             
-            // عرض كل قسم من أقسام الصفوف
             schoolGrades.forEach(section => {
-                const sectionDiv = createGradeSection(section);
-                container.appendChild(sectionDiv);
-            });
-        }
-        
-        // إنشاء قسم للصفوف
-        function createGradeSection(sectionData) {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'grade-section';
-            
-            let sectionHTML = `
-                <div class="section-title">
-                    <i class="${sectionData.icon}"></i>
-                    ${sectionData.title}
-                </div>
-            `;
-            
-            // إضافة الوصف إن وجد
-            if (sectionData.grades[0]?.description) {
-                sectionHTML += `
-                    <div class="section-subtitle">
-                        ${sectionData.grades[0].description}
-                    </div>
-                `;
-            }
-            
-            sectionHTML += `<div class="grades-grid">`;
-            
-            sectionData.grades.forEach(grade => {
-                grade.sections.forEach(section => {
-                    const displayName = `${grade.name}`;
-                    const sectionLabel = section === "أ" ? "الشعبة أ" : `الشعبة ${section}`;
-                    
-                    sectionHTML += `
-                        <div class="grade-card" data-grade="${grade.id}" data-section="${section}">
-                            <i class="${grade.icon || sectionData.icon}"></i>
-                            <h3>${grade.name}</h3>
-                            <div class="section">${sectionLabel}</div>
-                        </div>
-                    `;
-                });
-            });
-            
-            sectionHTML += `</div>`;
-            sectionDiv.innerHTML = sectionHTML;
-            
-            // إضافة مستمعي الأحداث
-            const gradeCards = sectionDiv.querySelectorAll('.grade-card');
-            gradeCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const grade = this.getAttribute('data-grade');
-                    const section = this.getAttribute('data-section');
-                    const gradeName = `${getGradeFullName(grade)} - الشعبة ${section}`;
-                    loadHomework(grade, section, gradeName);
-                });
-            });
-            
-            return sectionDiv;
-        }
-        
-        // دالة للحصول على الاسم الكامل للصف
-        function getGradeFullName(gradeId) {
-            const gradeNames = {
-                "الأول": "الصف الأول الابتدائي",
-                "الثاني": "الصف الثاني الابتدائي",
-                "الثالث": "الصف الثالث الابتدائي",
-                "الرابع": "الصف الرابع الأساسي",
-                "الخامس": "الصف الخامس الأساسي",
-                "السادس": "الصف السادس الأساسي",
-                "السابع": "الصف السابع الأساسي",
-                "الثامن": "الصف الثامن الأساسي",
-                "التاسع": "الصف التاسع الأساسي"
-            };
-            
-            return gradeNames[gradeId] || `الصف ${gradeId}`;
-        }
-        
-        // دالة لجلب البيانات من Google Sheets - نسخة مصححة
-        function loadHomework(grade, section, gradeName) {
-            document.getElementById('grades-container').style.display = 'none';
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('message').style.display = 'none';
-            document.getElementById('homework-container').style.display = 'none';
-            
-            console.log(`جاري تحميل واجبات ${gradeName}`);
-            
-            // استخدام JSONP
-            const callbackName = 'callback_' + Date.now();
-            
-            window[callbackName] = function(data) {
-                delete window[callbackName];
-                document.getElementById('loading').style.display = 'none';
-                
-                console.log('الرد من السيرفر:', data);
-                
-                // التصحيح: التحقق من البيانات بشكل صحيح
-                if (data && data.error) {
-                    showMessage(`خطأ: ${data.error}`, 'error');
-                    showGradesList();
-                } else if (data && data.success === false) {
-                    showMessage(`لم يتم العثور على واجبات: ${data.error || 'لا توجد بيانات'}`, 'error');
-                    showGradesList();
-                } else if (data && data.success === true) {
-                    showHomeworkTable(grade, section, gradeName, data);
-                    showMessage(`تم تحميل واجبات ${gradeName} بنجاح`, 'success');
-                } else {
-                    // إذا لم يكن هناك success ولا error، ربما البيانات تأتي بصيغة مختلفة
-                    showMessage(`تنسيق البيانات غير متوقع. جاري المحاولة...`, 'info');
-                    
-                    // محاولة عرض البيانات حتى لو لم يكن هناك success
-                    if (data && data.homework) {
-                        showHomeworkTable(grade, section, gradeName, data);
-                        showMessage(`تم تحميل واجبات ${gradeName}`, 'success');
-                    } else {
-                        showMessage(`لا توجد بيانات للعرض`, 'error');
-                        showGradesList();
-                    }
-                }
-            };
-            
-            // إنشاء عنصر script لطلب JSONP
-            const script = document.createElement('script');
-            const url = `${SCRIPT_URL}?action=getHomework&grade=${encodeURIComponent(grade)}&section=${encodeURIComponent(section)}&callback=${callbackName}&t=${Date.now()}`;
-            script.src = url;
-            
-            script.onerror = function(error) {
-                console.error('خطأ في تحميل السكريبت:', error);
-                delete window[callbackName];
-                document.getElementById('loading').style.display = 'none';
-                showMessage('فشل في الاتصال بالسيرفر. تأكد من نشر السكريبت بشكل صحيح.', 'error');
-                showGradesList();
-            };
-            
-            document.body.appendChild(script);
-        }
-        
-        // دالة لعرض جدول الواجبات - نسخة محسنة
-        function showHomeworkTable(grade, section, gradeName, data) {
-            const container = document.getElementById('homework-container');
-            const homeworkData = data.homework || {};
-            const stats = data.stats || {};
-            
-            // إنشاء رأس الجدول
-            let tableHTML = `
-                <div class="homework-header">
-                    <h2 class="homework-title">
-                        <i class="fas fa-tasks"></i>
-                        واجبات ${gradeName}
-                    </h2>
-                    <button class="back-btn" onclick="showGradesList()">
-                        <i class="fas fa-arrow-right"></i> العودة لقائمة الصفوف
-                    </button>
-                </div>
-            `;
-            
-            // إضافة معلومات حول البيانات
-            if (stats.filteredRows > 0) {
-                tableHTML += `
-                    <div class="data-info">
-                        <i class="fas fa-info-circle"></i>
-                        تم تحميل ${stats.filteredRows} واجباً لهذا الصف
-                    </div>
-                `;
-            }
-            
-            // التحقق من وجود بيانات
-            let hasData = false;
-            let totalHomework = 0;
-            
-            days.forEach(day => {
-                if (homeworkData[day] && homeworkData[day].length > 0) {
-                    hasData = true;
-                    totalHomework += homeworkData[day].length;
-                }
-            });
-            
-            if (!hasData) {
-                tableHTML += `
-                    <div class="no-homework">
-                        <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 20px; color: #ccc;"></i>
-                        <h3>لا توجد واجبات لهذا الصف والشعبة</h3>
-                        <p>تحقق من أن جدول البيانات يحتوي على بيانات للصف ${grade} والشعبة ${section}</p>
-                        <p style="margin-top: 10px; font-size: 0.9rem;">
-                            <strong>نصيحة:</strong> افتح Console (F12) وانظر إلى "الرد من السيرفر" لترى البيانات الخام
-                        </p>
+                const div = document.createElement('div');
+                div.className = 'grade-section';
+                div.innerHTML = `
+                    <div class="section-title"><i class="${section.icon}"></i> ${section.title}</div>
+                    <div class="grades-grid">
+                        ${section.grades.map(grade => 
+                            grade.sections.map(s => `
+                                <div class="grade-card" data-grade="${grade.id}" data-section="${s}">
+                                    <i class="${section.icon}"></i>
+                                    <h3>${grade.name}</h3>
+                                    <div class="section">${s}</div>
+                                </div>
+                            `).join('')
+                        ).join('')}
                     </div>
                 `;
                 
-                container.innerHTML = tableHTML;
-                container.style.display = 'block';
-                return;
-            }
-            
-            // إضافة معلومات حول العدد الإجمالي
-            tableHTML += `
-                <div class="data-info">
-                    <i class="fas fa-info-circle"></i>
-                    إجمالي الواجبات: ${totalHomework} واجباً موزعة على ${days.filter(day => homeworkData[day] && homeworkData[day].length > 0).length} يوم
-                </div>
-            `;
-            
-            // إنشاء جدول الواجبات
-            tableHTML += `
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 15%;">اليوم</th>
-                            <th style="width: 85%;">الواجبات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-            
-            days.forEach(day => {
-                const dayHomework = homeworkData[day] || [];
-                
-                tableHTML += `
-                    <tr>
-                        <td class="day-header">${day}</td>
-                        <td>
-                `;
-                
-                if (dayHomework.length > 0) {
-                    dayHomework.forEach(item => {
-                        tableHTML += `
-                            <div class="subject-item">
-                                <div class="subject-name">${item.subject || 'مادة'}</div>
-                                <div class="homework-text">${item.homework || 'لا يوجد واجب'}</div>
-                            </div>
-                        `;
+                div.querySelectorAll('.grade-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const grade = this.getAttribute('data-grade');
+                        const section = this.getAttribute('data-section');
+                        loadHomework(grade, section, `الصف ${grade} - ${section}`);
                     });
-                } else {
-                    tableHTML += `<div class="no-homework" style="text-align: center; padding: 10px;">لا يوجد واجبات لهذا اليوم</div>`;
-                }
+                });
                 
-                tableHTML += `
-                        </td>
-                    </tr>
-                `;
+                container.appendChild(div);
             });
-            
-            tableHTML += `
-                    </tbody>
-                </table>
-            `;
-            
-            container.innerHTML = tableHTML;
-            container.style.display = 'block';
         }
         
-        // العودة لقائمة الصفوف
         function showGradesList() {
             document.getElementById('homework-container').style.display = 'none';
             document.getElementById('grades-container').style.display = 'block';
-            document.getElementById('message').style.display = 'none';
-            document.getElementById('loading').style.display = 'none';
         }
         
-        // اختبار الاتصال بالسكريبت - نسخة مصححة
-        function testConnection() {
-            const callbackName = 'test_callback_' + Date.now();
-            
-            window[callbackName] = function(data) {
-                delete window[callbackName];
-                
-                console.log('نتيجة اختبار الاتصال:', data);
-                
-                if (data && data.success) {
-                    let message = `✓ الاتصال بنجاح<br>`;
-                    message += `اسم الجدول: <strong>${data.sheetInfo?.name || 'غير معروف'}</strong><br>`;
-                    message += `عدد الأوراق: ${data.sheetInfo?.sheetsCount || 0}<br>`;
-                    
-                    if (data.homeworkSheet) {
-                        message += `✓ ورقة الواجبات موجودة<br>`;
-                        message += `الصفوف: ${data.homeworkSheet.rows || 0}<br>`;
-                        message += `الأعمدة: ${data.homeworkSheet.columns || 0}<br>`;
-                        message += `تحتوي بيانات: ${data.homeworkSheet.hasData ? 'نعم' : 'لا'}<br>`;
-                    } else {
-                        message += `⚠️ ورقة الواجبات غير موجودة<br>`;
-                    }
-                    
-                    showMessage(message, 'success');
-                } else {
-                    showMessage(`✗ مشكلة في الاتصال: ${data?.error || 'غير معروف'}`, 'error');
-                }
-            };
-            
-            const script = document.createElement('script');
-            script.src = `${SCRIPT_URL}?action=test&callback=${callbackName}&t=${Date.now()}`;
-            script.onerror = function() {
-                showMessage('✗ فشل الاتصال بالسكريبت. تأكد من نشر السكريبت وإعدادات الوصول.', 'error');
-                delete window[callbackName];
-            };
-            document.body.appendChild(script);
-        }
-        
-        // اختبار مباشر لجلب البيانات
-        function testDirectData() {
-            console.log('اختبار جلب البيانات مباشرة...');
-            
-            const testUrl = `${SCRIPT_URL}?action=getHomework&grade=الرابع&section=أ&callback=testDirect`;
-            
-            window.testDirect = function(data) {
-                console.log('البيانات الخام:', data);
-                delete window.testDirect;
-                
-                if (data && data.homework) {
-                    console.log('هيكل البيانات:', Object.keys(data.homework));
-                    console.log('البيانات المفصلة:', data);
-                }
-            };
-            
-            const script = document.createElement('script');
-            script.src = testUrl;
-            document.body.appendChild(script);
-        }
-        
-        // تهيئة الصفحة عند التحميل
+        // التهيئة
         document.addEventListener('DOMContentLoaded', function() {
-            // عرض قائمة الفصول
             renderGrades();
             
-            // اختبار الاتصال بعد تحميل الصفحة
-            setTimeout(() => {
-                testConnection();
-                
-                // اختبار جلب البيانات مباشرة بعد 2 ثانية
-                setTimeout(() => {
-                    testDirectData();
-                }, 2000);
-            }, 1000);
+            if (isMobile) {
+                // على الهاتف: بدء تفعيل الاتصال أولاً
+                initializeForMobile();
+            } else {
+                // على الحاسوب: اختبار مباشر
+                setTimeout(() => testConnection(), 1000);
+            }
         });
     </script>
 </body>
