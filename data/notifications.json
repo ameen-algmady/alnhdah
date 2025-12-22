@@ -1,3 +1,10 @@
-المسار: https://github.com/ameen-algmady/alnhdah/new/main
-الاسم: data/notifications.json
-المحتوى: {"notifications":[],"lastUpdated":"2024-01-01T00:00:00.000Z"}
+{
+  "notifications": [],
+  "stats": {
+    "totalViews": 0,
+    "activeUsers": 50,
+    "avgTime": 2.5,
+    "totalNotifications": 0
+  },
+  "lastUpdated": "2024-01-01T00:00:00.000Z"
+}
