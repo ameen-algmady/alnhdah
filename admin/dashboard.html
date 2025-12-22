@@ -374,7 +374,6 @@
         const ADMIN_PASSWORD = "jeel@2024";
 
         function checkAdminAccess() {
-            // التحقق من كلمة المرور في URL أولاً
             const urlParams = new URLSearchParams(window.location.search);
             const urlPassword = urlParams.get('password');
             
@@ -383,7 +382,6 @@
                 return true;
             }
             
-            // إذا لم تكن في URL، اطلب كلمة المرور
             const password = prompt("🔐 لوحة تحكم مدارس جيل النهضة\n\nأدخل كلمة مرور الإدارة:");
             
             if (password === ADMIN_PASSWORD) {
@@ -396,9 +394,8 @@
             }
         }
 
-        // ========== تحقق من الوصول أولاً ==========
+        // ========== تحقق من الوصول ==========
         if (!checkAdminAccess()) {
-            // إذا فشل التحقق، لا تعرض المحتوى
             document.body.innerHTML = `
                 <div style="
                     text-align: center; 
@@ -437,20 +434,16 @@
                 </div>
             `;
             
-            // توقف عن تنفيذ باقي الكود
             throw new Error('Access denied');
         }
 
-        // ========== كود لوحة التحكم (يتم تنفيذه فقط إذا تم السماح بالوصول) ==========
-        // تخزين البيانات في localStorage
-        let notifications = JSON.parse(localStorage.getItem('jeel_notifications')) || [];
-        let stats = JSON.parse(localStorage.getItem('jeel_stats')) || {
-            totalViews: 0,
-            activeUsers: 0,
-            avgTime: 2.5
-        };
+        // ========== نظام تخزين مشترك عبر GitHub ==========
+        const DATA_URL = 'https://raw.githubusercontent.com/ameen-algmady/alnhdah/main/data/notifications.json';
+        
+        let notifications = [];
+        let stats = { totalViews: 0, activeUsers: 50, avgTime: 2.5, totalNotifications: 0 };
 
-        // ========== إصلاح التنقل بين التبويبات ==========
+        // ========== نظام التنقل ==========
         function setupNavigation() {
             const navLinks = document.querySelectorAll('.nav-link');
             
@@ -458,48 +451,33 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    // إزالة النشط من جميع الروابط
                     navLinks.forEach(l => l.classList.remove('active'));
-                    
-                    // إضافة النشط للرابط الحالي
                     this.classList.add('active');
                     
-                    // الحصول على ID القسم المستهدف
                     const targetId = this.getAttribute('href').substring(1);
-                    
-                    // إظهار القسم المطلوب
                     showSection(targetId);
                 });
             });
             
-            // إظهار قسم "إضافة إعلان جديد" افتراضياً
             showSection('add');
         }
 
-        // إظهار قسم معين وإخفاء الآخرين
         function showSection(sectionId) {
-            // جميع الأقسام
             const sections = ['add', 'manage', 'stats'];
             
-            // إخفاء جميع الأقسام
             sections.forEach(id => {
                 const section = document.getElementById(id);
-                if (section) {
-                    section.style.display = 'none';
-                }
+                if (section) section.style.display = 'none';
             });
             
-            // إظهار القسم المطلوب
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.style.display = 'block';
                 
-                // إذا كان قسم الإعلانات الحالية، قم بتحميلها
                 if (sectionId === 'manage') {
                     loadNotifications();
                 }
                 
-                // إذا كان قسم الإحصائيات، قم بتحديثها
                 if (sectionId === 'stats') {
                     updateStats();
                 }
@@ -507,8 +485,67 @@
         }
 
         // ========== الوظائف الأساسية ==========
-        
-        // تحديث الإحصائيات
+        async function loadDataFromGitHub() {
+            try {
+                console.log('🔍 تحميل البيانات من GitHub...');
+                const response = await fetch(DATA_URL + '?t=' + Date.now());
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    notifications = data.notifications || [];
+                    stats = data.stats || { totalViews: 0, activeUsers: 50, avgTime: 2.5, totalNotifications: 0 };
+                    console.log('✅ تم تحميل', notifications.length, 'إعلان');
+                    return true;
+                } else {
+                    console.log('⚠️ استخدام البيانات المحلية');
+                    loadLocalData();
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ خطأ في التحميل:', error);
+                loadLocalData();
+                return false;
+            }
+        }
+
+        function loadLocalData() {
+            const savedNotifications = localStorage.getItem('jeel_notifications');
+            const savedStats = localStorage.getItem('jeel_stats');
+            
+            notifications = savedNotifications ? JSON.parse(savedNotifications) : [];
+            stats = savedStats ? JSON.parse(savedStats) : { totalViews: 0, activeUsers: 50, avgTime: 2.5, totalNotifications: 0 };
+        }
+
+        async function saveData() {
+            const data = {
+                notifications: notifications,
+                stats: stats,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            // حفظ محلياً أولاً
+            localStorage.setItem('jeel_notifications', JSON.stringify(notifications));
+            localStorage.setItem('jeel_stats', JSON.stringify(stats));
+            
+            // محاولة التحديث على الصفحة الرئيسية
+            broadcastUpdate();
+            
+            return true;
+        }
+
+        function broadcastUpdate() {
+            // تخزين علامة تحديث
+            localStorage.setItem('jeel_last_update', Date.now());
+            
+            // إرسال رسالة إذا كانت الصفحة الرئيسية مفتوحة
+            if (window.opener) {
+                window.opener.postMessage({ 
+                    type: 'JEEL_UPDATE',
+                    timestamp: Date.now() 
+                }, '*');
+            }
+        }
+
         function updateStats() {
             const totalEl = document.getElementById('totalNotifications');
             const viewsEl = document.getElementById('totalViews');
@@ -516,12 +553,11 @@
             const timeEl = document.getElementById('avgTime');
             
             if (totalEl) totalEl.textContent = notifications.filter(n => n.status === 'active').length;
-            if (viewsEl) viewsEl.textContent = stats.totalViews;
-            if (usersEl) usersEl.textContent = stats.activeUsers;
-            if (timeEl) timeEl.textContent = stats.avgTime;
+            if (viewsEl) viewsEl.textContent = stats.totalViews || 0;
+            if (usersEl) usersEl.textContent = stats.activeUsers || 50;
+            if (timeEl) timeEl.textContent = stats.avgTime || 2.5;
         }
 
-        // تحديث معاينة الإعلان
         function updatePreview() {
             const title = document.getElementById('title')?.value || 'عنوان الإعلان';
             const message = document.getElementById('message')?.value || 'نص الإعلان سيظهر هنا...';
@@ -557,9 +593,11 @@
             }
         }
 
-        // إضافة إعلان جديد
-        document.getElementById('notificationForm').addEventListener('submit', function(e) {
+        // ========== حفظ إعلان جديد ==========
+        document.getElementById('notificationForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            console.log('💾 بدء حفظ إعلان جديد...');
             
             const newNotification = {
                 id: Date.now(),
@@ -574,18 +612,34 @@
                 views: 0
             };
             
-            notifications.unshift(newNotification);
-            localStorage.setItem('jeel_notifications', JSON.stringify(notifications));
+            console.log('📝 الإعلان الجديد:', newNotification);
             
-            alert('✅ تم إضافة الإعلان بنجاح!');
-            this.reset();
-            updatePreview();
-            loadNotifications();
-            updateStats();
+            // تحميل البيانات الحالية
+            await loadDataFromGitHub();
+            
+            // إضافة الإعلان الجديد
+            notifications.unshift(newNotification);
+            stats.totalNotifications = notifications.length;
+            stats.totalViews = (stats.totalViews || 0) + 1;
+            
+            // حفظ البيانات
+            const saved = await saveData();
+            
+            if (saved) {
+                alert('✅ تم إضافة الإعلان بنجاح!\n\nسيظهر في الصفحة الرئيسية خلال 5-10 ثواني.');
+                
+                this.reset();
+                updatePreview();
+                loadNotificationsList();
+                updateStats();
+                
+                console.log('📊 الإعلانات بعد الحفظ:', notifications.length);
+            } else {
+                alert('⚠️ تم حفظ الإعلان محلياً.\nللتحديث على جميع الأجهزة، افتح الصفحة الرئيسية في نفس المتصفح.');
+            }
         });
 
-        // تحميل الإعلانات
-        function loadNotifications() {
+        function loadNotificationsList() {
             const list = document.getElementById('notificationsList');
             if (!list) return;
             
@@ -620,28 +674,26 @@
             });
         }
 
-        // تبديل حالة الإعلان
         function toggleNotification(id) {
             const note = notifications.find(n => n.id === id);
             if (note) {
                 note.status = note.status === 'active' ? 'inactive' : 'active';
-                localStorage.setItem('jeel_notifications', JSON.stringify(notifications));
-                loadNotifications();
+                saveData();
+                loadNotificationsList();
                 updateStats();
             }
         }
 
-        // حذف الإعلان
         function deleteNotification(id) {
             if (confirm('⚠️ هل أنت متأكد من حذف هذا الإعلان؟')) {
                 notifications = notifications.filter(n => n.id !== id);
-                localStorage.setItem('jeel_notifications', JSON.stringify(notifications));
-                loadNotifications();
+                stats.totalNotifications = notifications.length;
+                saveData();
+                loadNotificationsList();
                 updateStats();
             }
         }
 
-        // تعديل الإعلان
         function editNotification(id) {
             const note = notifications.find(n => n.id === id);
             if (note) {
@@ -666,8 +718,8 @@
                 note.type = document.getElementById('editType').value;
                 note.status = document.getElementById('editStatus').value;
                 
-                localStorage.setItem('jeel_notifications', JSON.stringify(notifications));
-                loadNotifications();
+                saveData();
+                loadNotificationsList();
                 updateStats();
                 
                 const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
@@ -681,92 +733,17 @@
         document.getElementById('type').addEventListener('change', updatePreview);
         document.getElementById('target').addEventListener('change', updatePreview);
 
-        // تصدير البيانات
-        function exportData() {
-            const data = {
-                notifications: notifications,
-                stats: stats,
-                exportDate: new Date().toISOString()
-            };
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `jeel-notifications-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-
-        // استيراد البيانات
-        function importData() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = function(e) {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    try {
-                        const data = JSON.parse(event.target.result);
-                        if (data.notifications) {
-                            localStorage.setItem('jeel_notifications', JSON.stringify(data.notifications));
-                            notifications = data.notifications;
-                            loadNotifications();
-                            alert('✅ تم استيراد البيانات بنجاح!');
-                        }
-                    } catch (error) {
-                        alert('❌ فشل استيراد البيانات');
-                    }
-                };
-                reader.readAsText(file);
-            };
-            input.click();
-        }
-
-        // إضافة أزرار الاستيراد والتصدير
-        function addImportExportButtons() {
-            const nav = document.querySelector('.admin-nav .nav');
-            if (nav && !document.querySelector('.import-export-buttons')) {
-                const importExportDiv = document.createElement('div');
-                importExportDiv.className = 'import-export-buttons d-flex gap-2 mt-3 justify-content-center';
-                importExportDiv.innerHTML = `
-                    <button class="btn btn-sm btn-outline-primary" onclick="exportData()">
-                        <i class="fas fa-download me-1"></i>تصدير البيانات
-                    </button>
-                    <button class="btn btn-sm btn-outline-success" onclick="importData()">
-                        <i class="fas fa-upload me-1"></i>استيراد البيانات
-                    </button>
-                `;
-                nav.parentNode.appendChild(importExportDiv);
-            }
-        }
-
         // تهيئة الصفحة
-        document.addEventListener('DOMContentLoaded', function() {
-            // إعداد التنقل
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 تهيئة لوحة التحكم...');
+            
+            await loadDataFromGitHub();
             setupNavigation();
-            
-            // تحميل الإعلانات
-            loadNotifications();
-            
-            // تحديث الإحصائيات
+            loadNotificationsList();
             updateStats();
-            
-            // تحديث المعاينة
             updatePreview();
             
-            // إضافة أزرار الاستيراد والتصدير
-            addImportExportButtons();
-            
-            // زيادة المشاهدات كل دقيقة (محاكاة)
-            setInterval(() => {
-                stats.totalViews += Math.floor(Math.random() * 10);
-                stats.activeUsers = Math.floor(Math.random() * 100) + 50;
-                localStorage.setItem('jeel_stats', JSON.stringify(stats));
-                updateStats();
-            }, 60000);
+            console.log('✅ لوحة التحكم جاهزة');
         });
 
         // جعل الدوال متاحة عالمياً
@@ -774,8 +751,6 @@
         window.updateNotification = updateNotification;
         window.toggleNotification = toggleNotification;
         window.deleteNotification = deleteNotification;
-        window.exportData = exportData;
-        window.importData = importData;
     </script>
 </body>
 </html>
