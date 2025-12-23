@@ -1514,7 +1514,7 @@ console.log('📱 نظام إشعارات مدارس جيل النهضة جاه�
 <body>
 
   <!-- زر تفعيل الإشعارات -->
-  <button id="notifyBtn" title="تفعيل الإشعارات"><i class="fas fa-bell"></i></button>
+
   
   <!-- شريط التثبيت العلوي -->
   <div id="installBanner">
@@ -1900,47 +1900,7 @@ function checkIfAppIsInstalled() {
   return false;
 }
 
-// زر إعادة تعيين يدوي (للتجربة فقط)
-function addResetButton() {
-  const resetBtn = document.createElement('button');
-  resetBtn.innerHTML = '🔄 إعادة تعيين التثبيت';
-  resetBtn.style.position = 'fixed';
-  resetBtn.style.bottom = '20px';
-  resetBtn.style.left = '20px';
-  resetBtn.style.zIndex = '10001';
-  resetBtn.style.background = '#ff6b6b';
-  resetBtn.style.color = 'white';
-  resetBtn.style.border = 'none';
-  resetBtn.style.borderRadius = '25px';
-  resetBtn.style.padding = '12px 20px';
-  resetBtn.style.fontSize = '14px';
-  resetBtn.style.cursor = 'pointer';
-  resetBtn.style.boxShadow = '0 4px 15px rgba(255,107,107,0.4)';
-  resetBtn.style.fontWeight = 'bold';
-  resetBtn.style.display = 'flex';
-  resetBtn.style.alignItems = 'center';
-  resetBtn.style.gap = '8px';
-  
-  resetBtn.addEventListener('click', function() {
-    localStorage.removeItem('appInstalled');
-    localStorage.removeItem('bannerClosed');
-    if (installBtn) installBtn.style.display = 'flex';
-    if (secondaryInstallBtn) secondaryInstallBtn.style.display = 'flex';
-    if (installBanner) installBanner.style.display = 'none';
-    alert('✅ تم إعادة تعيين إعدادات التثبيت. سيظهر زر التثبيت الآن.');
-    console.log('🔄 تم إعادة تعيين إعدادات التثبيت');
-  });
-  
-  document.body.appendChild(resetBtn);
-}
-
-// إظهار زر التثبيت بعد تحميل الصفحة
-window.addEventListener('load', function() {
-  console.log('🚀 تحميل صفحة مدارس جيل النهضة');
-  
-  // إضافة زر إعادة التعيين (للتجربة)
-  addResetButton();
-  
+/
   // التحقق من حالة التثبيت
   const isInstalled = checkIfAppIsInstalled();
   
@@ -2530,51 +2490,6 @@ async function refreshNotifications() {
 }
 
 // إضافة زر التحديث اليدوي
-function addRefreshButton() {
-    const refreshBtn = document.createElement('button');
-    refreshBtn.innerHTML = '🔄 تحديث الإعلانات';
-    refreshBtn.title = 'تحميل أحدث الإعلانات من الخادم';
-    refreshBtn.style.position = 'fixed';
-    refreshBtn.style.bottom = '180px';
-    refreshBtn.style.right = '25px';
-    refreshBtn.style.zIndex = '9995';
-    refreshBtn.style.background = 'var(--accent-gradient)';
-    refreshBtn.style.color = 'white';
-    refreshBtn.style.border = 'none';
-    refreshBtn.style.borderRadius = '25px';
-    refreshBtn.style.padding = '10px 20px';
-    refreshBtn.style.fontSize = '14px';
-    refreshBtn.style.cursor = 'pointer';
-    refreshBtn.style.boxShadow = '0 4px 15px rgba(33, 150, 243, 0.4)';
-    refreshBtn.style.fontWeight = 'bold';
-    refreshBtn.style.display = 'flex';
-    refreshBtn.style.alignItems = 'center';
-    refreshBtn.style.gap = '8px';
-    refreshBtn.style.transition = 'all 0.3s';
-    
-    refreshBtn.addEventListener('click', async function() {
-        refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحديث...';
-        refreshBtn.disabled = true;
-        
-        await refreshNotifications();
-        
-        refreshBtn.innerHTML = '🔄 تحديث الإعلانات';
-        refreshBtn.disabled = false;
-    });
-    
-    refreshBtn.addEventListener('mouseenter', () => {
-        refreshBtn.style.transform = 'translateY(-3px)';
-        refreshBtn.style.boxShadow = '0 8px 25px rgba(33, 150, 243, 0.6)';
-    });
-    
-    refreshBtn.addEventListener('mouseleave', () => {
-        refreshBtn.style.transform = 'translateY(0)';
-        refreshBtn.style.boxShadow = '0 4px 15px rgba(33, 150, 243, 0.4)';
-    });
-    
-    document.body.appendChild(refreshBtn);
-    console.log('✅ تم إضافة زر تحديث الإعلانات');
-}
 
 // رابط سري للوحة التحكم (للإدارة فقط)
 function setupSecretAdminLink() {
