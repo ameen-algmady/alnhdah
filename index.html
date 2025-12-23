@@ -1349,6 +1349,168 @@
     
   </style>
 </head>
+<!-- Pushpad Notifications System -->
+<script>
+// ========== نظام إشعارات Pushpad ==========
+const PUSHPAD_PROJECT_ID = 9091; // رقم مشروعك
+
+// تهيئة Pushpad تلقائياً
+(function() {
+    console.log('🚀 تهيئة نظام إشعارات مدارس جيل النهضة...');
+    
+    // تحميل Pushpad
+    (function(p,u,s,h,x){
+        p.pushpad = p.pushpad || function(){(p.pushpad.q = p.pushpad.q||[]).push(arguments)};
+        h = u.getElementsByTagName('head')[0];
+        x = u.createElement('script'); x.async = 1; x.src = s;
+        h.appendChild(x);
+    })(window, document, 'https://pushpad.xyz/pushpad.js');
+    
+    // تهيئة بعد تحميل المكتبة
+    setTimeout(function() {
+        if (typeof pushpad !== 'undefined') {
+            pushpad('init', PUSHPAD_PROJECT_ID);
+            console.log('✅ Pushpad مهيأ للمشروع:', PUSHPAD_PROJECT_ID);
+        }
+    }, 1000);
+})();
+
+// زر تفعيل الإشعارات
+document.addEventListener('DOMContentLoaded', function() {
+    // إنشاء زر الإشعارات إذا لم يكن موجوداً
+    if (!document.getElementById('pushpadNotifyBtn')) {
+        const notifyBtn = document.createElement('button');
+        notifyBtn.id = 'pushpadNotifyBtn';
+        notifyBtn.title = 'تفعيل الإشعارات خارج التطبيق';
+        notifyBtn.innerHTML = '<i class="fas fa-bell"></i>';
+        notifyBtn.style.cssText = `
+            position: fixed;
+            bottom: 190px;
+            right: 35px;
+            z-index: 9998;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            animation: bellPulse 2s infinite;
+        `;
+        
+        // إضافة أنيميشن
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes bellPulse {
+                0% { transform: scale(1); box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4); }
+                50% { transform: scale(1.1); box-shadow: 0 8px 30px rgba(33, 150, 243, 0.6); }
+                100% { transform: scale(1); box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4); }
+            }
+            @keyframes slideIn {
+                from { transform: translateY(100px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // حدث النقر
+        notifyBtn.addEventListener('click', function() {
+            if (typeof pushpad !== 'undefined') {
+                pushpad('subscribe', function(subscribed) {
+                    if (subscribed) {
+                        // نجاح
+                        notifyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                        notifyBtn.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+                        notifyBtn.style.animation = 'none';
+                        
+                        // رسالة نجاح
+                        showNotificationMessage('تم تفعيل الإشعارات!', 
+                            'ستصلك إشعارات المدارس حتى عندما يكون التطبيق مغلقاً.');
+                        
+                        // حفظ الحالة
+                        localStorage.setItem('jeel_push_enabled', 'true');
+                    } else {
+                        // فشل
+                        showNotificationMessage('لم يتم التفعل', 
+                            'يجب الموافقة على الإشعارات عند ظهور طلب الإذن.', 'warning');
+                    }
+                });
+            }
+        });
+        
+        document.body.appendChild(notifyBtn);
+        console.log('✅ زر الإشعارات مضاف');
+    }
+    
+    // التحقق من حالة الإشعارات
+    if (localStorage.getItem('jeel_push_enabled') === 'true') {
+        const btn = document.getElementById('pushpadNotifyBtn');
+        if (btn) {
+            btn.innerHTML = '<i class="fas fa-bell"></i>';
+            btn.title = 'الإشعارات مفعلة';
+            btn.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+            btn.style.animation = 'none';
+        }
+    }
+});
+
+// عرض رسالة للمستخدم
+function showNotificationMessage(title, message, type = 'success') {
+    const msgDiv = document.createElement('div');
+    msgDiv.style.cssText = `
+        position: fixed;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: ${type === 'success' ? 'linear-gradient(135deg, #4CAF50, #2E7D32)' : 'linear-gradient(135deg, #FF9800, #F57C00)'};
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        z-index: 10002;
+        text-align: center;
+        max-width: 90%;
+        animation: slideIn 0.5s ease-out;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255,255,255,0.3);
+    `;
+    msgDiv.innerHTML = `
+        <h5 style="margin: 0 0 8px 0; font-weight: bold; font-size: 16px;">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+            ${title}
+        </h5>
+        <p style="margin: 0; font-size: 14px; opacity: 0.95;">${message}</p>
+    `;
+    document.body.appendChild(msgDiv);
+    
+    setTimeout(() => {
+        msgDiv.style.opacity = '0';
+        msgDiv.style.transform = 'translateX(-50%) translateY(-20px)';
+        setTimeout(() => msgDiv.remove(), 500);
+    }, 4000);
+}
+
+// تسجيل Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/alnhdah/sw.js')
+            .then(function(registration) {
+                console.log('✅ Service Worker مسجل:', registration.scope);
+            })
+            .catch(function(error) {
+                console.log('❌ فشل تسجيل Service Worker:', error);
+            });
+    });
+}
+
+console.log('📱 نظام إشعارات مدارس جيل النهضة جاهز!');
+</script>
 <body>
 
   <!-- زر تفعيل الإشعارات -->
@@ -2475,5 +2637,194 @@ window.checkNotificationsStatus = function() {
     });
 };
   </script>
+  <!-- كود فحص وتسجيل Service Worker -->
+<script>
+// ========== نظام فحص وتسجيل Service Worker ==========
+console.log('🔍 بدء فحص Service Worker...');
+
+function checkServiceWorkerStatus() {
+    if ('serviceWorker' in navigator) {
+        console.log('✅ المتصفح يدعم Service Worker');
+        
+        // تسجيل Service Worker
+        navigator.serviceWorker.register('/alnhdah/sw.js')
+            .then(function(registration) {
+                console.log('✅ Service Worker مسجل بنجاح:', registration.scope);
+                
+                // فحص حالة التثبيت
+                if (registration.installing) {
+                    console.log('📦 Service Worker جاري التثبيت...');
+                } else if (registration.waiting) {
+                    console.log('⏳ Service Worker في انتظار التنشيط');
+                } else if (registration.active) {
+                    console.log('🚀 Service Worker نشط وجاهز');
+                    
+                    // إرسال رسالة للتحقق من الاتصال
+                    registration.active.postMessage({
+                        action: 'checkConnection',
+                        timestamp: Date.now()
+                    });
+                }
+                
+                // تحديث عند وجود إصدار جديد
+                registration.addEventListener('updatefound', function() {
+                    const newWorker = registration.installing;
+                    console.log('🔄 تم العثور على تحديث جديد:', newWorker.state);
+                    
+                    newWorker.addEventListener('statechange', function() {
+                        console.log('📊 حالة Service Worker الجديدة:', this.state);
+                        
+                        if (this.state === 'installed') {
+                            console.log('🎉 Service Worker الجديد مثبت!');
+                            
+                            // إعادة تحميل الصفحة لتفعيل الإصدار الجديد
+                            if (confirm('تم العثور على تحديث جديد. هل تريد تحديث الصفحة؟')) {
+                                window.location.reload();
+                            }
+                        }
+                    });
+                });
+                
+                // تحديث دوري للـ Service Worker
+                setInterval(function() {
+                    registration.update();
+                    console.log('🔄 جاري التحقق من تحديثات Service Worker...');
+                }, 3600000); // كل ساعة
+                
+            })
+            .catch(function(error) {
+                console.error('❌ فشل تسجيل Service Worker:', error);
+                
+                // إظهار رسالة خطأ للمستخدم
+                showErrorMessage(
+                    'Service Worker فشل التحميل',
+                    'قد لا تعمل بعض الميزات. حاول تحديث الصفحة أو اتصالك بالإنترنت.'
+                );
+            });
+        
+        // الاستماع للرسائل من Service Worker
+        navigator.serviceWorker.addEventListener('message', function(event) {
+            console.log('📨 رسالة من Service Worker:', event.data);
+            
+            if (event.data.type === 'JEEL_NOTIFICATIONS_UPDATED') {
+                console.log('📢 Service Worker: تم تحديث الإعلانات');
+            }
+        });
+        
+        // فحص حالة Service Worker الحالية
+        navigator.serviceWorker.getRegistration()
+            .then(function(registration) {
+                if (registration) {
+                    console.log('📍 Service Worker مسجل بالفعل:', registration.scope);
+                    console.log('👤 عدد العملاء النشطين:', registration.active ? 'نعم' : 'لا');
+                } else {
+                    console.log('⚠️ لا يوجد Service Worker مسجل حالياً');
+                }
+            });
+            
+    } else {
+        console.log('❌ المتصفح لا يدعم Service Worker');
+        showErrorMessage(
+            'المتصفح غير مدعوم',
+            'يرجى استخدام Chrome, Firefox, Edge, أو Safari لإستخدام جميع الميزات.'
+        );
+    }
+}
+
+// عرض رسائل الخطأ
+function showErrorMessage(title, message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.style.cssText = `
+        position: fixed;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #f44336, #d32f2f);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(244, 67, 54, 0.3);
+        z-index: 10003;
+        text-align: center;
+        max-width: 80%;
+        animation: slideDown 0.5s ease-out;
+        border: 2px solid rgba(255,255,255,0.3);
+        backdrop-filter: blur(10px);
+    `;
+    errorDiv.innerHTML = `
+        <h5 style="margin: 0 0 8px 0; font-weight: bold; font-size: 16px;">
+            <i class="fas fa-exclamation-triangle me-2"></i>${title}
+        </h5>
+        <p style="margin: 0; font-size: 14px; opacity: 0.95;">${message}</p>
+        <button onclick="this.parentElement.remove()" 
+                style="margin-top: 10px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 15px; border-radius: 5px; cursor: pointer;">
+            إغلاق
+        </button>
+    `;
+    document.body.appendChild(errorDiv);
+}
+
+// ========== أدوات مساعدة للتطوير ==========
+function checkAllServices() {
+    console.log('🔍 فحص جميع الخدمات:');
+    console.log('======================');
+    
+    // 1. Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistration()
+            .then(reg => {
+                console.log('1. ✅ Service Worker:', reg ? 'مسجل' : 'غير مسجل');
+                if (reg) {
+                    console.log('   📍 Scope:', reg.scope);
+                    console.log('   📊 State:', reg.active ? 'نشط' : 'غير نشط');
+                }
+            });
+    } else {
+        console.log('1. ❌ Service Worker: غير مدعوم');
+    }
+    
+    // 2. Push Notifications
+    console.log('2. 🔔 إشعارات Push:', 
+        'Notification' in window ? 'مدعوم' : 'غير مدعوم');
+    console.log('   📋 الإذن:', Notification.permission);
+    
+    // 3. التخزين المؤقت
+    console.log('3. 💾 Cache API:', 
+        'caches' in window ? 'مدعوم' : 'غير مدعوم');
+    
+    // 4. IndexedDB
+    console.log('4. 🗄️ IndexedDB:', 
+        'indexedDB' in window ? 'مدعوم' : 'غير مدعوم');
+    
+    console.log('======================');
+}
+
+// جعل الأدوات متاحة عالمياً
+window.checkSW = checkServiceWorkerStatus;
+window.checkAll = checkAllServices;
+
+// ========== بدء الفحص عند تحميل الصفحة ==========
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 تحميل صفحة مدارس جيل النهضة');
+    
+    // انتظر 2 ثانية ثم افحص Service Worker
+    setTimeout(checkServiceWorkerStatus, 2000);
+    
+    // فحص كل 30 ثانية للتأكد من استمرارية الاتصال
+    setInterval(function() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistration()
+                .then(reg => {
+                    if (!reg || !reg.active) {
+                        console.log('⚠️ Service Worker غير نشط، جاري إعادة التسجيل...');
+                        checkServiceWorkerStatus();
+                    }
+                });
+        }
+    }, 30000);
+});
+
+console.log('✅ نظام فحص Service Worker جاهز');
+</script>
 </body>
 </html>
