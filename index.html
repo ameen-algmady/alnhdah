@@ -1162,12 +1162,12 @@
       box-shadow: 0 15px 50px rgba(0,0,0,0.2);
     }
     
-    /* زر الإشعارات المتحسن */
-    #pushpadNotifyBtn {
+    /* زر الإشعارات */
+    #notifyBtn {
       position: fixed;
       bottom: 120px;
       right: 35px;
-      z-index: 9998;
+      z-index: 9999;
       background: var(--accent-gradient);
       color: white;
       border: none;
@@ -1181,19 +1181,11 @@
       align-items: center;
       justify-content: center;
       transition: all 0.4s ease;
-      animation: bellPulse 2s infinite;
-      display: none;
     }
     
-    #pushpadNotifyBtn:hover {
+    #notifyBtn:hover {
       transform: scale(1.1);
       box-shadow: 0 12px 35px rgba(33, 150, 243, 0.6);
-    }
-    
-    @keyframes bellPulse {
-      0% { transform: scale(1); box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4); }
-      50% { transform: scale(1.1); box-shadow: 0 8px 30px rgba(33, 150, 243, 0.6); }
-      100% { transform: scale(1); box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4); }
     }
     
     /* ستايلات الرسائل المتحركة */
@@ -1201,202 +1193,167 @@
       from { transform: translateY(-100%); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-    
     /* شريط الإعلانات العائم */
-    .notification-banner {
-      position: fixed;
-      top: 100px;
-      right: 20px;
-      width: 350px;
-      max-width: 90%;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      z-index: 9997;
-      border: 2px solid #4CAF50;
-      animation: slideInRight 0.5s ease-out;
-      display: none;
-    }
+.notification-banner {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  width: 350px;
+  max-width: 90%;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  z-index: 9997;
+  border: 2px solid #4CAF50;
+  animation: slideInRight 0.5s ease-out;
+  display: none;
+}
+
+.notification-content {
+  padding: 20px;
+  position: relative;
+}
+
+.notification-title {
+  font-weight: bold;
+  color: #1a237e;
+  font-size: 18px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notification-title::before {
+  content: '📢';
+  font-size: 20px;
+}
+
+.notification-message {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.notification-meta {
+  font-size: 12px;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.notification-close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.notification-close:hover {
+  background: #d32f2f;
+  transform: scale(1.1);
+}
+
+/* شريط الإعلانات العلوي */
+.top-announcement {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+  padding: 15px;
+  z-index: 9996;
+  display: none;
+  box-shadow: 0 5px 20px rgba(33, 150, 243, 0.3);
+  animation: slideDown 0.5s ease-out;
+}
+
+.announcement-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.announcement-icon {
+  font-size: 20px;
+  animation: bellRing 2s infinite;
+}
+
+@keyframes bellRing {
+  0%, 100% { transform: rotate(0); }
+  10%, 30%, 50%, 70%, 90% { transform: rotate(-10deg); }
+  20%, 40%, 60%, 80% { transform: rotate(10deg); }
+}
+
+#announcementText {
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+.announcement-close {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.announcement-close:hover {
+  background: rgba(255,255,255,0.3);
+  transform: scale(1.1);
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+
+/* أنماط مختلفة للإعلانات */
+.notification-warning {
+  border-color: #FF9800;
+  background: linear-gradient(135deg, #fff8e1, #ffecb3);
+}
+
+.notification-danger {
+  border-color: #f44336;
+  background: linear-gradient(135deg, #ffebee, #ffcdd2);
+}
+
+.notification-success {
+  border-color: #4CAF50;
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+}
     
-    .notification-content {
-      padding: 20px;
-      position: relative;
-    }
-    
-    .notification-title {
-      font-weight: bold;
-      color: #1a237e;
-      font-size: 18px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .notification-title::before {
-      content: '📢';
-      font-size: 20px;
-    }
-    
-    .notification-message {
-      color: #333;
-      line-height: 1.6;
-      margin-bottom: 15px;
-    }
-    
-    .notification-meta {
-      font-size: 12px;
-      color: #666;
-      display: flex;
-      justify-content: space-between;
-      border-top: 1px solid #eee;
-      padding-top: 10px;
-    }
-    
-    .notification-close {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: #f44336;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 25px;
-      height: 25px;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-    }
-    
-    .notification-close:hover {
-      background: #d32f2f;
-      transform: scale(1.1);
-    }
-    
-    /* شريط الإعلانات العلوي */
-    .top-announcement {
-      position: fixed;
-      top: 70px;
-      left: 0;
-      right: 0;
-      background: linear-gradient(135deg, #2196F3, #1976D2);
-      color: white;
-      padding: 15px;
-      z-index: 9996;
-      display: none;
-      box-shadow: 0 5px 20px rgba(33, 150, 243, 0.3);
-      animation: slideDown 0.5s ease-out;
-    }
-    
-    .announcement-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .announcement-icon {
-      font-size: 20px;
-      animation: bellRing 2s infinite;
-    }
-    
-    @keyframes bellRing {
-      0%, 100% { transform: rotate(0); }
-      10%, 30%, 50%, 70%, 90% { transform: rotate(-10deg); }
-      20%, 40%, 60%, 80% { transform: rotate(10deg); }
-    }
-    
-    #announcementText {
-      flex: 1;
-      text-align: center;
-      font-weight: 500;
-    }
-    
-    .announcement-close {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    
-    .announcement-close:hover {
-      background: rgba(255,255,255,0.3);
-      transform: scale(1.1);
-    }
-    
-    @keyframes slideInRight {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    
-    /* أنماط مختلفة للإعلانات */
-    .notification-warning {
-      border-color: #FF9800;
-      background: linear-gradient(135deg, #fff8e1, #ffecb3);
-    }
-    
-    .notification-danger {
-      border-color: #f44336;
-      background: linear-gradient(135deg, #ffebee, #ffcdd2);
-    }
-    
-    .notification-success {
-      border-color: #4CAF50;
-      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-    }
-    
-    /* رسالة تفعيل الإشعارات */
-    .notification-request {
-      position: fixed;
-      bottom: 200px;
-      right: 25px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      z-index: 9997;
-      border: 3px solid #4CAF50;
-      padding: 20px;
-      width: 300px;
-      max-width: 90%;
-      animation: slideInUp 0.5s ease-out;
-      display: none;
-    }
-    
-    @keyframes slideInUp {
-      from { transform: translateY(100px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    
-    .notification-request-content {
-      text-align: center;
-    }
-    
-    .notification-request-icon {
-      font-size: 40px;
-      color: #4CAF50;
-      margin-bottom: 15px;
-    }
-    
-    .notification-request-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 15px;
-    }
   </style>
 </head>
-
 <body>
 
+  <!-- زر تفعيل الإشعارات -->
+  <button id="notifyBtn" title="تفعيل الإشعارات"><i class="fas fa-bell"></i></button>
+  
   <!-- شريط التثبيت العلوي -->
   <div id="installBanner">
     <div id="installBannerContent">
@@ -1414,46 +1371,6 @@
   <button id="secondaryInstallBtn" title="تثبيت التطبيق">
     <i class="fas fa-download"></i>
   </button>
-  
-  <!-- زر تفعيل الإشعارات الجديد -->
-  <button id="pushpadNotifyBtn" title="تفعيل الإشعارات خارج التطبيق">
-    <i class="fas fa-bell"></i>
-  </button>
-  <!-- بعد زر الإشعارات -->
-<button onclick="testNotification()" style="
-    position: fixed;
-    bottom: 200px;
-    right: 20px;
-    z-index: 9998;
-    background: #2196F3;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 10px 20px;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-">
-    <i class="fas fa-bell"></i> اختبار الإشعار
-</button>
-  <!-- رسالة تفعيل الإشعارات -->
-  <div id="notificationRequest" class="notification-request">
-    <div class="notification-request-content">
-      <div class="notification-request-icon">
-        <i class="fas fa-bell"></i>
-      </div>
-      <h5>🔔 تفعيل الإشعارات</h5>
-      <p>هل تريد تلقي إشعارات مهمة من مدارس جيل النهضة حتى عندما يكون التطبيق مغلقاً؟</p>
-      <div class="notification-request-buttons">
-        <button id="enableNotificationsBtn" class="btn btn-success btn-sm">نعم، فعّل</button>
-        <button id="laterNotificationsBtn" class="btn btn-secondary btn-sm">لاحقاً</button>
-        <button id="dismissNotificationsBtn" class="btn btn-outline-secondary btn-sm">لا شكراً</button>
-      </div>
-    </div>
-  </div>
 
   <!-- شريط التنقل -->
   <nav class="navbar navbar-expand-lg navbar-dark">
@@ -1467,10 +1384,11 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="#home"><i class="fas fa-home me-1"></i> الرئيسية</a></li>
+         
           <li class="nav-item"><a class="nav-link" href="#results"><i class="fas fa-chart-line me-1"></i> المحصلات والنتائج</a></li>
-          <li class="nav-item"><a class="nav-link" href="#homework"><i class="fas fa-book me-1"></i> الواجبات المنزلية</a></li>
           <li class="nav-item"><a class="nav-link" href="#absence"><i class="fas fa-user-clock me-1"></i> غياب الطلاب</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about"><i class="fas fa-info-circle me-1"></i> عن المدرسة</a></li>
+           <li class="nav-item"><a class="nav-link" href="#results"><i class="fas fa-chart-line me-1"></i> الواجبات المنزلية</a></li>
+           <li class="nav-item"><a class="nav-link" href="#about"><i class="fas fa-info-circle me-1"></i> عن المدرسة</a></li>
           <li class="nav-item"><a class="nav-link" href="#stats"><i class="fas fa-chart-bar me-1"></i> الإحصائيات</a></li>
           <li class="nav-item"><a class="nav-link" href="#rules"><i class="fas fa-gavel me-1"></i> الأنظمة والقوانين</a></li>
           <li class="nav-item"><a class="nav-link" href="#location"><i class="fas fa-map-marker-alt me-1"></i> موقع المدارس</a></li>
@@ -1478,28 +1396,27 @@
       </div>
     </div>
   </nav>
-  
   <!-- شريط الإعلانات العائم -->
-  <div id="notificationBanner" class="notification-banner">
-    <div class="notification-content">
-      <button class="notification-close" onclick="closeNotification()">×</button>
-      <div id="notificationTitle" class="notification-title"></div>
-      <div id="notificationMessage" class="notification-message"></div>
-      <div class="notification-meta">
-        <span id="notificationTime"></span>
-        <span id="notificationType"></span>
-      </div>
+<div id="notificationBanner" class="notification-banner">
+  <div class="notification-content">
+    <button class="notification-close" onclick="closeNotification()">×</button>
+    <div id="notificationTitle" class="notification-title"></div>
+    <div id="notificationMessage" class="notification-message"></div>
+    <div class="notification-meta">
+      <span id="notificationTime"></span>
+      <span id="notificationType"></span>
     </div>
   </div>
+</div>
 
-  <!-- شريط الإعلانات الثابت في الأعلى -->
-  <div id="topAnnouncement" class="top-announcement">
-    <div class="announcement-content">
-      <i class="fas fa-bullhorn announcement-icon"></i>
-      <span id="announcementText"></span>
-      <button class="announcement-close" onclick="closeAnnouncement()">×</button>
-    </div>
+<!-- شريط الإعلانات الثابت في الأعلى -->
+<div id="topAnnouncement" class="top-announcement">
+  <div class="announcement-content">
+    <i class="fas fa-bullhorn announcement-icon"></i>
+    <span id="announcementText"></span>
+    <button class="announcement-close" onclick="closeAnnouncement()">×</button>
   </div>
+</div>
 
   <!-- رأس الصفحة -->
   <header class="text-center" id="home">
@@ -1517,6 +1434,8 @@
     </div>
   </header>
 
+ 
+
   <!-- المحصلات والنتائج -->
   <section id="results" class="fade-in">
     <div class="container">
@@ -1525,28 +1444,27 @@
       <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
         <div class="col"><a href="results_grade4.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>نتائج ومحصلات جيل النهضة-المركز</a></div>
         <div class="col"><a href="results_grade4.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>نتائج ومحصلات جيل النهضة-الفرع</a></div>
+
       </div>
-    </div>
-  </section>
-  
-  <!-- الواجبات المنزلية -->
-  <section id="homework" class="fade-in">
+       </section>
+       <section id="homwoork" class="fade-in">
     <div class="container">
-      <h2><i class="fas fa-book me-2"></i>الواجبات المنزلية</h2>
+      <h2><i class="fas fa-chart-line me-2"></i>الواجبات المنزلية</h2>
       <p class="text-center mb-5">يمكنك الاطلاع على الواجبات المنزلية يومياً او اسبوعياً من خلال هذا القسم.</p>
       <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
-        <div class="col"><a href="homework1.html" class="btn btn-success w-100"><i class="fas fa-graduation-cap me-2"></i>الواجبات المنزلية جيل النهضة - المركز</a></div>
-        <div class="col"><a href="homework1.html" class="btn btn-success w-100"><i class="fas fa-graduation-cap me-2"></i>الواجبات المنزلية جيل النهضة - الفرع</a></div>
+       
+        <div class="col"><a href="‏‏homework1.html" class="btn btn-success w-100"><i class="fas fa-graduation-cap me-2"></i>الواجبات المنزلية جيل النهضة - المركز</a></div>
+        <div class="col"><a href="‏‏homework1.html" class="btn btn-success w-100"><i class="fas fa-graduation-cap me-2"></i>الواجبات المنزلية جيل النهضة - الفرع</a></div>
       </div>
-    </div>
-  </section>
-  
+       </section>
+      
   <!-- غياب الطلاب -->
   <section id="absence" class="fade-in">
     <div class="container">
       <h2><i class="fas fa-user-clock me-2"></i>غياب الطلاب</h2>
       <p class="text-center mb-5">يمكنك الاطلاع على عدد أيام الغياب وتاريخ الغياب للطالب من خلال هذا القسم.</p>
       <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+        
         <div class="col"><a href="absence_first.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>غياب الفصل الدراسي الأول</a></div>
         <div class="col"><a href="absence_first.html" class="btn btn-primary w-100"><i class="fas fa-book me-2"></i>غياب الفصل الدراسي الثاني</a></div>
       </div>
@@ -1586,12 +1504,12 @@
       </div>
     </div>
   </section>
-  
-  <!-- قسم عن المدرسة -->
+       <!-- قسم عن المدرسة -->
   <section id="about" class="fade-in">
     <div class="container">
       <h2><i class="fas fa-school me-2"></i>عن مدارس جيل النهضة الحديثة</h2>
       <p class="text-center mb-5 lead">نظام تعليمي متكامل يهدف إلى بناء جيل متميز علميًا وأخلاقيًا</p>
+     
       
       <div class="row mt-5">
         <div class="col-md-6">
@@ -1627,7 +1545,8 @@
     <div class="container">
       <h2><i class="fas fa-chart-bar me-2"></i>إحصاءات المدارس</h2>
       <p class="text-center mb-5">نفتخر بما حققناه من إنجازات على مدار السنوات</p>
-      <div class="row">
+     
+        </div>
         <div class="col-md-3 col-sm-6">
           <div class="stats-box">
             <span class="number">8</span>
@@ -1652,6 +1571,10 @@
       <img src="school.gif" alt="صورة مدارس جيل النهضة الحديثة" class="img-fluid" onerror="this.style.display='none'">
     </div>
   </section>
+
+ 
+
+
 
   <!-- الأنظمة والقوانين -->
   <section id="rules" class="fade-in">
@@ -1678,813 +1601,879 @@
     </div>
   </section>
 
-  <!-- موقع المدارس -->
-  <section id="location" class="fade-in">
-    <div class="container">
-      <h2><i class="fas fa-map-marker-alt me-2"></i>موقع مدارس جيل النهضة الحديثة</h2>
-      <p class="text-center mb-5">في هذا القسم يتم تحديد الموقع الجغرافي للمدارس من خلال خرائط Google.</p>
-      
-      <div class="ratio ratio-16x9 mb-5">
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d912.8963133105634!2d43.9595699804606!3d15.662670099059982!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sar!2s!4v1766099326002!5m2!1sar!2s"
-          style="border:0;"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="خريطة موقع مدارس جيل النهضة الحديثة">
-        </iframe>
-      </div>
-      
-      <div class="row mt-4">
-        <div class="col-md-6">
-          <div class="card contact-info-card hover-lift p-4 mb-4">
-            <h5 class="text-primary mb-3"><i class="fas fa-info-circle me-2"></i>معلومات الاتصال</h5>
-            <ul class="list-unstyled">
-              <li class="mb-2"><i class="fas fa-map-marker-alt text-success me-2"></i> 
-                <strong>العنوان:</strong> حي القشيبي ،عمران، اليمن
-              </li>
-              <li class="mb-2"><i class="fas fa-phone text-primary me-2"></i> 
-                <strong>الهاتف:</strong> 77
-              </li>
-              <li class="mb-2"><i class="fab fa-whatsapp text-success me-2"></i> 
-                <strong>وتساب:</strong> +96777
-              </li>
-              <li class="mb-2"><i class="fas fa-clock text-warning me-2"></i> 
-                <strong>ساعات العمل:</strong> 7:00 صباحًا - 2:00 ظهرًا
-              </li>
-            </ul>
-            
-            <div class="text-center mt-3">
-              <a href="https://maps.app.goo.gl/tNc4punnNy8FsnzX8" 
-                 target="_blank" 
-                 class="btn btn-primary btn-sm">
-                <i class="fas fa-external-link-alt me-1"></i>فتح في تطبيق خرائط جوجل
-              </a>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-6">
-          <div class="card contact-info-card hover-lift p-4">
-            <h5 class="text-primary mb-3"><i class="fas fa-directions me-2"></i>إرشادات الوصول</h5>
-            <ul class="list-unstyled">
-              <li class="mb-2">
-                <i class="fas fa-car text-info me-2"></i> 
-                <strong>الإحداثيات:</strong> 15.662670°N, 43.959570°E
-              </li>
-              <li class="mb-2">
-                <i class="fas fa-bus text-info me-2"></i> 
-                <strong>الباصات التي تعمل نع المدرسة :</strong> التسجيل في مواصلات المدرسة
-              </li>
-              <li class="mb-2">
-                <i class="fas fa-parking text-info me-2"></i> 
-                <strong>مواقف السيارات:</strong> متوفرة داخل وخارج المدرسة
-              </li>
-              <li class="mb-2">
-                <i class="fas fa-wheelchair text-info me-2"></i> 
-                <strong>تسهيلات:</strong> تسهيلات مخصصة لذوي الاحتياجات
-              </li>
-            </ul>
-            
-            <div class="alert alert-info mt-3">
-              <i class="fas fa-map-pin me-2"></i>
-              <strong>تلميح:</strong> اضغط على علامة الموقع في الخريطة أعلاه للحصول على اتجاهات القيادة.
-            </div>
+ <!-- موقع المدارس -->
+<section id="location" class="fade-in">
+  <div class="container">
+    <h2><i class="fas fa-map-marker-alt me-2"></i>موقع مدارس جيل النهضة الحديثة</h2>
+    <p class="text-center mb-5">في هذا القسم يتم تحديد الموقع الجغرافي للمدارس من خلال خرائط Google.</p>
+    
+    <div class="ratio ratio-16x9 mb-5">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d912.8963133105634!2d43.9595699804606!3d15.662670099059982!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sar!2s!4v1766099326002!5m2!1sar!2s"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="خريطة موقع مدارس جيل النهضة الحديثة">
+      </iframe>
+    </div>
+    
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="card contact-info-card hover-lift p-4 mb-4">
+          <h5 class="text-primary mb-3"><i class="fas fa-info-circle me-2"></i>معلومات الاتصال</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><i class="fas fa-map-marker-alt text-success me-2"></i> 
+              <strong>العنوان:</strong> حي القشيبي ،عمران، اليمن
+            </li>
+            <li class="mb-2"><i class="fas fa-phone text-primary me-2"></i> 
+              <strong>الهاتف:</strong> 77
+            </li>
+            <li class="mb-2"><i class="fab fa-whatsapp text-success me-2"></i> 
+              <strong>وتساب:</strong> +96777
+            </li>
+            <li class="mb-2"><i class="fas fa-clock text-warning me-2"></i> 
+              <strong>ساعات العمل:</strong> 7:00 صباحًا - 2:00 ظهرًا
+            </li>
+          </ul>
+          
+          <div class="text-center mt-3">
+            <a href="https://maps.app.goo.gl/tNc4punnNy8FsnzX8" 
+               target="_blank" 
+               class="btn btn-primary btn-sm">
+              <i class="fas fa-external-link-alt me-1"></i>فتح في تطبيق خرائط جوجل
+            </a>
           </div>
         </div>
       </div>
       
-      <!-- زر إضافي للعثور على الاتجاهات -->
-      <div class="text-center mt-4">
-        <a href="https://www.google.com/maps/dir//15.662670,43.959570/@15.66267,43.95957,15z" 
-           target="_blank" 
-           class="btn btn-success">
-          <i class="fas fa-route me-2"></i>الحصول على اتجاهات القيادة
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <h4>مدارس جيل النهضة الحديثة</h4>
-      <p>نحو جيل واعي.. مستقبل مشرق</p>
-      <p>جمعية القشيبي ،عمران، اليمن</p>
-      <div class="footer-contact">
-        <div class="contact-item">
-          <i class="fas fa-phone"></i>
-          <span>هاتف: 77</span>
-        </div>
-        <div class="contact-item">
-          <i class="fab fa-whatsapp"></i>
-          <span>واتساب: +96777</span>
-        </div>
-        <div class="contact-item">
-          <i class="fas fa-envelope"></i>
-          <span>البريد الإلكتروني: info@jeel-alnahdah.edu.ye</span>
+      <div class="col-md-6">
+        <div class="card contact-info-card hover-lift p-4">
+          <h5 class="text-primary mb-3"><i class="fas fa-directions me-2"></i>إرشادات الوصول</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <i class="fas fa-car text-info me-2"></i> 
+              <strong>الإحداثيات:</strong> 15.662670°N, 43.959570°E
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-bus text-info me-2"></i> 
+              <strong>الباصات التي تعمل نع المدرسة :</strong> التسجيل في مواصلات المدرسة
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-parking text-info me-2"></i> 
+              <strong>مواقف السيارات:</strong> متوفرة داخل وخارج المدرسة
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-wheelchair text-info me-2"></i> 
+              <strong>تسهيلات:</strong> تسهيلات مخصصة لذوي الاحتياجات
+            </li>
+          </ul>
+          
+          <div class="alert alert-info mt-3">
+            <i class="fas fa-map-pin me-2"></i>
+            <strong>تلميح:</strong> اضغط على علامة الموقع في الخريطة أعلاه للحصول على اتجاهات القيادة.
+          </div>
         </div>
       </div>
-      <p class="mt-4">جميع الحقوق محفوظة &copy; 2024</p>
     </div>
-  </footer>
+    
+    <!-- زر إضافي للعثور على الاتجاهات -->
+    <div class="text-center mt-4">
+      <a href="https://www.google.com/maps/dir//15.662670,43.959570/@15.66267,43.95957,15z" 
+         target="_blank" 
+         class="btn btn-success">
+        <i class="fas fa-route me-2"></i>الحصول على اتجاهات القيادة
+      </a>
+    </div>
+  </div>
+</section>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   
-  <!-- ========== نظام التثبيت والإشعارات المحسن ========== -->
+  <!-- نظام التثبيت والخدمات -->
   <script>
-  // ========== نظام إدارة الحالة ==========
-  const AppState = {
-      installStatus: localStorage.getItem('appInstalled') || 'not_installed',
-      notificationsStatus: localStorage.getItem('notificationsEnabled') || 'not_asked',
-      bannerClosed: localStorage.getItem('bannerClosed') || 'false',
-      
-      updateInstallStatus(status) {
-          this.installStatus = status;
-          localStorage.setItem('appInstalled', status);
-          this.updateUI();
-      },
-      
-      updateNotificationsStatus(status) {
-          this.notificationsStatus = status;
-          localStorage.setItem('notificationsEnabled', status);
-          this.updateUI();
-      },
-      
-      updateBannerStatus(status) {
-          this.bannerClosed = status;
-          localStorage.setItem('bannerClosed', status);
-      },
-      
-      updateUI() {
-          // التحكم في عرض أزرار التثبيت
-          const installBtn = document.getElementById('installBtn');
-          const secondaryInstallBtn = document.getElementById('secondaryInstallBtn');
-          const installBanner = document.getElementById('installBanner');
-          const pushpadBtn = document.getElementById('pushpadNotifyBtn');
-          
-          if (this.installStatus === 'installed') {
-              if (installBtn) installBtn.style.display = 'none';
-              if (secondaryInstallBtn) secondaryInstallBtn.style.display = 'none';
-              if (installBanner) installBanner.style.display = 'none';
-          } else {
-              if (installBtn) installBtn.style.display = 'flex';
-              if (secondaryInstallBtn) secondaryInstallBtn.style.display = 'flex';
-          }
-          
-          // التحكم في عرض زر الإشعارات
-          if (pushpadBtn) {
-              if (this.notificationsStatus === 'enabled') {
-                  pushpadBtn.style.display = 'none';
-              } else {
-                  pushpadBtn.style.display = 'flex';
-              }
-          }
-      }
-  };
-  
-  // ========== نظام التثبيت ==========
-  let deferredPrompt;
-  
-  window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      console.log('✅ حدث التثبيت متاح');
-  });
-  
-  window.addEventListener('appinstalled', () => {
-      console.log('🎉 تم تثبيت التطبيق بنجاح!');
-      AppState.updateInstallStatus('installed');
-      
-      // عرض رسالة نجاح
-      setTimeout(() => {
-          showSystemMessage('success', '🎉 تم تثبيت التطبيق', 'يمكنك الآن الوصول إلى التطبيق من شاشتك الرئيسية.');
-      }, 1000);
-  });
-  
-  function setupInstallButtons() {
-      const installBtns = [
-          document.getElementById('installBtn'),
-          document.getElementById('secondaryInstallBtn'),
-          document.getElementById('installBannerBtn')
-      ];
-      
-      installBtns.forEach(btn => {
-          if (btn) {
-              btn.addEventListener('click', async () => {
-                  if (deferredPrompt) {
-                      try {
-                          const originalText = btn.innerHTML;
-                          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التثبيت...';
-                          btn.disabled = true;
-                          
-                          deferredPrompt.prompt();
-                          const choiceResult = await deferredPrompt.userChoice;
-                          
-                          if (choiceResult.outcome === 'accepted') {
-                              AppState.updateInstallStatus('installed');
-                          } else {
-                              btn.innerHTML = originalText;
-                              btn.disabled = false;
-                          }
-                          deferredPrompt = null;
-                      } catch (error) {
-                          console.error('❌ خطأ في التثبيت:', error);
-                          btn.innerHTML = 'تثبيت التطبيق';
-                          btn.disabled = false;
-                      }
-                  } else {
-                      showSystemMessage('warning', '⚠️ غير متاح', 'خيار التثبيت غير متاح حالياً.');
-                  }
-              });
-          }
-      });
-      
-      // زر إغلاق البانر
-      const closeBanner = document.getElementById('closeBanner');
-      if (closeBanner) {
-          closeBanner.addEventListener('click', () => {
-              document.getElementById('installBanner').style.display = 'none';
-              AppState.updateBannerStatus('true');
-          });
-      }
-  }
-  
-  // ========== نظام الإشعارات ==========
-  const PUSHPAD_PROJECT_ID = 9091;
-  
-  function setupPushpad() {
-      // تحميل Pushpad
-      (function(p,u,s,h,x){
-          p.pushpad = p.pushpad || function(){(p.pushpad.q = p.pushpad.q||[]).push(arguments)};
-          h = u.getElementsByTagName('head')[0];
-          x = u.createElement('script'); x.async = 1; x.src = s;
-          h.appendChild(x);
-      })(window, document, 'https://pushpad.xyz/pushpad.js');
-      
-      // تهيئة بعد تحميل المكتبة
-      setTimeout(() => {
-          if (typeof pushpad !== 'undefined') {
-              pushpad('init', PUSHPAD_PROJECT_ID);
-              console.log('✅ Pushpad مهيأ');
-          }
-      }, 1000);
-  }
-  
-  function setupNotificationsButton() {
-      const pushpadBtn = document.getElementById('pushpadNotifyBtn');
-      if (!pushpadBtn) return;
-      
-      pushpadBtn.addEventListener('click', () => {
-          if (typeof pushpad !== 'undefined') {
-              pushpad('subscribe', (subscribed) => {
-                  if (subscribed) {
-                      AppState.updateNotificationsStatus('enabled');
-                      showSystemMessage('success', '🔔 تم تفعيل الإشعارات', 
-                          'ستصلك إشعارات المدارس حتى عندما يكون التطبيق مغلقاً.');
-                  } else {
-                      showSystemMessage('warning', '⚠️ لم يتم التفعيل', 
-                          'يجب الموافقة على الإشعارات عند ظهور طلب الإذن.');
-                  }
-              });
-          } else {
-              showSystemMessage('error', '❌ خطأ', 'نظام الإشعارات غير متاح حالياً.');
-          }
-      });
-  }
-  
-  // ========== رسالة تفعيل الإشعارات التلقائية ==========
-  function showNotificationRequest() {
-      // التحقق من حالة الإشعارات
-      if (AppState.notificationsStatus !== 'not_asked') return;
-      
-      // الانتظار 10 ثواني قبل العرض
-      setTimeout(() => {
-          const notificationRequest = document.getElementById('notificationRequest');
-          if (!notificationRequest) return;
-          
-          // التحقق إذا كان المستخدم قد أغلق الرسالة مسبقاً
-          if (localStorage.getItem('notificationRequestDismissed')) return;
-          
-          notificationRequest.style.display = 'block';
-          
-          // أحداث الأزرار
-          document.getElementById('enableNotificationsBtn').addEventListener('click', () => {
-              notificationRequest.style.display = 'none';
-              // تفعيل الإشعارات
-              if (typeof pushpad !== 'undefined') {
-                  pushpad('subscribe', (subscribed) => {
-                      if (subscribed) {
-                          AppState.updateNotificationsStatus('enabled');
-                          showSystemMessage('success', '🎉 تم التفعيل', 'الإشعارات مفعلة الآن.');
-                      }
-                  });
-              }
-          });
-          
-          document.getElementById('laterNotificationsBtn').addEventListener('click', () => {
-              notificationRequest.style.display = 'none';
-              AppState.updateNotificationsStatus('asked_later');
-          });
-          
-          document.getElementById('dismissNotificationsBtn').addEventListener('click', () => {
-              notificationRequest.style.display = 'none';
-              AppState.updateNotificationsStatus('dismissed');
-              localStorage.setItem('notificationRequestDismissed', 'true');
-          });
-      }, 10000);
-  }
-  
-  // ========== أدوات مساعدة ==========
-  function showSystemMessage(type, title, message) {
-      const msgDiv = document.createElement('div');
-      msgDiv.className = `notification ${type}`;
-      msgDiv.style.cssText = `
-          position: fixed;
-          top: 120px;
-          left: 50%;
-          transform: translateX(-50%);
-          background: ${type === 'success' ? 'linear-gradient(135deg, #4CAF50, #2E7D32)' : 
-                       type === 'warning' ? 'linear-gradient(135deg, #FF9800, #F57C00)' : 
-                       'linear-gradient(135deg, #f44336, #d32f2f)'};
-          color: white;
-          padding: 15px 25px;
-          border-radius: 10px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-          z-index: 10002;
-          text-align: center;
-          max-width: 90%;
-          animation: messageSlide 0.4s ease-out;
-          backdrop-filter: blur(10px);
-          border: 2px solid rgba(255,255,255,0.3);
-      `;
-      msgDiv.innerHTML = `
-          <h5 style="margin: 0 0 8px 0; font-weight: bold; font-size: 16px;">
-              ${title}
-          </h5>
-          <p style="margin: 0; font-size: 14px; opacity: 0.95;">${message}</p>
-      `;
-      document.body.appendChild(msgDiv);
-      
-      setTimeout(() => {
-          msgDiv.style.opacity = '0';
-          msgDiv.style.transform = 'translateX(-50%) translateY(-20px)';
-          setTimeout(() => msgDiv.remove(), 500);
-      }, 4000);
-  }
-  
-  // ========== تهيئة النظام ==========
-  document.addEventListener('DOMContentLoaded', () => {
-      console.log('🚀 تحميل صفحة مدارس جيل النهضة');
-      
-      // 1. تهيئة حالة التطبيق
-      AppState.updateUI();
-      
-      // 2. إعداد أزرار التثبيت
-      setupInstallButtons();
-      
-      // 3. إعداد Pushpad
-      setupPushpad();
-      
-      // 4. إعداد زر الإشعارات
-      setupNotificationsButton();
-      
-      // 5. عرض رسالة تفعيل الإشعارات
-      showNotificationRequest();
-      
-      // 6. فحص Service Worker
-      if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/alnhdah/sw.js')
-              .then(() => console.log('✅ Service Worker مسجل'))
-              .catch(err => console.log('❌ Service Worker:', err));
-      }
-      
-      // 7. وظائف التنقل السلس
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-          anchor.addEventListener('click', function(e) {
-              const targetId = this.getAttribute('href');
-              if (targetId === '#') return;
-              
-              const targetElement = document.querySelector(targetId);
-              if (targetElement) {
-                  e.preventDefault();
-                  window.scrollTo({
-                      top: targetElement.offsetTop - 70,
-                      behavior: 'smooth'
-                  });
-              }
-          });
-      });
-      
-      // 8. زر عرض القوانين
-      const showRulesBtn = document.getElementById('showRulesBtn');
-      const rulesContent = document.getElementById('rulesContent');
-      if (showRulesBtn && rulesContent) {
-          showRulesBtn.addEventListener('click', () => {
-              if (rulesContent.style.display === 'none' || rulesContent.style.display === '') {
-                  rulesContent.style.display = 'block';
-                  showRulesBtn.innerHTML = '<i class="fas fa-times me-2"></i>إخفاء اللوائح';
-              } else {
-                  rulesContent.style.display = 'none';
-                  showRulesBtn.innerHTML = '<i class="fas fa-scroll me-2"></i>قراءة اللوائح';
-              }
-          });
-      }
-      
-      // 9. التحقق من التثبيت الحالي
-      if (window.matchMedia('(display-mode: standalone)').matches || 
-          window.navigator.standalone === true) {
-          AppState.updateInstallStatus('installed');
-      }
-      
-      // رسالة ترحيبية
-      console.log('✅ نظام مدارس جيل النهضة جاهز');
-      console.log(`📊 الحالة: تثبيت=${AppState.installStatus}, إشعارات=${AppState.notificationsStatus}`);
-  });
-  </script>
-  
-  <!-- ========== نظام الإعلانات ========== -->
-  <script>
-  // نظام الإعلانات المبسط
-  const NOTIFICATIONS_URL = 'https://raw.githubusercontent.com/ameen-algmady/alnhdah/main/notifications.json';
-  let notifications = [];
-  
-  async function loadNotifications() {
-      try {
-          const response = await fetch(NOTIFICATIONS_URL + '?t=' + Date.now());
-          if (response.ok) {
-              const data = await response.json();
-              notifications = data.notifications || [];
-              localStorage.setItem('jeel_notifications_backup', JSON.stringify(notifications));
-          }
-      } catch (error) {
-          console.log('⚠️ استخدام الإعلانات المحلية');
-          const backup = localStorage.getItem('jeel_notifications_backup');
-          notifications = backup ? JSON.parse(backup) : [];
-      }
-      
-      // عرض أول إعلان إذا كان موجوداً
-      if (notifications.length > 0) {
-          setTimeout(() => showNotification(notifications[0]), 3000);
-      }
-  }
-  
-  function showNotification(notification) {
-      const banner = document.getElementById('notificationBanner');
-      if (!banner || !notification) return;
-      
-      document.getElementById('notificationTitle').textContent = notification.title;
-      document.getElementById('notificationMessage').innerHTML = notification.message.replace(/\n/g, '<br>');
-      
-      // إظهار الشريط
-      banner.style.display = 'block';
-      
-      // إخفاء تلقائي بعد 10 ثواني
-      setTimeout(() => {
-          if (banner.style.display === 'block') {
-              closeNotification();
-          }
-      }, 10000);
-  }
-  
-  function closeNotification() {
-      const banner = document.getElementById('notificationBanner');
-      if (banner) banner.style.display = 'none';
-  }
-  
-  // تحميل الإعلانات عند البدء
-  setTimeout(loadNotifications, 2000);
-  </script>
-</body>
-// ========== نظام التثبيت المصحح ==========
+// ========== نظام التثبيت التلقائي (بنظام تطبيق مدارس عمران) ==========
+
 let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+const secondaryInstallBtn = document.getElementById('secondaryInstallBtn');
+const installBanner = document.getElementById('installBanner');
+const installBannerBtn = document.getElementById('installBannerBtn');
+const closeBanner = document.getElementById('closeBanner');
+const notifyBtn = document.getElementById('notifyBtn');
 
-window.addEventListener('beforeinstallprompt', (e) => {
-    console.log('🎯 حدث beforeinstallprompt - تم منع العرض التلقائي');
-    
-    // منع العرض التلقائي
-    e.preventDefault();
-    
-    // حفظ الحدث للاستخدام لاحقاً
-    deferredPrompt = e;
-    
-    // إظهار أزرار التثبيت
-    showInstallButtons();
-    
-    // تحديث واجهة المستخدم
-    updateInstallUI();
-});
+// إدارة زر الإشعارات
+if (notifyBtn) {
+  notifyBtn.addEventListener('click', function() {
+    if ('Notification' in window && Notification.permission !== 'denied') {
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          alert('✅ تم تفعيل الإشعارات بنجاح');
+        }
+      });
+    }
+  });
+}
 
-window.addEventListener('appinstalled', () => {
-    console.log('🎉 تم تثبيت التطبيق بنجاح!');
-    
-    // تحديث الحالة
+// التحقق مما إذا كان التطبيق مثبتًا بالفعل (نظام مدارس عمران)
+function checkIfAppIsInstalled() {
+  // الطريقة 1: التحقق من display-mode (الأكثر دقة)
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    console.log('✅ التطبيق مثبت بالفعل (display-mode)');
     localStorage.setItem('appInstalled', 'true');
+    return true;
+  }
+  
+  // الطريقة 2: التحقق من navigator.standalone (لـ iOS)
+  if (window.navigator.standalone === true) {
+    console.log('✅ التطبيق مثبت بالفعل (navigator.standalone)');
+    localStorage.setItem('appInstalled', 'true');
+    return true;
+  }
+  
+  // الطريقة 3: إذا لم يكن في وضع PWA، نعتبره غير مثبت
+  console.log('📱 التطبيق غير مثبت');
+  localStorage.removeItem('appInstalled');
+  return false;
+}
+
+// زر إعادة تعيين يدوي (للتجربة فقط)
+function addResetButton() {
+  const resetBtn = document.createElement('button');
+  resetBtn.innerHTML = '🔄 إعادة تعيين التثبيت';
+  resetBtn.style.position = 'fixed';
+  resetBtn.style.bottom = '20px';
+  resetBtn.style.left = '20px';
+  resetBtn.style.zIndex = '10001';
+  resetBtn.style.background = '#ff6b6b';
+  resetBtn.style.color = 'white';
+  resetBtn.style.border = 'none';
+  resetBtn.style.borderRadius = '25px';
+  resetBtn.style.padding = '12px 20px';
+  resetBtn.style.fontSize = '14px';
+  resetBtn.style.cursor = 'pointer';
+  resetBtn.style.boxShadow = '0 4px 15px rgba(255,107,107,0.4)';
+  resetBtn.style.fontWeight = 'bold';
+  resetBtn.style.display = 'flex';
+  resetBtn.style.alignItems = 'center';
+  resetBtn.style.gap = '8px';
+  
+  resetBtn.addEventListener('click', function() {
+    localStorage.removeItem('appInstalled');
+    localStorage.removeItem('bannerClosed');
+    if (installBtn) installBtn.style.display = 'flex';
+    if (secondaryInstallBtn) secondaryInstallBtn.style.display = 'flex';
+    if (installBanner) installBanner.style.display = 'none';
+    alert('✅ تم إعادة تعيين إعدادات التثبيت. سيظهر زر التثبيت الآن.');
+    console.log('🔄 تم إعادة تعيين إعدادات التثبيت');
+  });
+  
+  document.body.appendChild(resetBtn);
+}
+
+// إظهار زر التثبيت بعد تحميل الصفحة
+window.addEventListener('load', function() {
+  console.log('🚀 تحميل صفحة مدارس جيل النهضة');
+  
+  // إضافة زر إعادة التعيين (للتجربة)
+  addResetButton();
+  
+  // التحقق من حالة التثبيت
+  const isInstalled = checkIfAppIsInstalled();
+  
+  if (isInstalled) {
+    console.log('✅ تم الكشف عن تطبيق مثبت - إخفاء أزرار التثبيت');
+    if (installBtn) installBtn.style.display = 'none';
+    if (secondaryInstallBtn) secondaryInstallBtn.style.display = 'none';
+    if (installBanner) installBanner.style.display = 'none';
+  } else {
+    console.log('📱 لم يتم الكشف عن تطبيق مثبت - إظهار أزرار التثبيت');
     
-    // إخفاء أزرار التثبيت
-    hideInstallButtons();
-    
-    // إظهار رسالة نجاح
-    showSystemMessage('success', '🎉 تم التثبيت بنجاح', 
-        'يمكنك الآن الوصول إلى التطبيق من شاشتك الرئيسية');
+    // إظهار أزرار التثبيت فوراً
+    setTimeout(function() {
+      if (installBtn) {
+        installBtn.style.display = 'flex';
+        console.log('✅ زر التثبيت الرئيسي معروض');
+      }
+      
+      if (secondaryInstallBtn) {
+        secondaryInstallBtn.style.display = 'flex';
+        console.log('✅ زر التثبيت الثانوي معروض');
+      }
+      
+      // إظهار الشريط العلوي بعد 3 ثوانٍ إذا لم يكن مغلقًا
+      setTimeout(function() {
+        if (installBanner && !localStorage.getItem('bannerClosed')) {
+          installBanner.style.display = 'block';
+          console.log('✅ بانر التثبيت معروض');
+        }
+      }, 3000);
+    }, 1000);
+  }
+  
+  // تسجيل Service Worker للعمل بدون اتصال
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/alnhdah/sw.js')
+      .then(function(registration) {
+        console.log('✅ Service Worker مسجل بنجاح:', registration.scope);
+      })
+      .catch(function(error) {
+        console.log('❌ فشل تسجيل Service Worker:', error);
+      });
+  }
 });
 
-function showInstallButtons() {
-    // تأكد من ظهور أزرار التثبيت
-    const installBtn = document.getElementById('installBtn');
-    const secondaryBtn = document.getElementById('secondaryInstallBtn');
-    const banner = document.getElementById('installBanner');
-    
-    if (installBtn) installBtn.style.display = 'flex';
-    if (secondaryBtn) secondaryBtn.style.display = 'flex';
-    if (banner && !localStorage.getItem('bannerClosed')) {
-        banner.style.display = 'block';
-    }
-}
-
-function hideInstallButtons() {
-    // إخفاء جميع أزرار التثبيت
-    const installBtn = document.getElementById('installBtn');
-    const secondaryBtn = document.getElementById('secondaryInstallBtn');
-    const banner = document.getElementById('installBanner');
-    
+// الاستماع لحدث beforeinstallprompt
+window.addEventListener('beforeinstallprompt', function(e) {
+  console.log('🎯 حدث beforeinstallprompt تم استدعاؤه');
+  e.preventDefault();
+  deferredPrompt = e;
+  
+  // التحقق مرة أخرى إذا كان التطبيق مثبتًا
+  if (checkIfAppIsInstalled()) {
     if (installBtn) installBtn.style.display = 'none';
-    if (secondaryBtn) secondaryBtn.style.display = 'none';
-    if (banner) banner.style.display = 'none';
-}
+    if (secondaryInstallBtn) secondaryInstallBtn.style.display = 'none';
+    if (installBanner) installBanner.style.display = 'none';
+    return;
+  }
+  
+  // تثبيت مباشر عند النقر على الزر الرئيسي
+  if (installBtn) {
+    installBtn.addEventListener('click', async function() {
+      if (deferredPrompt) {
+        try {
+          // تغيير نص الزر أثناء التثبيت
+          installBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التثبيت...';
+          installBtn.disabled = true;
+          
+          deferredPrompt.prompt();
+          const choiceResult = await deferredPrompt.userChoice;
+          
+          if (choiceResult.outcome === 'accepted') {
+            console.log('✅ تم قبول التثبيت');
+            installBtn.style.display = 'none';
+            if (secondaryInstallBtn) secondaryInstallBtn.style.display = 'none';
+            if (installBanner) installBanner.style.display = 'none';
+            localStorage.setItem('appInstalled', 'true');
+            
+            // رسالة نجاح
+            alert('🎉 تم تثبيت التطبيق بنجاح! يمكنك الوصول إليه من شاشتك الرئيسية.');
+          } else {
+            console.log('❌ تم رفض التثبيت');
+            // استعادة الزر
+            installBtn.innerHTML = '<i class="fas fa-download"></i> تثبيت التطبيق';
+            installBtn.disabled = false;
+          }
+          deferredPrompt = null;
+        } catch (error) {
+          console.error('❌ خطأ في التثبيت:', error);
+          // استعادة الزر
+          installBtn.innerHTML = '<i class="fas fa-download"></i> تثبيت التطبيق';
+          installBtn.disabled = false;
+        }
+      }
+    });
+  }
+  
+  // نفس الوظيفة للزر الثانوي
+  if (secondaryInstallBtn) {
+    secondaryInstallBtn.addEventListener('click', async function() {
+      if (deferredPrompt) {
+        try {
+          // تغيير الزر أثناء التثبيت
+          const originalHTML = secondaryInstallBtn.innerHTML;
+          secondaryInstallBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+          secondaryInstallBtn.disabled = true;
+          
+          deferredPrompt.prompt();
+          const choiceResult = await deferredPrompt.userChoice;
+          
+          if (choiceResult.outcome === 'accepted') {
+            console.log('✅ تم قبول التثبيت');
+            if (installBtn) installBtn.style.display = 'none';
+            secondaryInstallBtn.style.display = 'none';
+            if (installBanner) installBanner.style.display = 'none';
+            localStorage.setItem('appInstalled', 'true');
+            
+            // رسالة نجاح
+            alert('🎉 تم تثبيت التطبيق بنجاح! يمكنك الوصول إليه من شاشتك الرئيسية.');
+          } else {
+            console.log('❌ تم رفض التثبيت');
+            // استعادة الزر
+            secondaryInstallBtn.innerHTML = originalHTML;
+            secondaryInstallBtn.disabled = false;
+          }
+          deferredPrompt = null;
+        } catch (error) {
+          console.error('❌ خطأ في التثبيت:', error);
+          // استعادة الزر
+          secondaryInstallBtn.innerHTML = '<i class="fas fa-download"></i>';
+          secondaryInstallBtn.disabled = false;
+        }
+      }
+    });
+  }
+  
+  // نفس الوظيفة للشريط العلوي
+  if (installBannerBtn) {
+    installBannerBtn.addEventListener('click', async function() {
+      if (deferredPrompt) {
+        try {
+          // تغيير الزر أثناء التثبيت
+          const originalHTML = installBannerBtn.innerHTML;
+          installBannerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التثبيت...';
+          installBannerBtn.disabled = true;
+          
+          deferredPrompt.prompt();
+          const choiceResult = await deferredPrompt.userChoice;
+          
+          if (choiceResult.outcome === 'accepted') {
+            console.log('✅ تم قبول التثبيت');
+            if (installBtn) installBtn.style.display = 'none';
+            if (secondaryInstallBtn) secondaryInstallBtn.style.display = 'none';
+            installBanner.style.display = 'none';
+            localStorage.setItem('appInstalled', 'true');
+            
+            // رسالة نجاح
+            alert('🎉 تم تثبيت التطبيق بنجاح! يمكنك الوصول إليه من شاشتك الرئيسية.');
+          } else {
+            console.log('❌ تم رفض التثبيت');
+            // استعادة الزر
+            installBannerBtn.innerHTML = originalHTML;
+            installBannerBtn.disabled = false;
+          }
+          deferredPrompt = null;
+        } catch (error) {
+          console.error('❌ خطأ في التثبيت:', error);
+          // استعادة الزر
+          installBannerBtn.innerHTML = 'تثبيت الآن';
+          installBannerBtn.disabled = false;
+        }
+      }
+    });
+  }
+});
 
-function updateInstallUI() {
-    // التحقق مما إذا كان التطبيق مثبتاً بالفعل
-    if (window.matchMedia('(display-mode: standalone)').matches || 
-        window.navigator.standalone === true) {
-        console.log('📱 التطبيق مثبت بالفعل كـ PWA');
-        localStorage.setItem('appInstalled', 'true');
-        hideInstallButtons();
+// حدث عندما يتم تثبيت التطبيق
+window.addEventListener('appinstalled', function() {
+  console.log('✅ تم تثبيت التطبيق بالفعل (appinstalled event)');
+  if (installBtn) installBtn.style.display = 'none';
+  if (secondaryInstallBtn) secondaryInstallBtn.style.display = 'none';
+  if (installBanner) installBanner.style.display = 'none';
+  localStorage.setItem('appInstalled', 'true');
+  
+  // إظهار رسالة تأكيد
+  setTimeout(function() {
+    alert('🎉 تم تثبيت التطبيق بنجاح! يمكنك الوصول إليه من شاشتك الرئيسية.');
+  }, 1000);
+});
+
+// إغلاق الشريط العلوي
+if (closeBanner) {
+  closeBanner.addEventListener('click', function() {
+    if (installBanner) {
+      installBanner.style.display = 'none';
+      localStorage.setItem('bannerClosed', 'true');
     }
+  });
 }
 
-// ========== دالة التثبيت الرئيسية ==========
-async function installApp() {
-    if (!deferredPrompt) {
-        showSystemMessage('warning', '⚠️ غير متاح', 
-            'خيار التثبيت غير متاح حالياً. حاول تحديث الصفحة.');
+// التحقق الدوري إذا كان التطبيق يعمل في وضع PWA
+setInterval(function() {
+  const isInstalled = checkIfAppIsInstalled();
+  if (isInstalled) {
+    if (installBtn) installBtn.style.display = 'none';
+    if (secondaryInstallBtn) secondaryInstallBtn.style.display = 'none';
+    if (installBanner) installBanner.style.display = 'none';
+  } else {
+    // إذا لم يكن مثبتاً، تأكد من ظهور الزر الرئيسي
+    if (installBtn && (!installBtn.style.display || installBtn.style.display === 'none')) {
+      installBtn.style.display = 'flex';
+    }
+  }
+}, 5000);
+
+// إضافة وظيفة لفحص حالة التثبيت يدوياً
+function checkInstallStatus() {
+  const status = checkIfAppIsInstalled() ? 'مثبت' : 'غير مثبت';
+  console.log('📊 حالة التثبيت الحالية:', status);
+  console.log('📝 قيمة appInstalled في localStorage:', localStorage.getItem('appInstalled'));
+  console.log('🖥️ وضع العرض:', window.matchMedia('(display-mode: standalone)').matches);
+  console.log('📱 navigator.standalone:', window.navigator.standalone);
+  return status;
+}
+
+// يمكنك استدعاء هذه الدالة من console للمتصفح للتحقق
+window.checkInstallStatus = checkInstallStatus;
+
+// وظائف مساعدة للعناصر الأخرى
+document.addEventListener('DOMContentLoaded', function() {
+  // زر عرض القوانين
+  const showRulesBtn = document.getElementById('showRulesBtn');
+  const rulesContent = document.getElementById('rulesContent');
+  
+  if (showRulesBtn && rulesContent) {
+    showRulesBtn.addEventListener('click', function() {
+      if (rulesContent.style.display === 'none' || rulesContent.style.display === '') {
+        rulesContent.style.display = 'block';
+        showRulesBtn.innerHTML = '<i class="fas fa-times me-2"></i>إخفاء اللوائح';
+      } else {
+        rulesContent.style.display = 'none';
+        showRulesBtn.innerHTML = '<i class="fas fa-scroll me-2"></i>قراءة اللوائح';
+      }
+    });
+  }
+  
+  // التنقل السلس
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        window.scrollTo({
+          top: targetElement.offsetTop - 70,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+  
+  // معالجة أخطاء الصور بدون استخدام روابط خارجية
+  const images = document.querySelectorAll('img');
+  images.forEach(function(img) {
+    img.addEventListener('error', function() {
+      console.log('❌ فشل تحميل الصورة، سيتم إخفاؤها:', this.src);
+      this.style.display = 'none';
+    });
+  });
+});
+
+// رسالة ترحيبية في الكونسول
+console.log('%c🚀 مدارس جيل النهضة الحديثة - نظام التثبيت', 
+    'color: white; background: linear-gradient(90deg, #1a237e, #4CAF50); padding: 10px 20px; font-size: 16px; border-radius: 5px;');
+console.log('✅ نظام التثبيت يعمل بنظام تطبيق مدارس عمران');
+// ========== نظام الإعلانات والإشعارات - النسخة المحدثة ==========
+
+const NOTIFICATIONS_URL = 'https://raw.githubusercontent.com/ameen-algmady/alnhdah/main/notifications.json';
+let notifications = [];
+let currentNotificationIndex = 0;
+let announcementInterval;
+let lastUpdateTime = 0;
+
+// تحميل الإعلانات من GitHub + localStorage
+async function loadNotifications() {
+    console.log('🔔 بدء تحميل الإعلانات...');
+    
+    try {
+        // محاولة التحميل من GitHub أولاً
+        console.log('🌐 محاولة التحميل من GitHub...');
+        const response = await fetch(NOTIFICATIONS_URL + '?t=' + Date.now());
+        
+        if (response.ok) {
+            const data = await response.json();
+            notifications = data.notifications || [];
+            console.log('✅ تم تحميل', notifications.length, 'إعلان من GitHub');
+            
+            // حفظ نسخة محلية للعمل بدون إنترنت
+            localStorage.setItem('jeel_notifications_backup', JSON.stringify(notifications));
+            localStorage.setItem('jeel_last_github_sync', Date.now());
+            
+        } else {
+            // إذا فشل، استخدم localStorage
+            console.log('⚠️ استخدام البيانات المحلية');
+            const saved = localStorage.getItem('jeel_notifications');
+            notifications = saved ? JSON.parse(saved) : [];
+            console.log('📦 تم تحميل', notifications.length, 'إعلان من localStorage');
+        }
+        
+    } catch (error) {
+        console.error('❌ خطأ في التحميل:', error);
+        // استخدام النسخة الاحتياطية أو localStorage
+        const backup = localStorage.getItem('jeel_notifications_backup');
+        const local = localStorage.getItem('jeel_notifications');
+        
+        if (backup) {
+            notifications = JSON.parse(backup);
+            console.log('💾 استخدام النسخة الاحتياطية:', notifications.length, 'إعلان');
+        } else if (local) {
+            notifications = JSON.parse(local);
+            console.log('📱 استخدام localStorage:', notifications.length, 'إعلان');
+        } else {
+            notifications = [];
+            console.log('📭 لا توجد إعلانات مخزنة');
+        }
+    }
+    
+    // فلترة الإعلانات النشطة وغير منتهية الصلاحية
+    notifications = notifications.filter(n => {
+        const isActive = n.status === 'active';
+        const notExpired = !n.expiry || new Date(n.expiry) > new Date();
+        return isActive && notExpired;
+    });
+    
+    console.log('🎯 الإعلانات النشطة بعد التصفية:', notifications.length);
+    
+    // زيادة عدد المشاهدات
+    try {
+        const stats = JSON.parse(localStorage.getItem('jeel_stats') || '{}');
+        stats.totalViews = (stats.totalViews || 0) + 1;
+        stats.lastView = new Date().toISOString();
+        localStorage.setItem('jeel_stats', JSON.stringify(stats));
+    } catch (e) {
+        console.log('⚠️ خطأ في تحديث الإحصائيات:', e);
+    }
+    
+    lastUpdateTime = Date.now();
+    return notifications;
+}
+
+// عرض إعلان في الشريط العائم
+function showNotification(notification) {
+    const banner = document.getElementById('notificationBanner');
+    if (!banner || !notification) {
+        console.log('❌ لا يوجد شريط إعلانات أو إعلان لعرضه');
         return;
     }
     
-    try {
-        // إظهار طلب التثبيت
-        const result = await deferredPrompt.prompt();
-        console.log('🎯 نتيجة طلب التثبيت:', result.outcome);
+    console.log('📢 عرض إعلان:', notification.title);
+    
+    // تعيين المحتوى
+    document.getElementById('notificationTitle').textContent = notification.title;
+    document.getElementById('notificationMessage').innerHTML = notification.message.replace(/\n/g, '<br>');
+    document.getElementById('notificationTime').textContent = 
+        `📅 ${new Date(notification.created).toLocaleDateString('ar-EG')}`;
+    
+    // تعيين النوع والتصميم
+    let typeText = '';
+    switch(notification.type) {
+        case 'warning': 
+            typeText = '⚠️ تحذير';
+            banner.className = 'notification-banner notification-warning';
+            break;
+        case 'danger': 
+            typeText = '🚨 طارئ';
+            banner.className = 'notification-banner notification-danger';
+            break;
+        case 'success': 
+            typeText = '✅ هام';
+            banner.className = 'notification-banner notification-success';
+            break;
+        default: 
+            typeText = 'ℹ️ إعلان';
+            banner.className = 'notification-banner';
+    }
+    
+    document.getElementById('notificationType').textContent = typeText;
+    
+    // إظهار الشريط
+    banner.style.display = 'block';
+    console.log('✅ شريط الإعلان معروض');
+    
+    // إخفاء تلقائي بعد 10 ثواني (ما لم يكن عاجلاً)
+    if (!notification.urgent) {
+        setTimeout(() => {
+            if (banner.style.display === 'block') {
+                console.log('⏰ إخفاء تلقائي للإعلان');
+                closeNotification();
+            }
+        }, 10000);
+    }
+}
+
+// إغلاق الإعلان العائم
+function closeNotification() {
+    const banner = document.getElementById('notificationBanner');
+    if (banner) {
+        banner.style.display = 'none';
+        console.log('👋 تم إغلاق شريط الإعلان');
         
-        if (result.outcome === 'accepted') {
-            console.log('✅ تم قبول التثبيت');
-            // سيعالج حدث appinstalled الباقي
+        // عرض الإعلان التالي بعد 30 ثانية إذا كان هناك المزيد
+        if (notifications.length > 1) {
+            setTimeout(showNextNotification, 30000);
+        }
+    }
+}
+
+// عرض الإعلان التالي في الدور
+function showNextNotification() {
+    if (notifications.length === 0) {
+        console.log('📭 لا توجد إعلانات للعرض');
+        return;
+    }
+    
+    currentNotificationIndex = (currentNotificationIndex + 1) % notifications.length;
+    console.log('🔄 الانتقال للإعلان رقم:', currentNotificationIndex + 1);
+    showNotification(notifications[currentNotificationIndex]);
+}
+
+// عرض الشريط العلوي للإعلانات العاجلة
+function showAnnouncement() {
+    if (notifications.length === 0) return;
+    
+    // البحث عن إعلان عاجل
+    const urgentNotification = notifications.find(n => n.urgent);
+    if (urgentNotification) {
+        const announcement = document.getElementById('topAnnouncement');
+        const announcementText = document.getElementById('announcementText');
+        
+        if (announcement && announcementText) {
+            announcementText.textContent = urgentNotification.title;
+            announcement.style.display = 'block';
+            console.log('🚨 عرض إعلان عاجل في الشريط العلوي');
+            
+            // تناوب النصوص
+            let texts = [
+                urgentNotification.title,
+                urgentNotification.message.substring(0, 100) + (urgentNotification.message.length > 100 ? '...' : '')
+            ];
+            let currentTextIndex = 0;
+            
+            announcementInterval = setInterval(() => {
+                currentTextIndex = (currentTextIndex + 1) % texts.length;
+                announcementText.textContent = texts[currentTextIndex];
+            }, 5000);
+        }
+    }
+}
+
+// إغلاق الشريط العلوي
+function closeAnnouncement() {
+    const announcement = document.getElementById('topAnnouncement');
+    if (announcement) {
+        announcement.style.display = 'none';
+        if (announcementInterval) {
+            clearInterval(announcementInterval);
+        }
+        console.log('👋 تم إغلاق الشريط العلوي');
+    }
+}
+
+// نظام التحديث التلقائي للإعلانات
+function setupAutoRefresh() {
+    console.log('🔄 تفعيل التحديث التلقائي للإعلانات');
+    
+    // تحديث كل 30 ثانية للتحقق من إعلانات جديدة
+    setInterval(async () => {
+        const now = Date.now();
+        // تحديث فقط إذا مرت 30 ثانية على آخر تحديث
+        if (now - lastUpdateTime > 30000) {
+            console.log('🔄 تحقق من تحديثات جديدة...');
+            
+            try {
+                const oldCount = notifications.length;
+                await loadNotifications();
+                
+                if (notifications.length > oldCount) {
+                    console.log(`🆕 تم اكتشاف ${notifications.length - oldCount} إعلان جديد`);
+                    
+                    // إذا لم يكن هناك إعلان معروض حاليًا، اعرض واحدًا
+                    const banner = document.getElementById('notificationBanner');
+                    if (!banner || banner.style.display === 'none') {
+                        currentNotificationIndex = 0;
+                        showNotification(notifications[0]);
+                    }
+                }
+            } catch (error) {
+                console.log('⚠️ خطأ في التحديث التلقائي:', error);
+            }
+        }
+    }, 30000);
+    
+    // استمع لتحديثات من لوحة التحكم
+    window.addEventListener('message', function(event) {
+        if (event.data && event.data.type === 'JEEL_UPDATE') {
+            console.log('📨 استلام تحديث من لوحة التحكم');
+            
+            // إعادة تحميل الإعلانات بعد 3 ثواني
+            setTimeout(async () => {
+                console.log('🔄 إعادة تحميل الإعلانات بعد التحديث...');
+                await loadNotifications();
+                
+                if (notifications.length > 0) {
+                    currentNotificationIndex = 0;
+                    showNotification(notifications[0]);
+                    console.log('✅ تم عرض الإعلان الجديد');
+                }
+            }, 3000);
+        }
+    });
+    
+    // تحقق من التحديثات المحلية
+    const lastLocalUpdate = localStorage.getItem('jeel_last_update');
+    if (lastLocalUpdate && (Date.now() - parseInt(lastLocalUpdate)) < 60000) {
+        console.log('🔄 اكتشاف تحديث محلي حديث');
+        setTimeout(async () => {
+            await loadNotifications();
+        }, 2000);
+    }
+}
+
+// تهيئة نظام الإعلانات
+async function initNotifications() {
+    console.log('🚀 تهيئة نظام الإعلانات...');
+    
+    // تحميل الإعلانات أولاً
+    await loadNotifications();
+    
+    if (notifications.length > 0) {
+        console.log(`📊 جاهز لعرض ${notifications.length} إعلان`);
+        
+        // عرض أول إعلان بعد 3 ثواني
+        setTimeout(() => {
+            showNotification(notifications[currentNotificationIndex]);
+        }, 3000);
+        
+        // عرض الشريط العلوي بعد 5 ثواني إذا كان هناك إعلان عاجل
+        setTimeout(showAnnouncement, 5000);
+        
+        // بدء الدور التلقائي للإعلانات (كل 3 دقائق)
+        setInterval(() => {
+            if (notifications.length > 1) {
+                showNextNotification();
+            }
+        }, 180000);
+        
+    } else {
+        console.log('📭 لا توجد إعلانات للعرض حالياً');
+    }
+    
+    // تفعيل التحديث التلقائي
+    setupAutoRefresh();
+}
+
+// دالة التحديث اليدوي للإعلانات
+async function refreshNotifications() {
+    console.log('🔃 تحديث يدوي للإعلانات...');
+    
+    const oldCount = notifications.length;
+    await loadNotifications();
+    
+    if (notifications.length > oldCount) {
+        const newCount = notifications.length - oldCount;
+        alert(`✅ تم تحديث الإعلانات!\n\nتم إضافة ${newCount} إعلان جديد`);
+        
+        // عرض أول إعلان جديد
+        if (notifications.length > 0) {
+            currentNotificationIndex = 0;
+            showNotification(notifications[0]);
+            showAnnouncement();
+        }
+    } else {
+        alert('📭 لا توجد إعلانات جديدة');
+    }
+}
+
+// إضافة زر التحديث اليدوي
+function addRefreshButton() {
+    const refreshBtn = document.createElement('button');
+    refreshBtn.innerHTML = '🔄 تحديث الإعلانات';
+    refreshBtn.title = 'تحميل أحدث الإعلانات من الخادم';
+    refreshBtn.style.position = 'fixed';
+    refreshBtn.style.bottom = '180px';
+    refreshBtn.style.right = '25px';
+    refreshBtn.style.zIndex = '9995';
+    refreshBtn.style.background = 'var(--accent-gradient)';
+    refreshBtn.style.color = 'white';
+    refreshBtn.style.border = 'none';
+    refreshBtn.style.borderRadius = '25px';
+    refreshBtn.style.padding = '10px 20px';
+    refreshBtn.style.fontSize = '14px';
+    refreshBtn.style.cursor = 'pointer';
+    refreshBtn.style.boxShadow = '0 4px 15px rgba(33, 150, 243, 0.4)';
+    refreshBtn.style.fontWeight = 'bold';
+    refreshBtn.style.display = 'flex';
+    refreshBtn.style.alignItems = 'center';
+    refreshBtn.style.gap = '8px';
+    refreshBtn.style.transition = 'all 0.3s';
+    
+    refreshBtn.addEventListener('click', async function() {
+        refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحديث...';
+        refreshBtn.disabled = true;
+        
+        await refreshNotifications();
+        
+        refreshBtn.innerHTML = '🔄 تحديث الإعلانات';
+        refreshBtn.disabled = false;
+    });
+    
+    refreshBtn.addEventListener('mouseenter', () => {
+        refreshBtn.style.transform = 'translateY(-3px)';
+        refreshBtn.style.boxShadow = '0 8px 25px rgba(33, 150, 243, 0.6)';
+    });
+    
+    refreshBtn.addEventListener('mouseleave', () => {
+        refreshBtn.style.transform = 'translateY(0)';
+        refreshBtn.style.boxShadow = '0 4px 15px rgba(33, 150, 243, 0.4)';
+    });
+    
+    document.body.appendChild(refreshBtn);
+    console.log('✅ تم إضافة زر تحديث الإعلانات');
+}
+
+// رابط سري للوحة التحكم (للإدارة فقط)
+function setupSecretAdminLink() {
+    console.log('%c🔐 إدارة مدارس جيل النهضة', 
+        'color: white; background: linear-gradient(90deg, #1a237e, #4CAF50); padding: 10px 20px; font-size: 14px; border-radius: 5px;');
+    console.log('📍 لوحة التحكم متاحة للإدارة فقط');
+    console.log('📌 الرابط: /admin/dashboard.html');
+    console.log('🔑 كلمة المرور: jeel@2024');
+    
+    window.jeel = window.jeel || {};
+    
+    // دالة الوصول للوحة التحكم
+    window.jeel.openAdmin = function() {
+        const password = prompt("🔐 أدخل كلمة مرور الإدارة:");
+        if (password === "jeel@2024") {
+            window.open('admin/dashboard.html', '_blank');
+            console.log('✅ تم فتح لوحة التحكم');
         } else {
-            console.log('❌ تم رفض التثبيت');
-            showSystemMessage('warning', 'تم إلغاء التثبيت', 
-                'يمكنك تثبيت التطبيق لاحقاً من زر التثبيت في الأعلى.');
+            alert("❌ كلمة المرور غير صحيحة");
         }
-        
-        // مسح deferredPrompt بعد الاستخدام
-        deferredPrompt = null;
-        
-    } catch (error) {
-        console.error('❌ خطأ في التثبيت:', error);
-        showSystemMessage('error', '❌ خطأ في التثبيت', 
-            'حدث خطأ أثناء التثبيت. حاول مرة أخرى.');
-    }
+    };
 }
 
-// ========== ربط أزرار التثبيت ==========
-function setupInstallButtons() {
-    // الزر الرئيسي
-    const installBtn = document.getElementById('installBtn');
-    if (installBtn) {
-        installBtn.addEventListener('click', installApp);
-    }
-    
-    // الزر الثانوي
-    const secondaryBtn = document.getElementById('secondaryInstallBtn');
-    if (secondaryBtn) {
-        secondaryBtn.addEventListener('click', installApp);
-    }
-    
-    // زر البانر
-    const bannerBtn = document.getElementById('installBannerBtn');
-    if (bannerBtn) {
-        bannerBtn.addEventListener('click', installApp);
-    }
-    
-    // زر إغلاق البانر
-    const closeBanner = document.getElementById('closeBanner');
-    if (closeBanner) {
-        closeBanner.addEventListener('click', () => {
-            const banner = document.getElementById('installBanner');
-            if (banner) banner.style.display = 'none';
-            localStorage.setItem('bannerClosed', 'true');
-        });
-    }
-}
-
-// ========== دالة إرسال إشعارات ==========
-function sendNotification(title, message) {
-    // 1. إرسال عبر Service Worker
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({
-            type: 'SEND_NOTIFICATION',
-            title: title,
-            message: message
-        });
-        console.log('📨 تم إرسال إشعار لـ Service Worker');
-    }
-    
-    // 2. إرسال إشعار المتصفح مباشرة
-    if ('Notification' in window && Notification.permission === 'granted') {
-        const notification = new Notification(title, {
-            body: message,
-            icon: '/alnhdah/logo.png',
-            badge: '/alnhdah/logo.png',
-            tag: 'jeel-direct-notification',
-            requireInteraction: true
-        });
-        
-        notification.onclick = () => {
-            window.focus();
-            notification.close();
-        };
-        
-        console.log('🔔 تم إرسال إشعار مباشر');
-    }
-    
-    // 3. عرض بانر في الصفحة
-    showNotificationBanner(title, message);
-}
-
-// ========== دالة عرض بانر الإعلان ==========
-function showNotificationBanner(title, message) {
-    // إنشاء بانر الإعلان
-    const banner = document.createElement('div');
-    banner.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        width: 350px;
-        max-width: 90%;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        z-index: 9999;
-        border: 3px solid #4CAF50;
-        animation: slideInRight 0.5s ease-out;
-        padding: 20px;
-        font-family: 'Tahoma', sans-serif;
-    `;
-    
-    banner.innerHTML = `
-        <div style="display: flex; align-items: flex-start; gap: 15px;">
-            <div style="
-                background: #4CAF50;
-                color: white;
-                width: 40px;
-                height: 40px;
-                border-radius: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 20px;
-                flex-shrink: 0;
-            ">
-                📢
-            </div>
-            <div style="flex: 1;">
-                <div style="
-                    font-weight: bold;
-                    color: #1a237e;
-                    font-size: 16px;
-                    margin-bottom: 8px;
-                ">
-                    ${title}
-                </div>
-                <div style="
-                    color: #333;
-                    line-height: 1.5;
-                    font-size: 14px;
-                    margin-bottom: 15px;
-                ">
-                    ${message}
-                </div>
-                <div style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    font-size: 12px;
-                    color: #666;
-                ">
-                    <span>مدارس جيل النهضة</span>
-                    <button onclick="this.parentElement.parentElement.parentElement.remove()" 
-                            style="
-                                background: #f44336;
-                                color: white;
-                                border: none;
-                                padding: 5px 15px;
-                                border-radius: 20px;
-                                font-size: 12px;
-                                cursor: pointer;
-                            ">
-                        إغلاق
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // إضافة البانر للصفحة
-    document.body.appendChild(banner);
-    
-    // إخفاء تلقائي بعد 10 ثواني
-    setTimeout(() => {
-        if (banner.parentNode) {
-            banner.style.animation = 'slideOutRight 0.5s ease-out';
-            setTimeout(() => {
-                if (banner.parentNode) banner.remove();
-            }, 500);
-        }
-    }, 10000);
-}
-
-// ========== تهيئة النظام ==========
-document.addEventListener('DOMContentLoaded', () => {
+// تهيئة النظام عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 تحميل صفحة مدارس جيل النهضة');
     
-    // 1. إعداد أزرار التثبيت
-    setupInstallButtons();
+    // بدء نظام الإعلانات بعد 2 ثانية
+    setTimeout(async () => {
+        await initNotifications();
+    }, 2000);
     
-    // 2. تحديث واجهة التثبيت
-    updateInstallUI();
+    // إضافة أزرار التحكم بعد 3 ثواني
+    setTimeout(() => {
+        addRefreshButton();
+        setupSecretAdminLink();
+    }, 3000);
     
-    // 3. تسجيل Service Worker
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/alnhdah/sw.js')
-            .then(registration => {
-                console.log('✅ Service Worker مسجل:', registration.scope);
-                
-                // التحقق من التحديثات
-                registration.addEventListener('updatefound', () => {
-                    const newWorker = registration.installing;
-                    console.log('🔄 تم العثور على تحديث Service Worker');
-                    
-                    newWorker.addEventListener('statechange', () => {
-                        console.log('📊 حالة Service Worker الجديدة:', newWorker.state);
-                    });
-                });
-            })
-            .catch(error => {
-                console.error('❌ فشل تسجيل Service Worker:', error);
-            });
-    }
-    
-    // 4. طلب إذن الإشعارات
-    if ('Notification' in window && Notification.permission === 'default') {
-        setTimeout(() => {
-            Notification.requestPermission().then(permission => {
-                console.log('🔔 إذن الإشعارات:', permission);
-                if (permission === 'granted') {
-                    localStorage.setItem('notificationsEnabled', 'true');
-                }
-            });
-        }, 3000);
-    }
-    
-    // 5. إضافة أنيميشن إذا لم تكن موجودة
-    if (!document.querySelector('style[data-notification-anim]')) {
-        const style = document.createElement('style');
-        style.setAttribute('data-notification-anim', 'true');
-        style.textContent = `
-            @keyframes slideInRight {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOutRight {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    console.log('✅ النظام جاهز للعمل');
+    // رسالة ترحيبية
+    setTimeout(() => {
+        if (notifications.length > 0) {
+            console.log(`📢 تم تحميل ${notifications.length} إعلان نشط`);
+        }
+    }, 4000);
 });
 
-// ========== دالة اختبار الإشعارات ==========
-function testNotification() {
-    sendNotification(
-        '🔔 اختبار النظام - مدارس جيل النهضة',
-        'هذا اختبار لنظام الإشعارات. إذا استلمت هذا الإشعار، فالنظام يعمل بشكل صحيح!'
-    );
-}
-
-// جعل الدوال متاحة عالمياً
-window.installApp = installApp;
-window.testNotification = testNotification;
+// وظيفة مساعدة للتحقق من حالة النظام
+window.checkNotificationsStatus = function() {
+    console.log('🔍 فحص حالة نظام الإعلانات:');
+    console.log('========================');
+    console.log('📊 عدد الإعلانات:', notifications.length);
+    console.log('📍 المؤشر الحالي:', currentNotificationIndex);
+    console.log('🕒 آخر تحديث:', new Date(lastUpdateTime).toLocaleTimeString());
+    console.log('💾 localStorage:', localStorage.getItem('jeel_notifications') ? 'موجود' : 'فارغ');
+    console.log('🌐 GitHub:', NOTIFICATIONS_URL);
+    console.log('========================');
+    
+    notifications.forEach((note, index) => {
+        console.log(`${index + 1}. "${note.title}" (${note.type}) - ${note.urgent ? 'عاجل' : 'عادي'}`);
+    });
+};
+  </script>
+</body>
 </html>
