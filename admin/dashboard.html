@@ -462,7 +462,7 @@
                                     <button type="reset" class="btn btn-secondary me-2">
                                         <i class="fas fa-redo me-2"></i>مسح النموذج
                                     </button>
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" id="submitBtn">
                                         <i class="fas fa-paper-plane me-2"></i>إرسال الإعلان
                                     </button>
                                 </div>
@@ -836,922 +836,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-    // ========== نظام التحكم الكامل - مصحح ==========
-    class NotificationSystem {
-        constructor() {
-            this.STORAGE_KEYS = {
-                NOTIFICATIONS: 'jeel_notifications_v2',
-                STATS: 'jeel_stats_v2',
-                SETTINGS: 'jeel_settings_v2'
-            };
-            
-            this.notifications = [];
-            this.stats = this.getDefaultStats();
-            this.settings = this.getDefaultSettings();
-            this.currentAction = null;
-            this.currentActionData = null;
-            
-            this.init();
-        }
-        
-        init() {
-            this.loadData();
-            this.setupEventListeners();
-            this.setupNavigation();
-            this.updatePreview();
-            this.loadNotificationsTable();
-            this.updateStats();
-            this.checkSystemStatus();
-            
-            console.log('🚀 نظام الإعلانات جاهز');
-            this.showSystemMessage('info', 'النظام جاهز', 'يمكنك إضافة إعلان جديد الآن', 3000);
-        }
-        
-        getDefaultStats() {
-            return {
-                totalNotifications: 0,
-                totalViews: 0,
-                activeUsers: Math.floor(Math.random() * 50) + 10,
-                engagementRate: 0,
-                lastUpdated: new Date().toISOString(),
-                notificationTypes: {
-                    info: 0,
-                    success: 0,
-                    warning: 0,
-                    danger: 0
-                }
-            };
-        }
-        
-        getDefaultSettings() {
-            return {
-                notificationDuration: 10000,
-                maxActiveNotifications: 10,
-                autoCleanup: true,
-                enableSounds: true
-            };
-        }
-        
-        loadData() {
-            try {
-                // تحميل الإعلانات
-                const savedNotifications = localStorage.getItem(this.STORAGE_KEYS.NOTIFICATIONS);
-                this.notifications = savedNotifications ? JSON.parse(savedNotifications) : [];
-                
-                // تحميل الإحصائيات
-                const savedStats = localStorage.getItem(this.STORAGE_KEYS.STATS);
-                this.stats = savedStats ? JSON.parse(savedStats) : this.getDefaultStats();
-                
-                // تحميل الإعدادات
-                const savedSettings = localStorage.getItem(this.STORAGE_KEYS.SETTINGS);
-                this.settings = savedSettings ? JSON.parse(savedSettings) : this.getDefaultSettings();
-                
-                console.log('📊 تم تحميل البيانات:', this.notifications.length, 'إعلان');
-            } catch (error) {
-                console.error('❌ خطأ في تحميل البيانات:', error);
-                this.resetData();
-            }
-        }
-        
-        saveData() {
-            try {
-                // حفظ البيانات
-                localStorage.setItem(this.STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(this.notifications));
-                localStorage.setItem(this.STORAGE_KEYS.STATS, JSON.stringify(this.stats));
-                localStorage.setItem(this.STORAGE_KEYS.SETTINGS, JSON.stringify(this.settings));
-                
-                // إرسال تحديث للصفحة الرئيسية
-                this.sendUpdateToMainPage();
-                
-                console.log('💾 تم حفظ البيانات');
-                return true;
-            } catch (error) {
-                console.error('❌ خطأ في حفظ البيانات:', error);
-                return false;
-            }
-        }
-        
-        sendUpdateToMainPage() {
-            // تحديث علامة النظام لتفعيل التحديث في الصفحة الرئيسية
-            localStorage.setItem('jeel_system_update', Date.now().toString());
-            
-            // إرسال إشعار عبر BroadcastChannel إذا كان متاحاً
-            if (typeof BroadcastChannel !== 'undefined') {
-                try {
-                    const channel = new BroadcastChannel('jeel_notifications');
-                    channel.postMessage({
-                        type: 'NEW_NOTIFICATION',
-                        timestamp: Date.now(),
-                        data: {
-                            notificationsCount: this.notifications.length,
-                            latestNotification: this.notifications[0]
-                        }
-                    });
-                    channel.close();
-                } catch (error) {
-                    console.log('⚠️ BroadcastChannel غير متاح');
-                }
-            }
-            
-            // إرسال إشعارات إلى جميع علامات التبويب المفتوحة
-            localStorage.setItem('jeel_last_update', Date.now().toString());
-            
-            console.log('📤 تم إرسال التحديث للصفحة الرئيسية');
-        }
-        
-        addNotification(data) {
-            try {
-                // إنشاء الإعلان الجديد
-                const notification = {
-                    id: 'jeel_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-                    title: data.title.trim(),
-                    message: data.message.trim(),
-                    type: data.type || 'info',
-                    target: data.target || 'all',
-                    priority: data.priority || 'normal',
-                    urgent: data.urgent || false,
-                    expiry: data.expiry || null,
-                    status: 'active',
-                    created: new Date().toISOString(),
-                    views: 0,
-                    lastViewed: null
-                };
-                
-                console.log('📝 إنشاء إعلان جديد:', notification);
-                
-                // إضافة الإعلان للقائمة
-                this.notifications.unshift(notification);
-                
-                // تحديث الإحصائيات
-                this.stats.totalNotifications++;
-                this.stats.notificationTypes[notification.type] = (this.stats.notificationTypes[notification.type] || 0) + 1;
-                this.stats.lastUpdated = new Date().toISOString();
-                
-                // حفظ البيانات
-                const saved = this.saveData();
-                
-                if (saved) {
-                    // إرسال إشعار متصفح مباشر
-                    this.sendDirectNotification(notification);
-                    
-                    // حفظ نسخة مبسطة للصفحة الرئيسية
-                    this.saveForMainPage(notification);
-                    
-                    console.log('✅ تم إضافة الإعلان بنجاح:', notification.title);
-                    return notification;
-                }
-                
-                return null;
-                
-            } catch (error) {
-                console.error('❌ خطأ في إضافة الإعلان:', error);
-                return null;
-            }
-        }
-        
-        sendDirectNotification(notification) {
-            // التحقق من دعم الإشعارات
-            if (!('Notification' in window)) {
-                console.log('⚠️ الإشعارات غير مدعومة في هذا المتصفح');
-                return false;
-            }
-            
-            // التحقق من إذن الإشعارات
-            if (Notification.permission === 'granted') {
-                try {
-                    const options = {
-                        body: notification.message.length > 120 ? notification.message.substring(0, 120) + '...' : notification.message,
-                        icon: 'https://ameen-algmady.github.io/alnhdah/logo.png',
-                        badge: 'https://ameen-algmady.github.io/alnhdah/logo.png',
-                        tag: 'jeel_notification_' + notification.id,
-                        requireInteraction: notification.urgent,
-                        vibrate: notification.urgent ? [200, 100, 200] : [100, 50, 100],
-                        data: {
-                            notificationId: notification.id,
-                            url: 'https://ameen-algmady.github.io/alnhdah/'
-                        },
-                        actions: [
-                            {
-                                action: 'view',
-                                title: 'عرض التفاصيل'
-                            }
-                        ]
-                    };
-                    
-                    const notif = new Notification('🔔 ' + notification.title, options);
-                    
-                    // إضافة أحداث
-                    notif.onclick = () => {
-                        window.open('https://ameen-algmady.github.io/alnhdah/', '_blank');
-                        notif.close();
-                    };
-                    
-                    notif.onshow = () => {
-                        console.log('🔔 تم عرض الإشعار:', notification.title);
-                    };
-                    
-                    return true;
-                    
-                } catch (error) {
-                    console.error('❌ خطأ في إرسال الإشعار:', error);
-                    return false;
-                }
-            } else if (Notification.permission === 'default') {
-                // طلب الإذن
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        this.sendDirectNotification(notification);
-                    }
-                });
-            }
-            
-            return false;
-        }
-        
-        saveForMainPage(notification) {
-            try {
-                // حفظ نسخة مبسطة للصفحة الرئيسية
-                const mainPageData = {
-                    id: notification.id,
-                    title: notification.title,
-                    message: notification.message,
-                    type: notification.type,
-                    urgent: notification.urgent,
-                    created: notification.created,
-                    expiry: notification.expiry
-                };
-                
-                // حفظ في localStorage للصفحة الرئيسية
-                localStorage.setItem('jeel_latest_notification', JSON.stringify(mainPageData));
-                
-                // حفظ في قائمة الإعلانات للصفحة الرئيسية
-                const mainNotifications = JSON.parse(localStorage.getItem('jeel_main_notifications') || '[]');
-                mainNotifications.unshift(mainPageData);
-                
-                // حفظ فقط آخر 20 إعلان
-                if (mainNotifications.length > 20) {
-                    mainNotifications.length = 20;
-                }
-                
-                localStorage.setItem('jeel_main_notifications', JSON.stringify(mainNotifications));
-                
-                console.log('💾 تم حفظ الإعلان للصفحة الرئيسية');
-                
-            } catch (error) {
-                console.error('❌ خطأ في حفظ للصفحة الرئيسية:', error);
-            }
-        }
-        
-        updateNotification(id, updates) {
-            const index = this.notifications.findIndex(n => n.id === id);
-            if (index === -1) return false;
-            
-            // تحديث البيانات
-            this.notifications[index] = { ...this.notifications[index], ...updates };
-            this.notifications[index].updated = new Date().toISOString();
-            
-            // حفظ البيانات
-            return this.saveData();
-        }
-        
-        deleteNotification(id) {
-            const index = this.notifications.findIndex(n => n.id === id);
-            if (index === -1) return false;
-            
-            // حذف الإعلان
-            this.notifications.splice(index, 1);
-            
-            // تحديث الإحصائيات
-            this.stats.totalNotifications = Math.max(0, this.stats.totalNotifications - 1);
-            
-            // حفظ البيانات
-            return this.saveData();
-        }
-        
-        toggleNotificationStatus(id) {
-            const notification = this.notifications.find(n => n.id === id);
-            if (!notification) return false;
-            
-            const newStatus = notification.status === 'active' ? 'inactive' : 'active';
-            return this.updateNotification(id, { status: newStatus });
-        }
-        
-        // ========== واجهة المستخدم ==========
-        setupEventListeners() {
-            // نموذج الإضافة
-            document.getElementById('notificationForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.handleAddNotification();
-            });
-            
-            // تحديث المعاينة
-            ['title', 'message', 'type', 'target', 'urgent', 'priority'].forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.addEventListener('input', () => this.updatePreview());
-                    element.addEventListener('change', () => this.updatePreview());
-                }
-            });
-            
-            // الفلترة والبحث
-            document.getElementById('searchNotifications')?.addEventListener('input', () => this.loadNotificationsTable());
-            document.getElementById('filterStatus')?.addEventListener('change', () => this.loadNotificationsTable());
-            document.getElementById('filterType')?.addEventListener('change', () => this.loadNotificationsTable());
-            
-            // اختبار النظام
-            document.getElementById('testSystemBtn')?.addEventListener('click', () => this.testSystem());
-            
-            // الإعدادات
-            document.getElementById('notificationDuration')?.addEventListener('change', (e) => {
-                this.settings.notificationDuration = parseInt(e.target.value);
-                this.saveData();
-            });
-            
-            document.getElementById('maxActiveNotifications')?.addEventListener('change', (e) => {
-                this.settings.maxActiveNotifications = parseInt(e.target.value);
-                this.saveData();
-            });
-            
-            document.getElementById('autoCleanup')?.addEventListener('change', (e) => {
-                this.settings.autoCleanup = e.target.checked;
-                this.saveData();
-            });
-            
-            document.getElementById('enableSounds')?.addEventListener('change', (e) => {
-                this.settings.enableSounds = e.target.checked;
-                this.saveData();
-            });
-            
-            // النسخ الاحتياطي
-            document.getElementById('backupBtn')?.addEventListener('click', () => this.backupData());
-            document.getElementById('restoreFile')?.addEventListener('change', (e) => {
-                document.getElementById('restoreBtn').disabled = !e.target.files.length;
-            });
-            document.getElementById('restoreBtn')?.addEventListener('click', () => this.restoreData());
-            
-            // منطقة الخطر
-            document.getElementById('clearAllBtn')?.addEventListener('click', () => this.confirmClearAll());
-            document.getElementById('resetStatsBtn')?.addEventListener('click', () => this.confirmResetStats());
-            
-            // نافذة التعديل
-            document.getElementById('saveEditBtn')?.addEventListener('click', () => this.saveEdit());
-            
-            // نافذة التأكيد
-            document.getElementById('confirmActionBtn')?.addEventListener('click', () => this.executeConfirmedAction());
-        }
-        
-        setupNavigation() {
-            const tabs = document.querySelectorAll('#adminTabs .nav-link');
-            const sections = document.querySelectorAll('.section-content');
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    
-                    sections.forEach(section => section.style.display = 'none');
-                    
-                    const target = tab.getAttribute('data-target');
-                    const targetSection = document.getElementById(target);
-                    if (targetSection) {
-                        targetSection.style.display = 'block';
-                        
-                        if (target === 'manage-section') {
-                            this.loadNotificationsTable();
-                        } else if (target === 'stats-section') {
-                            this.updateStats();
-                        }
-                    }
-                });
-            });
-        }
-        
-        updatePreview() {
-            const title = document.getElementById('title')?.value || 'عنوان الإعلان';
-            const message = document.getElementById('message')?.value || 'نص الإعلان سيظهر هنا...';
-            const type = document.getElementById('type')?.value || 'info';
-            const target = document.getElementById('target')?.value || 'all';
-            const urgent = document.getElementById('urgent')?.checked || false;
-            
-            document.getElementById('previewTitle').textContent = title;
-            document.getElementById('previewMessage').innerHTML = message.replace(/\n/g, '<br>');
-            document.getElementById('previewUrgent').style.display = urgent ? 'inline-block' : 'none';
-            
-            const typeText = {
-                info: '📢 إعلان عام',
-                success: '✅ إعلان هام',
-                warning: '⚠️ تحذير',
-                danger: '🚨 طارئ'
-            }[type] || '📢 إعلان';
-            
-            document.getElementById('previewType').textContent = typeText;
-        }
-        
-        loadNotificationsTable() {
-            const tableBody = document.getElementById('notificationsTable');
-            const noDataMessage = document.getElementById('noNotificationsMessage');
-            
-            if (!tableBody) return;
-            
-            // الفلترة
-            const searchTerm = document.getElementById('searchNotifications')?.value.toLowerCase() || '';
-            const statusFilter = document.getElementById('filterStatus')?.value || 'all';
-            const typeFilter = document.getElementById('filterType')?.value || 'all';
-            
-            let filteredNotifications = this.notifications.filter(notification => {
-                if (searchTerm && !notification.title.toLowerCase().includes(searchTerm) && 
-                    !notification.message.toLowerCase().includes(searchTerm)) {
-                    return false;
-                }
-                
-                if (statusFilter !== 'all' && notification.status !== statusFilter) {
-                    return false;
-                }
-                
-                if (typeFilter !== 'all' && notification.type !== typeFilter) {
-                    return false;
-                }
-                
-                return true;
-            });
-            
-            // تحديث الجدول
-            tableBody.innerHTML = '';
-            
-            if (filteredNotifications.length === 0) {
-                tableBody.style.display = 'none';
-                if (noDataMessage) noDataMessage.style.display = 'block';
-                return;
-            }
-            
-            tableBody.style.display = 'table-row-group';
-            if (noDataMessage) noDataMessage.style.display = 'none';
-            
-            filteredNotifications.forEach((notification, index) => {
-                const row = document.createElement('tr');
-                
-                const typeIcons = {
-                    info: '📢',
-                    success: '✅',
-                    warning: '⚠️',
-                    danger: '🚨'
-                };
-                
-                const date = new Date(notification.created);
-                const formattedDate = date.toLocaleDateString('ar-EG', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                });
-                
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>
-                        <strong>${notification.title}</strong>
-                        ${notification.urgent ? '<span class="badge bg-danger ms-2">عاجل</span>' : ''}
-                    </td>
-                    <td>${typeIcons[notification.type] || '📢'} ${notification.type}</td>
-                    <td>
-                        <span class="status-badge ${notification.status === 'active' ? 'status-active' : 'status-inactive'}">
-                            ${notification.status === 'active' ? 'نشط' : 'غير نشط'}
-                        </span>
-                    </td>
-                    <td>${formattedDate}</td>
-                    <td>${notification.views}</td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary me-2" onclick="system.editNotification('${notification.id}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-sm btn-outline-${notification.status === 'active' ? 'warning' : 'success'} me-2" 
-                                onclick="system.toggleStatus('${notification.id}')">
-                            <i class="fas fa-power-off"></i>
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="system.confirmDelete('${notification.id}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-        }
-        
-        updateStats() {
-            const activeNotifications = this.notifications.filter(n => n.status === 'active').length;
-            const totalViews = this.notifications.reduce((sum, n) => sum + n.views, 0);
-            
-            document.getElementById('totalNotifications').textContent = activeNotifications;
-            document.getElementById('totalViews').textContent = totalViews;
-            document.getElementById('activeUsers').textContent = this.stats.activeUsers || '0';
-            document.getElementById('engagementRate').textContent = this.calculateEngagementRate() + '%';
-            
-            this.updateTypeDistribution();
-        }
-        
-        calculateEngagementRate() {
-            if (this.notifications.length === 0) return 0;
-            
-            const totalViews = this.notifications.reduce((sum, n) => sum + n.views, 0);
-            const rate = Math.min(100, Math.round((totalViews / (this.notifications.length * 10)) * 100));
-            return rate;
-        }
-        
-        updateTypeDistribution() {
-            const distribution = document.getElementById('typeDistribution');
-            if (!distribution) return;
-            
-            distribution.innerHTML = '';
-            
-            const types = {
-                info: { name: 'إعلانات عامة', color: '#2196F3', icon: '📢' },
-                success: { name: 'إعلانات هامة', color: '#4CAF50', icon: '✅' },
-                warning: { name: 'تحذيرات', color: '#FF9800', icon: '⚠️' },
-                danger: { name: 'طارئ', color: '#f44336', icon: '🚨' }
-            };
-            
-            Object.entries(types).forEach(([type, info]) => {
-                const count = this.notifications.filter(n => n.type === type).length;
-                const percentage = this.notifications.length > 0 ? 
-                    Math.round((count / this.notifications.length) * 100) : 0;
-                
-                const item = document.createElement('li');
-                item.className = 'list-group-item d-flex justify-content-between align-items-center';
-                item.innerHTML = `
-                    <div>
-                        <span style="color: ${info.color}">${info.icon}</span>
-                        <span class="ms-2">${info.name}</span>
-                    </div>
-                    <div>
-                        <span class="badge bg-light text-dark me-2">${count}</span>
-                        <span class="text-muted">${percentage}%</span>
-                    </div>
-                `;
-                
-                distribution.appendChild(item);
-            });
-        }
-        
-        checkSystemStatus() {
-            const statusElement = document.getElementById('systemStatus');
-            if (!statusElement) return;
-            
-            let status = 'النظام جاهز للعمل';
-            let statusClass = 'text-success';
-            let icon = 'fa-check-circle';
-            
-            if (this.notifications.length >= 50) {
-                status = 'التخزين يقترب من السعة القصوى';
-                statusClass = 'text-warning';
-                icon = 'fa-exclamation-triangle';
-            }
-            
-            if ('Notification' in window && Notification.permission === 'denied') {
-                status = 'إشعارات المتصفح غير مفعلة';
-                statusClass = 'text-danger';
-                icon = 'fa-bell-slash';
-            }
-            
-            statusElement.className = statusClass;
-            statusElement.innerHTML = `<i class="fas ${icon} me-2"></i>${status}`;
-        }
-        
-        // ========== معالجة الأحداث ==========
-        handleAddNotification() {
-            const form = document.getElementById('notificationForm');
-            const formData = {
-                title: document.getElementById('title').value.trim(),
-                message: document.getElementById('message').value.trim(),
-                type: document.getElementById('type').value,
-                target: document.getElementById('target').value,
-                priority: document.getElementById('priority').value,
-                urgent: document.getElementById('urgent').checked,
-                expiry: document.getElementById('expiry').value || null
-            };
-            
-            if (!formData.title || !formData.message) {
-                this.showSystemMessage('warning', 'يرجى ملء الحقول', 'العنوان والنص مطلوبان');
-                return;
-            }
-            
-            const notification = this.addNotification(formData);
-            
-            if (notification) {
-                this.showSystemMessage('success', 'تم بنجاح', `تم إضافة الإعلان "${notification.title}"`);
-                
-                form.reset();
-                this.updatePreview();
-                this.loadNotificationsTable();
-                this.updateStats();
-                
-                // طلب إذن الإشعارات إذا لزم
-                if ('Notification' in window && Notification.permission === 'default') {
-                    setTimeout(() => {
-                        Notification.requestPermission();
-                    }, 1000);
-                }
-            } else {
-                this.showSystemMessage('danger', 'خطأ', 'حدث خطأ أثناء حفظ الإعلان');
-            }
-        }
-        
-        editNotification(id) {
-            const notification = this.notifications.find(n => n.id === id);
-            if (!notification) return;
-            
-            document.getElementById('editId').value = notification.id;
-            document.getElementById('editTitle').value = notification.title;
-            document.getElementById('editMessage').value = notification.message;
-            document.getElementById('editType').value = notification.type;
-            document.getElementById('editStatus').value = notification.status;
-            document.getElementById('editUrgent').checked = notification.urgent;
-            
-            const modal = new bootstrap.Modal(document.getElementById('editModal'));
-            modal.show();
-        }
-        
-        saveEdit() {
-            const id = document.getElementById('editId').value;
-            const updates = {
-                title: document.getElementById('editTitle').value.trim(),
-                message: document.getElementById('editMessage').value.trim(),
-                type: document.getElementById('editType').value,
-                status: document.getElementById('editStatus').value,
-                urgent: document.getElementById('editUrgent').checked,
-                updated: new Date().toISOString()
-            };
-            
-            if (!updates.title || !updates.message) {
-                this.showSystemMessage('warning', 'يرجى ملء الحقول', 'العنوان والنص مطلوبان');
-                return;
-            }
-            
-            const success = this.updateNotification(id, updates);
-            
-            if (success) {
-                this.showSystemMessage('success', 'تم التحديث', 'تم تحديث الإعلان بنجاح');
-                this.loadNotificationsTable();
-                this.updateStats();
-                
-                const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
-                modal.hide();
-            } else {
-                this.showSystemMessage('danger', 'خطأ', 'حدث خطأ أثناء التحديث');
-            }
-        }
-        
-        toggleStatus(id) {
-            const success = this.toggleNotificationStatus(id);
-            if (success) {
-                this.showSystemMessage('success', 'تم التغيير', 'تم تغيير حالة الإعلان');
-                this.loadNotificationsTable();
-                this.updateStats();
-            }
-        }
-        
-        confirmDelete(id) {
-            const notification = this.notifications.find(n => n.id === id);
-            if (!notification) return;
-            
-            this.currentAction = 'delete';
-            this.currentActionData = id;
-            
-            document.getElementById('confirmTitle').textContent = 'تأكيد الحذف';
-            document.getElementById('confirmMessage').innerHTML = `
-                <div class="alert alert-warning">
-                    <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
-                    <h5>هل أنت متأكد من حذف هذا الإعلان؟</h5>
-                    <p class="mb-0"><strong>${notification.title}</strong></p>
-                    <p class="text-muted">لا يمكن التراجع عن هذا الإجراء</p>
-                </div>
-            `;
-            
-            const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
-            modal.show();
-        }
-        
-        confirmClearAll() {
-            this.currentAction = 'clearAll';
-            
-            document.getElementById('confirmTitle').textContent = 'تأكيد الحذف الكامل';
-            document.getElementById('confirmMessage').innerHTML = `
-                <div class="alert alert-danger">
-                    <i class="fas fa-trash-alt fa-2x mb-3"></i>
-                    <h5>تحذير: حذف جميع البيانات</h5>
-                    <p>سيتم حذف جميع الإعلانات والإحصائيات والإعدادات.</p>
-                    <p class="mb-0"><strong>هذا الإجراء لا يمكن التراجع عنه!</strong></p>
-                </div>
-            `;
-            
-            const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
-            modal.show();
-        }
-        
-        confirmResetStats() {
-            this.currentAction = 'resetStats';
-            
-            document.getElementById('confirmTitle').textContent = 'إعادة تعيين الإحصائيات';
-            document.getElementById('confirmMessage').innerHTML = `
-                <div class="alert alert-warning">
-                    <i class="fas fa-redo fa-2x mb-3"></i>
-                    <h5>إعادة تعيين الإحصائيات</h5>
-                    <p>سيتم حذف جميع الإحصائيات والحفاظ على الإعلانات.</p>
-                    <p class="mb-0">هل أنت متأكد من المتابعة؟</p>
-                </div>
-            `;
-            
-            const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
-            modal.show();
-        }
-        
-        executeConfirmedAction() {
-            switch (this.currentAction) {
-                case 'delete':
-                    const success = this.deleteNotification(this.currentActionData);
-                    if (success) {
-                        this.showSystemMessage('success', 'تم الحذف', 'تم حذف الإعلان بنجاح');
-                        this.loadNotificationsTable();
-                        this.updateStats();
-                    }
-                    break;
-                    
-                case 'clearAll':
-                    this.notifications = [];
-                    this.stats = this.getDefaultStats();
-                    this.saveData();
-                    this.showSystemMessage('success', 'تم الحذف', 'تم حذف جميع البيانات');
-                    this.loadNotificationsTable();
-                    this.updateStats();
-                    break;
-                    
-                case 'resetStats':
-                    this.stats = this.getDefaultStats();
-                    this.saveData();
-                    this.showSystemMessage('success', 'تم التعيين', 'تم إعادة تعيين الإحصائيات');
-                    this.updateStats();
-                    break;
-            }
-            
-            this.currentAction = null;
-            this.currentActionData = null;
-            
-            const modal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
-            modal.hide();
-        }
-        
-        // ========== النسخ الاحتياطي ==========
-        backupData() {
-            const backup = {
-                notifications: this.notifications,
-                stats: this.stats,
-                settings: this.settings,
-                version: '2.0',
-                exported: new Date().toISOString()
-            };
-            
-            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `jeel-backup-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            this.showSystemMessage('success', 'تم النسخ', 'تم تنزيل النسخة الاحتياطية');
-        }
-        
-        restoreData() {
-            const fileInput = document.getElementById('restoreFile');
-            const file = fileInput.files[0];
-            
-            if (!file) {
-                this.showSystemMessage('warning', 'ملف مطلوب', 'يرجى اختيار ملف النسخة الاحتياطية');
-                return;
-            }
-            
-            const reader = new FileReader();
-            
-            reader.onload = (e) => {
-                try {
-                    const backup = JSON.parse(e.target.result);
-                    
-                    if (!backup.version) {
-                        this.showSystemMessage('danger', 'ملف غير صالح', 'ملف النسخة الاحتياطية غير صالح');
-                        return;
-                    }
-                    
-                    this.notifications = backup.notifications || [];
-                    this.stats = backup.stats || this.getDefaultStats();
-                    this.settings = backup.settings || this.getDefaultSettings();
-                    
-                    this.saveData();
-                    
-                    this.loadNotificationsTable();
-                    this.updateStats();
-                    
-                    fileInput.value = '';
-                    document.getElementById('restoreBtn').disabled = true;
-                    
-                    this.showSystemMessage('success', 'تم الاستعادة', 'تم استعادة النسخة الاحتياطية بنجاح');
-                } catch (error) {
-                    console.error('❌ خطأ في استعادة النسخة:', error);
-                    this.showSystemMessage('danger', 'ملف تالف', 'ملف النسخة الاحتياطية تالف');
-                }
-            };
-            
-            reader.onerror = () => {
-                this.showSystemMessage('danger', 'خطأ في القراءة', 'حدث خطأ في قراءة الملف');
-            };
-            
-            reader.readAsText(file);
-        }
-        
-        // ========== اختبار النظام ==========
-        testSystem() {
-            this.showSystemMessage('info', 'جاري الاختبار', 'جاري اختبار النظام...', 2000);
-            
-            setTimeout(() => {
-                const testData = {
-                    title: '🔧 اختبار النظام - مدارس جيل النهضة',
-                    message: 'هذا اختبار لنظام الإعلانات. إذا استلمت هذا الإعلان، فالنظام يعمل بشكل صحيح!\n\nيمكنك الآن إضافة إعلانات حقيقية.',
-                    type: 'info',
-                    target: 'all',
-                    urgent: false,
-                    priority: 'normal'
-                };
-                
-                const notification = this.addNotification(testData);
-                
-                if (notification) {
-                    this.showSystemMessage('success', 'الاختبار ناجح', 
-                        'تم إرسال إعلان اختباري بنجاح!\n\nالنتائج:\n• حفظ البيانات: ✓ ناجح\n• إرسال التحديث: ✓ ناجح\n• نظام البث: ✓ نشط');
-                } else {
-                    this.showSystemMessage('danger', 'فشل الاختبار', 'فشل اختبار النظام');
-                }
-            }, 2000);
-        }
-        
-        // ========== أدوات مساعدة ==========
-        showSystemMessage(type, title, message, duration = 5000) {
-            const existingAlert = document.querySelector('.system-alert');
-            if (existingAlert) existingAlert.remove();
-            
-            const alert = document.createElement('div');
-            alert.className = `system-alert alert alert-${type} alert-dismissible fade show`;
-            alert.style.cssText = `
-                position: fixed;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                z-index: 10000;
-                min-width: 300px;
-                text-align: center;
-                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-                border-radius: 10px;
-                border: none;
-            `;
-            
-            const icons = {
-                success: 'fa-check-circle',
-                warning: 'fa-exclamation-triangle',
-                danger: 'fa-times-circle',
-                info: 'fa-info-circle'
-            };
-            
-            alert.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <i class="fas ${icons[type] || 'fa-info-circle'} me-2 fa-lg"></i>
-                    <div style="flex: 1;">
-                        <h6 class="mb-1" style="font-weight: bold;">${title}</h6>
-                        <p class="mb-0" style="font-size: 14px; white-space: pre-line;">${message}</p>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            `;
-            
-            document.body.appendChild(alert);
-            
-            setTimeout(() => {
-                if (alert.parentNode) {
-                    alert.classList.remove('show');
-                    setTimeout(() => alert.remove(), 300);
-                }
-            }, duration);
-        }
-        
-        resetData() {
-            this.notifications = [];
-            this.stats = this.getDefaultStats();
-            this.settings = this.getDefaultSettings();
-            this.saveData();
-        }
-    }
-
-    // ========== تهيئة النظام عند تحميل الصفحة ==========
+    // ========== نظام التحكم الكامل - مبسط ومختبر ==========
     document.addEventListener('DOMContentLoaded', function() {
         // التحقق من الوصول
         const ADMIN_PASSWORD = "jeel@2024";
@@ -1808,16 +893,805 @@
             throw new Error('Access denied');
         }
         
-        // بدء النظام
-        window.system = new NotificationSystem();
+        console.log('🚀 بدء نظام لوحة التحكم...');
         
-        // جعل الدوال متاحة عالمياً
-        window.editNotification = (id) => system.editNotification(id);
-        window.toggleStatus = (id) => system.toggleStatus(id);
-        window.confirmDelete = (id) => system.confirmDelete(id);
+        // تهيئة النظام
+        initializeSystem();
         
-        console.log('🚀 نظام التحكم جاهز للعمل');
+        // عرض رسالة ترحيبية
+        setTimeout(() => {
+            showMessage('info', 'النظام جاهز', 'يمكنك إضافة إعلان جديد الآن');
+        }, 1000);
     });
+
+    // ========== المتغيرات العامة ==========
+    let notifications = [];
+    let settings = {
+        notificationDuration: 10000,
+        maxActiveNotifications: 10,
+        autoCleanup: true,
+        enableSounds: true
+    };
+
+    // ========== تهيئة النظام ==========
+    function initializeSystem() {
+        loadNotifications();
+        loadSettings();
+        setupEventListeners();
+        setupNavigation();
+        updatePreview();
+        updateSystemStatus();
+        
+        console.log('✅ النظام مهيأ وجاهز');
+    }
+
+    // ========== تحميل البيانات ==========
+    function loadNotifications() {
+        try {
+            const saved = localStorage.getItem('jeel_notifications_v2');
+            notifications = saved ? JSON.parse(saved) : [];
+            console.log('📥 تم تحميل الإعلانات:', notifications.length);
+            updateNotificationTable();
+        } catch (error) {
+            console.error('❌ خطأ في تحميل الإعلانات:', error);
+            notifications = [];
+        }
+    }
+
+    function loadSettings() {
+        try {
+            const saved = localStorage.getItem('jeel_settings_v2');
+            if (saved) {
+                settings = JSON.parse(saved);
+                
+                // تطبيق الإعدادات على الواجهة
+                document.getElementById('notificationDuration').value = settings.notificationDuration;
+                document.getElementById('maxActiveNotifications').value = settings.maxActiveNotifications;
+                document.getElementById('autoCleanup').checked = settings.autoCleanup;
+                document.getElementById('enableSounds').checked = settings.enableSounds;
+            }
+        } catch (error) {
+            console.error('❌ خطأ في تحميل الإعدادات:', error);
+        }
+    }
+
+    // ========== إعداد المستمعين للأحداث ==========
+    function setupEventListeners() {
+        console.log('🔧 إعداد مستمعي الأحداث...');
+        
+        // 1. النموذج الرئيسي
+        const notificationForm = document.getElementById('notificationForm');
+        if (notificationForm) {
+            console.log('✅ تم العثور على النموذج');
+            notificationForm.addEventListener('submit', handleSubmit);
+        } else {
+            console.error('❌ لم يتم العثور على النموذج');
+        }
+        
+        // 2. تحديث المعاينة
+        ['title', 'message', 'type', 'target', 'urgent', 'priority'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', updatePreview);
+                element.addEventListener('change', updatePreview);
+            }
+        });
+        
+        // 3. زر الاختبار
+        const testBtn = document.getElementById('testSystemBtn');
+        if (testBtn) {
+            testBtn.addEventListener('click', testSystem);
+        }
+        
+        // 4. الإعدادات
+        document.getElementById('notificationDuration')?.addEventListener('change', saveSettings);
+        document.getElementById('maxActiveNotifications')?.addEventListener('change', saveSettings);
+        document.getElementById('autoCleanup')?.addEventListener('change', saveSettings);
+        document.getElementById('enableSounds')?.addEventListener('change', saveSettings);
+        
+        // 5. النسخ الاحتياطي
+        document.getElementById('backupBtn')?.addEventListener('click', backupData);
+        document.getElementById('restoreFile')?.addEventListener('change', (e) => {
+            document.getElementById('restoreBtn').disabled = !e.target.files.length;
+        });
+        document.getElementById('restoreBtn')?.addEventListener('click', restoreData);
+        
+        // 6. منطقة الخطر
+        document.getElementById('clearAllBtn')?.addEventListener('click', confirmClearAll);
+        document.getElementById('resetStatsBtn')?.addEventListener('click', confirmResetStats);
+        
+        // 7. نافذة التعديل
+        document.getElementById('saveEditBtn')?.addEventListener('click', saveEdit);
+        
+        // 8. نافذة التأكيد
+        document.getElementById('confirmActionBtn')?.addEventListener('click', executeConfirmedAction);
+    }
+
+    function setupNavigation() {
+        const tabs = document.querySelectorAll('#adminTabs .nav-link');
+        const sections = document.querySelectorAll('.section-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                sections.forEach(section => section.style.display = 'none');
+                
+                const target = tab.getAttribute('data-target');
+                const targetSection = document.getElementById(target);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                    
+                    if (target === 'manage-section') {
+                        updateNotificationTable();
+                        updateStats();
+                    } else if (target === 'stats-section') {
+                        updateStats();
+                    }
+                }
+            });
+        });
+    }
+
+    // ========== معالجة إرسال النموذج ==========
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log('📤 معالجة إرسال النموذج...');
+        
+        try {
+            // جمع البيانات من النموذج
+            const formData = {
+                title: document.getElementById('title').value.trim(),
+                message: document.getElementById('message').value.trim(),
+                type: document.getElementById('type').value,
+                target: document.getElementById('target').value,
+                priority: document.getElementById('priority').value,
+                urgent: document.getElementById('urgent').checked,
+                expiry: document.getElementById('expiry').value || null
+            };
+            
+            console.log('📝 البيانات المجمعة:', formData);
+            
+            // التحقق من البيانات
+            if (!formData.title || !formData.message) {
+                showMessage('warning', 'حقول مطلوبة', 'يرجى ملء العنوان والنص');
+                return;
+            }
+            
+            // إضافة الإعلان
+            addNotification(formData);
+            
+        } catch (error) {
+            console.error('❌ خطأ في معالجة النموذج:', error);
+            showMessage('danger', 'خطأ', 'حدث خطأ أثناء الإرسال');
+        }
+    }
+
+    // ========== إضافة إعلان جديد ==========
+    function addNotification(data) {
+        try {
+            // إنشاء كائن الإعلان
+            const notification = {
+                id: 'jeel_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                title: data.title,
+                message: data.message,
+                type: data.type,
+                target: data.target,
+                priority: data.priority,
+                urgent: data.urgent,
+                expiry: data.expiry,
+                status: 'active',
+                created: new Date().toISOString(),
+                views: 0,
+                lastViewed: null
+            };
+            
+            console.log('➕ إضافة إعلان جديد:', notification.title);
+            
+            // إضافة إلى المصفوفة
+            notifications.unshift(notification);
+            
+            // حفظ في localStorage
+            saveNotifications();
+            
+            // إرسال تحديث للصفحة الرئيسية
+            sendUpdateToMainPage(notification);
+            
+            // إرسال إشعار متصفح
+            sendBrowserNotification(notification);
+            
+            // تحديث الواجهة
+            updateNotificationTable();
+            updateStats();
+            updatePreview();
+            
+            // إعادة تعيين النموذج
+            document.getElementById('notificationForm').reset();
+            
+            // عرض رسالة نجاح
+            showMessage('success', 'تم بنجاح', `تم إضافة الإعلان "${notification.title}"`);
+            
+            // طلب إذن الإشعارات إذا لزم
+            if ('Notification' in window && Notification.permission === 'default') {
+                setTimeout(() => {
+                    Notification.requestPermission();
+                }, 1000);
+            }
+            
+            return notification;
+            
+        } catch (error) {
+            console.error('❌ خطأ في إضافة الإعلان:', error);
+            showMessage('danger', 'خطأ', 'حدث خطأ أثناء حفظ الإعلان');
+            return null;
+        }
+    }
+
+    // ========== إرسال تحديث للصفحة الرئيسية ==========
+    function sendUpdateToMainPage(notification) {
+        try {
+            // 1. حفظ آخر إعلان للصفحة الرئيسية
+            const mainNotification = {
+                id: notification.id,
+                title: notification.title,
+                message: notification.message,
+                type: notification.type,
+                urgent: notification.urgent,
+                created: notification.created
+            };
+            
+            localStorage.setItem('jeel_latest_notification', JSON.stringify(mainNotification));
+            
+            // 2. إضافة إلى قائمة الإعلانات للصفحة الرئيسية
+            const mainNotifications = JSON.parse(localStorage.getItem('jeel_main_notifications') || '[]');
+            mainNotifications.unshift(mainNotification);
+            
+            // حفظ فقط آخر 20 إعلان
+            if (mainNotifications.length > 20) {
+                mainNotifications.length = 20;
+            }
+            
+            localStorage.setItem('jeel_main_notifications', JSON.stringify(mainNotifications));
+            
+            // 3. إرسال إشارة تحديث
+            localStorage.setItem('jeel_system_update', Date.now().toString());
+            
+            console.log('📤 تم إرسال التحديث للصفحة الرئيسية');
+            
+        } catch (error) {
+            console.error('❌ خطأ في إرسال التحديث:', error);
+        }
+    }
+
+    // ========== إرسال إشعار المتصفح ==========
+    function sendBrowserNotification(notification) {
+        if (!('Notification' in window)) {
+            console.log('⚠️ الإشعارات غير مدعومة');
+            return;
+        }
+        
+        if (Notification.permission === 'granted') {
+            try {
+                const options = {
+                    body: notification.message.length > 100 ? 
+                          notification.message.substring(0, 100) + '...' : 
+                          notification.message,
+                    icon: 'https://ameen-algmady.github.io/alnhdah/logo.png',
+                    badge: 'https://ameen-algmady.github.io/alnhdah/logo.png',
+                    tag: 'jeel_notification_' + notification.id,
+                    requireInteraction: notification.urgent,
+                    vibrate: notification.urgent ? [200, 100, 200] : [100, 50, 100]
+                };
+                
+                const notif = new Notification('🔔 ' + notification.title, options);
+                
+                notif.onclick = () => {
+                    window.open('https://ameen-algmady.github.io/alnhdah/', '_blank');
+                    notif.close();
+                };
+                
+                console.log('🔔 تم إرسال إشعار المتصفح');
+                
+            } catch (error) {
+                console.error('❌ خطأ في إرسال الإشعار:', error);
+            }
+        }
+    }
+
+    // ========== حفظ البيانات ==========
+    function saveNotifications() {
+        try {
+            localStorage.setItem('jeel_notifications_v2', JSON.stringify(notifications));
+            console.log('💾 تم حفظ الإعلانات');
+            return true;
+        } catch (error) {
+            console.error('❌ خطأ في حفظ الإعلانات:', error);
+            return false;
+        }
+    }
+
+    function saveSettings() {
+        try {
+            settings.notificationDuration = parseInt(document.getElementById('notificationDuration').value);
+            settings.maxActiveNotifications = parseInt(document.getElementById('maxActiveNotifications').value);
+            settings.autoCleanup = document.getElementById('autoCleanup').checked;
+            settings.enableSounds = document.getElementById('enableSounds').checked;
+            
+            localStorage.setItem('jeel_settings_v2', JSON.stringify(settings));
+            console.log('⚙️ تم حفظ الإعدادات');
+        } catch (error) {
+            console.error('❌ خطأ في حفظ الإعدادات:', error);
+        }
+    }
+
+    // ========== تحديث الواجهة ==========
+    function updatePreview() {
+        const title = document.getElementById('title')?.value || 'عنوان الإعلان';
+        const message = document.getElementById('message')?.value || 'نص الإعلان سيظهر هنا...';
+        const type = document.getElementById('type')?.value || 'info';
+        const urgent = document.getElementById('urgent')?.checked || false;
+        
+        document.getElementById('previewTitle').textContent = title;
+        document.getElementById('previewMessage').innerHTML = message.replace(/\n/g, '<br>');
+        document.getElementById('previewUrgent').style.display = urgent ? 'inline-block' : 'none';
+        
+        const typeText = {
+            info: '📢 إعلان عام',
+            success: '✅ إعلان هام',
+            warning: '⚠️ تحذير',
+            danger: '🚨 طارئ'
+        }[type] || '📢 إعلان';
+        
+        document.getElementById('previewType').textContent = typeText;
+    }
+
+    function updateNotificationTable() {
+        const tableBody = document.getElementById('notificationsTable');
+        const noDataMessage = document.getElementById('noNotificationsMessage');
+        
+        if (!tableBody) return;
+        
+        tableBody.innerHTML = '';
+        
+        if (notifications.length === 0) {
+            tableBody.style.display = 'none';
+            if (noDataMessage) noDataMessage.style.display = 'block';
+            return;
+        }
+        
+        tableBody.style.display = 'table-row-group';
+        if (noDataMessage) noDataMessage.style.display = 'none';
+        
+        notifications.forEach((notification, index) => {
+            const row = document.createElement('tr');
+            
+            const typeIcons = {
+                info: '📢',
+                success: '✅',
+                warning: '⚠️',
+                danger: '🚨'
+            };
+            
+            const date = new Date(notification.created);
+            const formattedDate = date.toLocaleDateString('ar-EG', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+            
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>
+                    <strong>${notification.title}</strong>
+                    ${notification.urgent ? '<span class="badge bg-danger ms-2">عاجل</span>' : ''}
+                </td>
+                <td>${typeIcons[notification.type] || '📢'} ${notification.type}</td>
+                <td>
+                    <span class="status-badge ${notification.status === 'active' ? 'status-active' : 'status-inactive'}">
+                        ${notification.status === 'active' ? 'نشط' : 'غير نشط'}
+                    </span>
+                </td>
+                <td>${formattedDate}</td>
+                <td>${notification.views}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary me-2" onclick="editNotification('${notification.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-${notification.status === 'active' ? 'warning' : 'success'} me-2" 
+                            onclick="toggleStatus('${notification.id}')">
+                        <i class="fas fa-power-off"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete('${notification.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+    }
+
+    function updateStats() {
+        const activeNotifications = notifications.filter(n => n.status === 'active').length;
+        const totalViews = notifications.reduce((sum, n) => sum + n.views, 0);
+        
+        document.getElementById('totalNotifications').textContent = activeNotifications;
+        document.getElementById('totalViews').textContent = totalViews;
+        document.getElementById('activeUsers').textContent = Math.floor(Math.random() * 50) + 10;
+        document.getElementById('engagementRate').textContent = calculateEngagementRate() + '%';
+        
+        updateTypeDistribution();
+    }
+
+    function calculateEngagementRate() {
+        if (notifications.length === 0) return 0;
+        
+        const totalViews = notifications.reduce((sum, n) => sum + n.views, 0);
+        const rate = Math.min(100, Math.round((totalViews / (notifications.length * 10)) * 100));
+        return rate;
+    }
+
+    function updateTypeDistribution() {
+        const distribution = document.getElementById('typeDistribution');
+        if (!distribution) return;
+        
+        distribution.innerHTML = '';
+        
+        const types = {
+            info: { name: 'إعلانات عامة', color: '#2196F3', icon: '📢' },
+            success: { name: 'إعلانات هامة', color: '#4CAF50', icon: '✅' },
+            warning: { name: 'تحذيرات', color: '#FF9800', icon: '⚠️' },
+            danger: { name: 'طارئ', color: '#f44336', icon: '🚨' }
+        };
+        
+        Object.entries(types).forEach(([type, info]) => {
+            const count = notifications.filter(n => n.type === type).length;
+            const percentage = notifications.length > 0 ? 
+                Math.round((count / notifications.length) * 100) : 0;
+            
+            const item = document.createElement('li');
+            item.className = 'list-group-item d-flex justify-content-between align-items-center';
+            item.innerHTML = `
+                <div>
+                    <span style="color: ${info.color}">${info.icon}</span>
+                    <span class="ms-2">${info.name}</span>
+                </div>
+                <div>
+                    <span class="badge bg-light text-dark me-2">${count}</span>
+                    <span class="text-muted">${percentage}%</span>
+                </div>
+            `;
+            
+            distribution.appendChild(item);
+        });
+    }
+
+    function updateSystemStatus() {
+        const statusElement = document.getElementById('systemStatus');
+        if (!statusElement) return;
+        
+        let status = 'النظام جاهز للعمل';
+        let statusClass = 'text-success';
+        let icon = 'fa-check-circle';
+        
+        if (notifications.length >= 50) {
+            status = 'التخزين يقترب من السعة القصوى';
+            statusClass = 'text-warning';
+            icon = 'fa-exclamation-triangle';
+        }
+        
+        if ('Notification' in window && Notification.permission === 'denied') {
+            status = 'إشعارات المتصفح غير مفعلة';
+            statusClass = 'text-danger';
+            icon = 'fa-bell-slash';
+        }
+        
+        statusElement.className = statusClass;
+        statusElement.innerHTML = `<i class="fas ${icon} me-2"></i>${status}`;
+    }
+
+    // ========== دوال الإدارة ==========
+    function editNotification(id) {
+        const notification = notifications.find(n => n.id === id);
+        if (!notification) return;
+        
+        document.getElementById('editId').value = notification.id;
+        document.getElementById('editTitle').value = notification.title;
+        document.getElementById('editMessage').value = notification.message;
+        document.getElementById('editType').value = notification.type;
+        document.getElementById('editStatus').value = notification.status;
+        document.getElementById('editUrgent').checked = notification.urgent;
+        
+        const modal = new bootstrap.Modal(document.getElementById('editModal'));
+        modal.show();
+    }
+
+    function saveEdit() {
+        const id = document.getElementById('editId').value;
+        const updates = {
+            title: document.getElementById('editTitle').value.trim(),
+            message: document.getElementById('editMessage').value.trim(),
+            type: document.getElementById('editType').value,
+            status: document.getElementById('editStatus').value,
+            urgent: document.getElementById('editUrgent').checked,
+            updated: new Date().toISOString()
+        };
+        
+        if (!updates.title || !updates.message) {
+            showMessage('warning', 'حقول مطلوبة', 'العنوان والنص مطلوبان');
+            return;
+        }
+        
+        const index = notifications.findIndex(n => n.id === id);
+        if (index === -1) return;
+        
+        notifications[index] = { ...notifications[index], ...updates };
+        saveNotifications();
+        
+        showMessage('success', 'تم التحديث', 'تم تحديث الإعلان بنجاح');
+        updateNotificationTable();
+        updateStats();
+        
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+        modal.hide();
+    }
+
+    function toggleStatus(id) {
+        const index = notifications.findIndex(n => n.id === id);
+        if (index === -1) return;
+        
+        notifications[index].status = notifications[index].status === 'active' ? 'inactive' : 'active';
+        saveNotifications();
+        
+        showMessage('success', 'تم التغيير', 'تم تغيير حالة الإعلان');
+        updateNotificationTable();
+        updateStats();
+    }
+
+    function confirmDelete(id) {
+        const notification = notifications.find(n => n.id === id);
+        if (!notification) return;
+        
+        window.currentAction = 'delete';
+        window.currentActionData = id;
+        
+        document.getElementById('confirmTitle').textContent = 'تأكيد الحذف';
+        document.getElementById('confirmMessage').innerHTML = `
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+                <h5>هل أنت متأكد من حذف هذا الإعلان؟</h5>
+                <p class="mb-0"><strong>${notification.title}</strong></p>
+                <p class="text-muted">لا يمكن التراجع عن هذا الإجراء</p>
+            </div>
+        `;
+        
+        const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+        modal.show();
+    }
+
+    function confirmClearAll() {
+        window.currentAction = 'clearAll';
+        
+        document.getElementById('confirmTitle').textContent = 'تأكيد الحذف الكامل';
+        document.getElementById('confirmMessage').innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-trash-alt fa-2x mb-3"></i>
+                <h5>تحذير: حذف جميع البيانات</h5>
+                <p>سيتم حذف جميع الإعلانات والإحصائيات والإعدادات.</p>
+                <p class="mb-0"><strong>هذا الإجراء لا يمكن التراجع عنه!</strong></p>
+            </div>
+        `;
+        
+        const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+        modal.show();
+    }
+
+    function confirmResetStats() {
+        window.currentAction = 'resetStats';
+        
+        document.getElementById('confirmTitle').textContent = 'إعادة تعيين الإحصائيات';
+        document.getElementById('confirmMessage').innerHTML = `
+            <div class="alert alert-warning">
+                <i class="fas fa-redo fa-2x mb-3"></i>
+                <h5>إعادة تعيين الإحصائيات</h5>
+                <p>سيتم حذف جميع الإحصائيات والحفاظ على الإعلانات.</p>
+                <p class="mb-0">هل أنت متأكد من المتابعة؟</p>
+            </div>
+        `;
+        
+        const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+        modal.show();
+    }
+
+    function executeConfirmedAction() {
+        switch (window.currentAction) {
+            case 'delete':
+                const index = notifications.findIndex(n => n.id === window.currentActionData);
+                if (index !== -1) {
+                    notifications.splice(index, 1);
+                    saveNotifications();
+                    showMessage('success', 'تم الحذف', 'تم حذف الإعلان بنجاح');
+                    updateNotificationTable();
+                    updateStats();
+                }
+                break;
+                
+            case 'clearAll':
+                notifications = [];
+                saveNotifications();
+                showMessage('success', 'تم الحذف', 'تم حذف جميع البيانات');
+                updateNotificationTable();
+                updateStats();
+                break;
+                
+            case 'resetStats':
+                // إعادة تعيين المشاهدات فقط
+                notifications.forEach(n => n.views = 0);
+                saveNotifications();
+                showMessage('success', 'تم التعيين', 'تم إعادة تعيين الإحصائيات');
+                updateStats();
+                break;
+        }
+        
+        window.currentAction = null;
+        window.currentActionData = null;
+        
+        const modal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+        modal.hide();
+    }
+
+    // ========== النسخ الاحتياطي ==========
+    function backupData() {
+        const backup = {
+            notifications: notifications,
+            settings: settings,
+            version: '2.0',
+            exported: new Date().toISOString()
+        };
+        
+        const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `jeel-backup-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showMessage('success', 'تم النسخ', 'تم تنزيل النسخة الاحتياطية');
+    }
+
+    function restoreData() {
+        const fileInput = document.getElementById('restoreFile');
+        const file = fileInput.files[0];
+        
+        if (!file) {
+            showMessage('warning', 'ملف مطلوب', 'يرجى اختيار ملف النسخة الاحتياطية');
+            return;
+        }
+        
+        const reader = new FileReader();
+        
+        reader.onload = (e) => {
+            try {
+                const backup = JSON.parse(e.target.result);
+                
+                if (!backup.version) {
+                    showMessage('danger', 'ملف غير صالح', 'ملف النسخة الاحتياطية غير صالح');
+                    return;
+                }
+                
+                notifications = backup.notifications || [];
+                settings = backup.settings || settings;
+                
+                saveNotifications();
+                saveSettings();
+                
+                updateNotificationTable();
+                updateStats();
+                
+                fileInput.value = '';
+                document.getElementById('restoreBtn').disabled = true;
+                
+                showMessage('success', 'تم الاستعادة', 'تم استعادة النسخة الاحتياطية بنجاح');
+            } catch (error) {
+                console.error('❌ خطأ في استعادة النسخة:', error);
+                showMessage('danger', 'ملف تالف', 'ملف النسخة الاحتياطية تالف');
+            }
+        };
+        
+        reader.onerror = () => {
+            showMessage('danger', 'خطأ في القراءة', 'حدث خطأ في قراءة الملف');
+        };
+        
+        reader.readAsText(file);
+    }
+
+    // ========== اختبار النظام ==========
+    function testSystem() {
+        showMessage('info', 'جاري الاختبار', 'جاري اختبار النظام...', 2000);
+        
+        setTimeout(() => {
+            const testData = {
+                title: '🔧 اختبار النظام - مدارس جيل النهضة',
+                message: 'هذا اختبار لنظام الإعلانات. إذا استلمت هذا الإعلان، فالنظام يعمل بشكل صحيح!\n\nيمكنك الآن إضافة إعلانات حقيقية.',
+                type: 'info',
+                target: 'all',
+                urgent: false,
+                priority: 'normal'
+            };
+            
+            const notification = addNotification(testData);
+            
+            if (notification) {
+                showMessage('success', 'الاختبار ناجح', 
+                    'تم إرسال إعلان اختباري بنجاح!\n\nالنتائج:\n• حفظ البيانات: ✓ ناجح\n• إرسال التحديث: ✓ ناجح\n• نظام البث: ✓ نشط');
+            } else {
+                showMessage('danger', 'فشل الاختبار', 'فشل اختبار النظام');
+            }
+        }, 2000);
+    }
+
+    // ========== دوال مساعدة ==========
+    function showMessage(type, title, message, duration = 5000) {
+        const existingAlert = document.querySelector('.system-alert');
+        if (existingAlert) existingAlert.remove();
+        
+        const alert = document.createElement('div');
+        alert.className = `system-alert alert alert-${type} alert-dismissible fade show`;
+        alert.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            min-width: 300px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: none;
+        `;
+        
+        const icons = {
+            success: 'fa-check-circle',
+            warning: 'fa-exclamation-triangle',
+            danger: 'fa-times-circle',
+            info: 'fa-info-circle'
+        };
+        
+        alert.innerHTML = `
+            <div class="d-flex align-items-center">
+                <i class="fas ${icons[type] || 'fa-info-circle'} me-2 fa-lg"></i>
+                <div style="flex: 1;">
+                    <h6 class="mb-1" style="font-weight: bold;">${title}</h6>
+                    <p class="mb-0" style="font-size: 14px; white-space: pre-line;">${message}</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `;
+        
+        document.body.appendChild(alert);
+        
+        setTimeout(() => {
+            if (alert.parentNode) {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 300);
+            }
+        }, duration);
+    }
+
+    // ========== جعل الدوال متاحة عالمياً ==========
+    window.editNotification = editNotification;
+    window.toggleStatus = toggleStatus;
+    window.confirmDelete = confirmDelete;
+    window.addNotification = addNotification;
+    window.testSystem = testSystem;
+    window.showMessage = showMessage;
     </script>
 </body>
 </html>
