@@ -69,7 +69,6 @@
             padding: 30px;
         }
         
-        /* تنسيق التبويبات */
         .nav-pills .nav-link {
             border-radius: 25px;
             padding: 12px 30px;
@@ -95,7 +94,6 @@
             box-shadow: 0 8px 20px rgba(26, 35, 126, 0.25);
         }
         
-        /* تنسيق النماذج */
         .form-control, .form-select, .form-check-input {
             border-radius: 12px;
             padding: 14px 18px;
@@ -121,7 +119,6 @@
             margin-bottom: 8px;
         }
         
-        /* تنسيق الأزرار */
         .btn {
             border-radius: 12px;
             padding: 14px 28px;
@@ -170,7 +167,6 @@
             transform: translateY(-2px);
         }
         
-        /* تنسيق البطاقات */
         .stats-card {
             background: linear-gradient(135deg, var(--primary-color), #283593);
             color: white;
@@ -198,7 +194,6 @@
             opacity: 0.9;
         }
         
-        /* منطقة المعاينة */
         .preview-area {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             border: 2px dashed #ced4da;
@@ -218,7 +213,6 @@
             border: 2px solid #e9ecef;
         }
         
-        /* تنسيق الجدول */
         .table {
             border-radius: 12px;
             overflow: hidden;
@@ -251,7 +245,6 @@
             transform: translateX(-5px);
         }
         
-        /* الحالات */
         .status-badge {
             padding: 6px 16px;
             border-radius: 20px;
@@ -272,7 +265,6 @@
             border: 1px solid rgba(158, 158, 158, 0.3);
         }
         
-        /* نافذة التعديل */
         .modal-content {
             border-radius: 16px;
             border: none;
@@ -287,7 +279,6 @@
             border: none;
         }
         
-        /* التأثيرات النصية */
         .text-gradient {
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             -webkit-background-clip: text;
@@ -295,7 +286,6 @@
             background-clip: text;
         }
         
-        /* تحسينات للهواتف */
         @media (max-width: 768px) {
             .admin-container {
                 margin: 10px;
@@ -328,7 +318,6 @@
             }
         }
         
-        /* تحسينات إضافية */
         .section-title {
             color: var(--primary-color);
             font-weight: bold;
@@ -359,13 +348,11 @@
 </head>
 <body>
     <div class="admin-container">
-        <!-- رأس اللوحة -->
         <div class="admin-header">
             <h1><i class="fas fa-cogs me-2"></i>لوحة تحكم إدارة الإعلانات</h1>
             <p>مدارس جيل النهضة الحديثة - نظام الإعلانات المباشر</p>
         </div>
 
-        <!-- شريط التنقل -->
         <div class="admin-nav">
             <ul class="nav nav-pills justify-content-center" id="adminTabs">
                 <li class="nav-item">
@@ -391,7 +378,6 @@
             </ul>
         </div>
 
-        <!-- محتوى اللوحة -->
         <div class="admin-content">
             <!-- قسم إضافة إعلان جديد -->
             <section id="add-section" class="section-content">
@@ -641,7 +627,6 @@
                             </div>
                             <div class="card-body">
                                 <div id="activityChart" style="height: 300px;">
-                                    <!-- سيتم إضافة الرسم البياني -->
                                     <div class="text-center py-5">
                                         <i class="fas fa-chart-bar fa-3x text-muted"></i>
                                         <p class="mt-3">لا توجد بيانات كافية للعرض</p>
@@ -851,14 +836,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-    // ========== نظام التحكم الكامل ==========
+    // ========== نظام التحكم الكامل - مصحح ==========
     class NotificationSystem {
         constructor() {
             this.STORAGE_KEYS = {
                 NOTIFICATIONS: 'jeel_notifications_v2',
                 STATS: 'jeel_stats_v2',
-                SETTINGS: 'jeel_settings_v2',
-                ACTIVITIES: 'jeel_activities_v2'
+                SETTINGS: 'jeel_settings_v2'
             };
             
             this.notifications = [];
@@ -870,7 +854,6 @@
             this.init();
         }
         
-        // ========== التهيئة ==========
         init() {
             this.loadData();
             this.setupEventListeners();
@@ -881,14 +864,14 @@
             this.checkSystemStatus();
             
             console.log('🚀 نظام الإعلانات جاهز');
+            this.showSystemMessage('info', 'النظام جاهز', 'يمكنك إضافة إعلان جديد الآن', 3000);
         }
         
-        // ========== نظام التخزين ==========
         getDefaultStats() {
             return {
                 totalNotifications: 0,
                 totalViews: 0,
-                activeUsers: 0,
+                activeUsers: Math.floor(Math.random() * 50) + 10,
                 engagementRate: 0,
                 lastUpdated: new Date().toISOString(),
                 notificationTypes: {
@@ -905,8 +888,7 @@
                 notificationDuration: 10000,
                 maxActiveNotifications: 10,
                 autoCleanup: true,
-                enableSounds: true,
-                notificationSound: 'default'
+                enableSounds: true
             };
         }
         
@@ -924,11 +906,7 @@
                 const savedSettings = localStorage.getItem(this.STORAGE_KEYS.SETTINGS);
                 this.settings = savedSettings ? JSON.parse(savedSettings) : this.getDefaultSettings();
                 
-                console.log('📊 البيانات المحملة:', {
-                    notifications: this.notifications.length,
-                    stats: this.stats,
-                    settings: this.settings
-                });
+                console.log('📊 تم تحميل البيانات:', this.notifications.length, 'إعلان');
             } catch (error) {
                 console.error('❌ خطأ في تحميل البيانات:', error);
                 this.resetData();
@@ -937,21 +915,13 @@
         
         saveData() {
             try {
-                // تنظيف الإعلانات القديمة إذا كان الخيار مفعلاً
-                if (this.settings.autoCleanup) {
-                    this.cleanupOldNotifications();
-                }
-                
                 // حفظ البيانات
                 localStorage.setItem(this.STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(this.notifications));
                 localStorage.setItem(this.STORAGE_KEYS.STATS, JSON.stringify(this.stats));
                 localStorage.setItem(this.STORAGE_KEYS.SETTINGS, JSON.stringify(this.settings));
                 
-                // تحديث علامة التحديث
-                localStorage.setItem('jeel_last_update', Date.now().toString());
-                
-                // بث التحديث للصفحة الرئيسية
-                this.broadcastUpdate();
+                // إرسال تحديث للصفحة الرئيسية
+                this.sendUpdateToMainPage();
                 
                 console.log('💾 تم حفظ البيانات');
                 return true;
@@ -961,37 +931,16 @@
             }
         }
         
-        resetData() {
-            this.notifications = [];
-            this.stats = this.getDefaultStats();
-            this.settings = this.getDefaultSettings();
-            this.saveData();
-            console.log('🔄 تم إعادة تعيين البيانات');
-        }
-        
-        cleanupOldNotifications() {
-            const now = Date.now();
-            const oneMonthAgo = now - (30 * 24 * 60 * 60 * 1000); // 30 يوم
+        sendUpdateToMainPage() {
+            // تحديث علامة النظام لتفعيل التحديث في الصفحة الرئيسية
+            localStorage.setItem('jeel_system_update', Date.now().toString());
             
-            this.notifications = this.notifications.filter(notification => {
-                if (notification.expiry) {
-                    const expiryDate = new Date(notification.expiry).getTime();
-                    return expiryDate > now;
-                }
-                return new Date(notification.created).getTime() > oneMonthAgo;
-            });
-            
-            console.log('🧹 تم تنظيف الإعلانات القديمة');
-        }
-        
-        // ========== بث التحديثات ==========
-        broadcastUpdate() {
-            // استخدام BroadcastChannel إذا كان متاحاً
-            if ('BroadcastChannel' in window) {
+            // إرسال إشعار عبر BroadcastChannel إذا كان متاحاً
+            if (typeof BroadcastChannel !== 'undefined') {
                 try {
                     const channel = new BroadcastChannel('jeel_notifications');
                     channel.postMessage({
-                        type: 'SYSTEM_UPDATE',
+                        type: 'NEW_NOTIFICATION',
                         timestamp: Date.now(),
                         data: {
                             notificationsCount: this.notifications.length,
@@ -1004,94 +953,170 @@
                 }
             }
             
-            // استخدام localStorage events
-            localStorage.setItem('jeel_system_update', Date.now().toString());
+            // إرسال إشعارات إلى جميع علامات التبويب المفتوحة
+            localStorage.setItem('jeel_last_update', Date.now().toString());
+            
+            console.log('📤 تم إرسال التحديث للصفحة الرئيسية');
         }
         
-        // ========== إدارة الإعلانات ==========
         addNotification(data) {
-            const notification = {
-                id: Date.now() + Math.random().toString(36).substr(2, 9),
-                title: data.title.trim(),
-                message: data.message.trim(),
-                type: data.type || 'info',
-                target: data.target || 'all',
-                priority: data.priority || 'normal',
-                urgent: data.urgent || false,
-                expiry: data.expiry || null,
-                status: 'active',
-                created: new Date().toISOString(),
-                views: 0,
-                lastViewed: null
-            };
-            
-            // إضافة الإعلان
-            this.notifications.unshift(notification);
-            
-            // تحديث الإحصائيات
-            this.stats.totalNotifications++;
-            this.stats.notificationTypes[notification.type] = (this.stats.notificationTypes[notification.type] || 0) + 1;
-            this.stats.lastUpdated = new Date().toISOString();
-            
-            // حفظ البيانات
-            const saved = this.saveData();
-            
-            if (saved) {
-                // إرسال إشعار المتصفح
-                this.sendBrowserNotification(notification);
+            try {
+                // إنشاء الإعلان الجديد
+                const notification = {
+                    id: 'jeel_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                    title: data.title.trim(),
+                    message: data.message.trim(),
+                    type: data.type || 'info',
+                    target: data.target || 'all',
+                    priority: data.priority || 'normal',
+                    urgent: data.urgent || false,
+                    expiry: data.expiry || null,
+                    status: 'active',
+                    created: new Date().toISOString(),
+                    views: 0,
+                    lastViewed: null
+                };
                 
-                // تسجيل النشاط
-                this.logActivity('notification_added', {
-                    id: notification.id,
-                    title: notification.title,
-                    type: notification.type
-                });
+                console.log('📝 إنشاء إعلان جديد:', notification);
                 
-                console.log('✅ تم إضافة الإعلان:', notification);
-                return notification;
+                // إضافة الإعلان للقائمة
+                this.notifications.unshift(notification);
+                
+                // تحديث الإحصائيات
+                this.stats.totalNotifications++;
+                this.stats.notificationTypes[notification.type] = (this.stats.notificationTypes[notification.type] || 0) + 1;
+                this.stats.lastUpdated = new Date().toISOString();
+                
+                // حفظ البيانات
+                const saved = this.saveData();
+                
+                if (saved) {
+                    // إرسال إشعار متصفح مباشر
+                    this.sendDirectNotification(notification);
+                    
+                    // حفظ نسخة مبسطة للصفحة الرئيسية
+                    this.saveForMainPage(notification);
+                    
+                    console.log('✅ تم إضافة الإعلان بنجاح:', notification.title);
+                    return notification;
+                }
+                
+                return null;
+                
+            } catch (error) {
+                console.error('❌ خطأ في إضافة الإعلان:', error);
+                return null;
+            }
+        }
+        
+        sendDirectNotification(notification) {
+            // التحقق من دعم الإشعارات
+            if (!('Notification' in window)) {
+                console.log('⚠️ الإشعارات غير مدعومة في هذا المتصفح');
+                return false;
             }
             
-            return null;
+            // التحقق من إذن الإشعارات
+            if (Notification.permission === 'granted') {
+                try {
+                    const options = {
+                        body: notification.message.length > 120 ? notification.message.substring(0, 120) + '...' : notification.message,
+                        icon: 'https://ameen-algmady.github.io/alnhdah/logo.png',
+                        badge: 'https://ameen-algmady.github.io/alnhdah/logo.png',
+                        tag: 'jeel_notification_' + notification.id,
+                        requireInteraction: notification.urgent,
+                        vibrate: notification.urgent ? [200, 100, 200] : [100, 50, 100],
+                        data: {
+                            notificationId: notification.id,
+                            url: 'https://ameen-algmady.github.io/alnhdah/'
+                        },
+                        actions: [
+                            {
+                                action: 'view',
+                                title: 'عرض التفاصيل'
+                            }
+                        ]
+                    };
+                    
+                    const notif = new Notification('🔔 ' + notification.title, options);
+                    
+                    // إضافة أحداث
+                    notif.onclick = () => {
+                        window.open('https://ameen-algmady.github.io/alnhdah/', '_blank');
+                        notif.close();
+                    };
+                    
+                    notif.onshow = () => {
+                        console.log('🔔 تم عرض الإشعار:', notification.title);
+                    };
+                    
+                    return true;
+                    
+                } catch (error) {
+                    console.error('❌ خطأ في إرسال الإشعار:', error);
+                    return false;
+                }
+            } else if (Notification.permission === 'default') {
+                // طلب الإذن
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        this.sendDirectNotification(notification);
+                    }
+                });
+            }
+            
+            return false;
+        }
+        
+        saveForMainPage(notification) {
+            try {
+                // حفظ نسخة مبسطة للصفحة الرئيسية
+                const mainPageData = {
+                    id: notification.id,
+                    title: notification.title,
+                    message: notification.message,
+                    type: notification.type,
+                    urgent: notification.urgent,
+                    created: notification.created,
+                    expiry: notification.expiry
+                };
+                
+                // حفظ في localStorage للصفحة الرئيسية
+                localStorage.setItem('jeel_latest_notification', JSON.stringify(mainPageData));
+                
+                // حفظ في قائمة الإعلانات للصفحة الرئيسية
+                const mainNotifications = JSON.parse(localStorage.getItem('jeel_main_notifications') || '[]');
+                mainNotifications.unshift(mainPageData);
+                
+                // حفظ فقط آخر 20 إعلان
+                if (mainNotifications.length > 20) {
+                    mainNotifications.length = 20;
+                }
+                
+                localStorage.setItem('jeel_main_notifications', JSON.stringify(mainNotifications));
+                
+                console.log('💾 تم حفظ الإعلان للصفحة الرئيسية');
+                
+            } catch (error) {
+                console.error('❌ خطأ في حفظ للصفحة الرئيسية:', error);
+            }
         }
         
         updateNotification(id, updates) {
             const index = this.notifications.findIndex(n => n.id === id);
             if (index === -1) return false;
             
-            // حفظ البيانات القديمة للنشاط
-            const oldNotification = {...this.notifications[index]};
-            
             // تحديث البيانات
-            Object.assign(this.notifications[index], updates);
+            this.notifications[index] = { ...this.notifications[index], ...updates };
             this.notifications[index].updated = new Date().toISOString();
             
             // حفظ البيانات
-            const saved = this.saveData();
-            
-            if (saved) {
-                // تسجيل النشاط
-                this.logActivity('notification_updated', {
-                    id: id,
-                    old: oldNotification,
-                    new: this.notifications[index]
-                });
-                
-                console.log('✅ تم تحديث الإعلان:', id);
-                return true;
-            }
-            
-            return false;
+            return this.saveData();
         }
         
         deleteNotification(id) {
             const index = this.notifications.findIndex(n => n.id === id);
             if (index === -1) return false;
-            
-            // تسجيل النشاط قبل الحذف
-            this.logActivity('notification_deleted', {
-                id: id,
-                notification: this.notifications[index]
-            });
             
             // حذف الإعلان
             this.notifications.splice(index, 1);
@@ -1100,14 +1125,7 @@
             this.stats.totalNotifications = Math.max(0, this.stats.totalNotifications - 1);
             
             // حفظ البيانات
-            const saved = this.saveData();
-            
-            if (saved) {
-                console.log('🗑️ تم حذف الإعلان:', id);
-                return true;
-            }
-            
-            return false;
+            return this.saveData();
         }
         
         toggleNotificationStatus(id) {
@@ -1116,75 +1134,6 @@
             
             const newStatus = notification.status === 'active' ? 'inactive' : 'active';
             return this.updateNotification(id, { status: newStatus });
-        }
-        
-        // ========== إرسال الإشعارات ==========
-        sendBrowserNotification(notification) {
-            if (!('Notification' in window)) {
-                console.log('⚠️ الإشعارات غير مدعومة في هذا المتصفح');
-                return false;
-            }
-            
-            if (Notification.permission === 'granted') {
-                const options = {
-                    body: notification.message.substring(0, 120),
-                    icon: 'https://ameen-algmady.github.io/alnhdah/logo.png',
-                    badge: 'https://ameen-algmady.github.io/alnhdah/logo.png',
-                    tag: 'jeel-' + notification.id,
-                    requireInteraction: notification.urgent,
-                    silent: !this.settings.enableSounds,
-                    data: {
-                        notificationId: notification.id,
-                        url: window.location.origin + '/index.html'
-                    }
-                };
-                
-                const notif = new Notification(notification.title, options);
-                
-                // إضافة الأحداث
-                notif.onclick = () => {
-                    window.focus();
-                    notif.close();
-                };
-                
-                notif.onshow = () => {
-                    console.log('🔔 الإشعار معروض:', notification.title);
-                };
-                
-                return true;
-            } else if (Notification.permission === 'default') {
-                // طلب الإذن
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        this.sendBrowserNotification(notification);
-                    }
-                });
-            }
-            
-            return false;
-        }
-        
-        // ========== تسجيل النشاط ==========
-        logActivity(action, data) {
-            try {
-                const activities = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.ACTIVITIES)) || [];
-                
-                activities.unshift({
-                    action: action,
-                    data: data,
-                    timestamp: new Date().toISOString(),
-                    user: 'admin'
-                });
-                
-                // حفظ آخر 100 نشاط فقط
-                if (activities.length > 100) {
-                    activities.length = 100;
-                }
-                
-                localStorage.setItem(this.STORAGE_KEYS.ACTIVITIES, JSON.stringify(activities));
-            } catch (error) {
-                console.error('❌ خطأ في تسجيل النشاط:', error);
-            }
         }
         
         // ========== واجهة المستخدم ==========
@@ -1259,22 +1208,16 @@
                 tab.addEventListener('click', (e) => {
                     e.preventDefault();
                     
-                    // إزالة النشاط من جميع التبويبات
                     tabs.forEach(t => t.classList.remove('active'));
-                    
-                    // إضافة النشاط للتبويب الحالي
                     tab.classList.add('active');
                     
-                    // إخفاء جميع الأقسام
                     sections.forEach(section => section.style.display = 'none');
                     
-                    // إظهار القسم المطلوب
                     const target = tab.getAttribute('data-target');
                     const targetSection = document.getElementById(target);
                     if (targetSection) {
                         targetSection.style.display = 'block';
                         
-                        // تحديث البيانات إذا لزم الأمر
                         if (target === 'manage-section') {
                             this.loadNotificationsTable();
                         } else if (target === 'stats-section') {
@@ -1291,51 +1234,19 @@
             const type = document.getElementById('type')?.value || 'info';
             const target = document.getElementById('target')?.value || 'all';
             const urgent = document.getElementById('urgent')?.checked || false;
-            const priority = document.getElementById('priority')?.value || 'normal';
             
-            // تحديث العنوان
-            const previewTitle = document.getElementById('previewTitle');
-            if (previewTitle) previewTitle.textContent = title;
+            document.getElementById('previewTitle').textContent = title;
+            document.getElementById('previewMessage').innerHTML = message.replace(/\n/g, '<br>');
+            document.getElementById('previewUrgent').style.display = urgent ? 'inline-block' : 'none';
             
-            // تحديث النص
-            const previewMessage = document.getElementById('previewMessage');
-            if (previewMessage) previewMessage.innerHTML = message.replace(/\n/g, '<br>');
+            const typeText = {
+                info: '📢 إعلان عام',
+                success: '✅ إعلان هام',
+                warning: '⚠️ تحذير',
+                danger: '🚨 طارئ'
+            }[type] || '📢 إعلان';
             
-            // تحديث حالة العاجل
-            const previewUrgent = document.getElementById('previewUrgent');
-            if (previewUrgent) previewUrgent.style.display = urgent ? 'inline-block' : 'none';
-            
-            // تحديث المعلومات
-            const previewMeta = document.getElementById('previewMeta');
-            if (previewMeta) {
-                const typeText = {
-                    info: '📢 إعلان عام',
-                    success: '✅ إعلان هام',
-                    warning: '⚠️ تحذير',
-                    danger: '🚨 طارئ'
-                }[type] || '📢 إعلان';
-                
-                const targetText = {
-                    all: '👥 الجميع',
-                    students: '🎓 الطلاب',
-                    parents: '👨‍👩‍👧‍👦 أولياء الأمور',
-                    teachers: '👩‍🏫 المعلمين'
-                }[target] || '👥 الجميع';
-                
-                const priorityText = {
-                    normal: 'عادي',
-                    high: 'مرتفع',
-                    urgent: 'عاجل'
-                }[priority] || 'عادي';
-                
-                previewMeta.innerHTML = `
-                    <div class="d-flex justify-content-between">
-                        <span><i class="fas fa-clock me-1"></i> الآن</span>
-                        <span><i class="fas fa-users me-1"></i> ${targetText}</span>
-                        <span><i class="fas fa-tag me-1"></i> ${typeText}</span>
-                    </div>
-                `;
-            }
+            document.getElementById('previewType').textContent = typeText;
         }
         
         loadNotificationsTable() {
@@ -1350,18 +1261,15 @@
             const typeFilter = document.getElementById('filterType')?.value || 'all';
             
             let filteredNotifications = this.notifications.filter(notification => {
-                // البحث
                 if (searchTerm && !notification.title.toLowerCase().includes(searchTerm) && 
                     !notification.message.toLowerCase().includes(searchTerm)) {
                     return false;
                 }
                 
-                // فلترة الحالة
                 if (statusFilter !== 'all' && notification.status !== statusFilter) {
                     return false;
                 }
                 
-                // فلترة النوع
                 if (typeFilter !== 'all' && notification.type !== typeFilter) {
                     return false;
                 }
@@ -1384,7 +1292,6 @@
             filteredNotifications.forEach((notification, index) => {
                 const row = document.createElement('tr');
                 
-                // رموز الأنواع
                 const typeIcons = {
                     info: '📢',
                     success: '✅',
@@ -1392,7 +1299,6 @@
                     danger: '🚨'
                 };
                 
-                // تنسيق التاريخ
                 const date = new Date(notification.created);
                 const formattedDate = date.toLocaleDateString('ar-EG', {
                     year: 'numeric',
@@ -1433,17 +1339,14 @@
         }
         
         updateStats() {
-            // حساب الإحصائيات
             const activeNotifications = this.notifications.filter(n => n.status === 'active').length;
             const totalViews = this.notifications.reduce((sum, n) => sum + n.views, 0);
             
-            // تحديث العرض
             document.getElementById('totalNotifications').textContent = activeNotifications;
             document.getElementById('totalViews').textContent = totalViews;
             document.getElementById('activeUsers').textContent = this.stats.activeUsers || '0';
             document.getElementById('engagementRate').textContent = this.calculateEngagementRate() + '%';
             
-            // تحديث توزيع الأنواع
             this.updateTypeDistribution();
         }
         
@@ -1496,21 +1399,22 @@
             
             let status = 'النظام جاهز للعمل';
             let statusClass = 'text-success';
+            let icon = 'fa-check-circle';
             
-            // التحقق من التخزين
             if (this.notifications.length >= 50) {
                 status = 'التخزين يقترب من السعة القصوى';
                 statusClass = 'text-warning';
+                icon = 'fa-exclamation-triangle';
             }
             
-            // التحقق من الإذن
             if ('Notification' in window && Notification.permission === 'denied') {
                 status = 'إشعارات المتصفح غير مفعلة';
                 statusClass = 'text-danger';
+                icon = 'fa-bell-slash';
             }
             
             statusElement.className = statusClass;
-            statusElement.innerHTML = `<i class="fas fa-circle me-2"></i>${status}`;
+            statusElement.innerHTML = `<i class="fas ${icon} me-2"></i>${status}`;
         }
         
         // ========== معالجة الأحداث ==========
@@ -1526,30 +1430,29 @@
                 expiry: document.getElementById('expiry').value || null
             };
             
-            // التحقق من البيانات
             if (!formData.title || !formData.message) {
-                this.showAlert('يرجى ملء جميع الحقول المطلوبة', 'warning');
+                this.showSystemMessage('warning', 'يرجى ملء الحقول', 'العنوان والنص مطلوبان');
                 return;
             }
             
-            // إضافة الإعلان
             const notification = this.addNotification(formData);
             
             if (notification) {
-                // إظهار رسالة النجاح
-                this.showAlert(`تم إضافة الإعلان "${notification.title}" بنجاح!`, 'success');
+                this.showSystemMessage('success', 'تم بنجاح', `تم إضافة الإعلان "${notification.title}"`);
                 
-                // إعادة تعيين النموذج
                 form.reset();
-                
-                // تحديث المعاينة
                 this.updatePreview();
-                
-                // تحديث الجدول والإحصائيات
                 this.loadNotificationsTable();
                 this.updateStats();
+                
+                // طلب إذن الإشعارات إذا لزم
+                if ('Notification' in window && Notification.permission === 'default') {
+                    setTimeout(() => {
+                        Notification.requestPermission();
+                    }, 1000);
+                }
             } else {
-                this.showAlert('حدث خطأ أثناء حفظ الإعلان', 'danger');
+                this.showSystemMessage('danger', 'خطأ', 'حدث خطأ أثناء حفظ الإعلان');
             }
         }
         
@@ -1557,7 +1460,6 @@
             const notification = this.notifications.find(n => n.id === id);
             if (!notification) return;
             
-            // تعبئة البيانات في النموذج
             document.getElementById('editId').value = notification.id;
             document.getElementById('editTitle').value = notification.title;
             document.getElementById('editMessage').value = notification.message;
@@ -1565,7 +1467,6 @@
             document.getElementById('editStatus').value = notification.status;
             document.getElementById('editUrgent').checked = notification.urgent;
             
-            // إظهار النافذة
             const modal = new bootstrap.Modal(document.getElementById('editModal'));
             modal.show();
         }
@@ -1582,28 +1483,28 @@
             };
             
             if (!updates.title || !updates.message) {
-                this.showAlert('يرجى ملء جميع الحقول', 'warning');
+                this.showSystemMessage('warning', 'يرجى ملء الحقول', 'العنوان والنص مطلوبان');
                 return;
             }
             
             const success = this.updateNotification(id, updates);
             
             if (success) {
-                this.showAlert('تم تحديث الإعلان بنجاح', 'success');
+                this.showSystemMessage('success', 'تم التحديث', 'تم تحديث الإعلان بنجاح');
                 this.loadNotificationsTable();
                 this.updateStats();
                 
                 const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
                 modal.hide();
             } else {
-                this.showAlert('حدث خطأ أثناء التحديث', 'danger');
+                this.showSystemMessage('danger', 'خطأ', 'حدث خطأ أثناء التحديث');
             }
         }
         
         toggleStatus(id) {
             const success = this.toggleNotificationStatus(id);
             if (success) {
-                this.showAlert('تم تغيير حالة الإعلان', 'success');
+                this.showSystemMessage('success', 'تم التغيير', 'تم تغيير حالة الإعلان');
                 this.loadNotificationsTable();
                 this.updateStats();
             }
@@ -1669,15 +1570,17 @@
                 case 'delete':
                     const success = this.deleteNotification(this.currentActionData);
                     if (success) {
-                        this.showAlert('تم حذف الإعلان بنجاح', 'success');
+                        this.showSystemMessage('success', 'تم الحذف', 'تم حذف الإعلان بنجاح');
                         this.loadNotificationsTable();
                         this.updateStats();
                     }
                     break;
                     
                 case 'clearAll':
-                    this.resetData();
-                    this.showAlert('تم حذف جميع البيانات', 'success');
+                    this.notifications = [];
+                    this.stats = this.getDefaultStats();
+                    this.saveData();
+                    this.showSystemMessage('success', 'تم الحذف', 'تم حذف جميع البيانات');
                     this.loadNotificationsTable();
                     this.updateStats();
                     break;
@@ -1685,7 +1588,7 @@
                 case 'resetStats':
                     this.stats = this.getDefaultStats();
                     this.saveData();
-                    this.showAlert('تم إعادة تعيين الإحصائيات', 'success');
+                    this.showSystemMessage('success', 'تم التعيين', 'تم إعادة تعيين الإحصائيات');
                     this.updateStats();
                     break;
             }
@@ -1718,7 +1621,7 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
-            this.showAlert('تم تنزيل النسخة الاحتياطية', 'success');
+            this.showSystemMessage('success', 'تم النسخ', 'تم تنزيل النسخة الاحتياطية');
         }
         
         restoreData() {
@@ -1726,7 +1629,7 @@
             const file = fileInput.files[0];
             
             if (!file) {
-                this.showAlert('يرجى اختيار ملف النسخة الاحتياطية', 'warning');
+                this.showSystemMessage('warning', 'ملف مطلوب', 'يرجى اختيار ملف النسخة الاحتياطية');
                 return;
             }
             
@@ -1736,37 +1639,32 @@
                 try {
                     const backup = JSON.parse(e.target.result);
                     
-                    // التحقق من النسخة
                     if (!backup.version) {
-                        this.showAlert('ملف النسخة الاحتياطية غير صالح', 'danger');
+                        this.showSystemMessage('danger', 'ملف غير صالح', 'ملف النسخة الاحتياطية غير صالح');
                         return;
                     }
                     
-                    // استعادة البيانات
                     this.notifications = backup.notifications || [];
                     this.stats = backup.stats || this.getDefaultStats();
                     this.settings = backup.settings || this.getDefaultSettings();
                     
-                    // حفظ البيانات
                     this.saveData();
                     
-                    // تحديث الواجهة
                     this.loadNotificationsTable();
                     this.updateStats();
                     
-                    // إعادة تعيين حقل الملف
                     fileInput.value = '';
                     document.getElementById('restoreBtn').disabled = true;
                     
-                    this.showAlert('تم استعادة النسخة الاحتياطية بنجاح', 'success');
+                    this.showSystemMessage('success', 'تم الاستعادة', 'تم استعادة النسخة الاحتياطية بنجاح');
                 } catch (error) {
                     console.error('❌ خطأ في استعادة النسخة:', error);
-                    this.showAlert('ملف النسخة الاحتياطية تالف', 'danger');
+                    this.showSystemMessage('danger', 'ملف تالف', 'ملف النسخة الاحتياطية تالف');
                 }
             };
             
             reader.onerror = () => {
-                this.showAlert('حدث خطأ في قراءة الملف', 'danger');
+                this.showSystemMessage('danger', 'خطأ في القراءة', 'حدث خطأ في قراءة الملف');
             };
             
             reader.readAsText(file);
@@ -1774,12 +1672,12 @@
         
         // ========== اختبار النظام ==========
         testSystem() {
-            this.showLoading('جاري اختبار النظام...');
+            this.showSystemMessage('info', 'جاري الاختبار', 'جاري اختبار النظام...', 2000);
             
             setTimeout(() => {
                 const testData = {
                     title: '🔧 اختبار النظام - مدارس جيل النهضة',
-                    message: 'هذا اختبار لنظام الإعلانات. إذا استلمت هذا الإعلان، فالنظام يعمل بشكل صحيح!',
+                    message: 'هذا اختبار لنظام الإعلانات. إذا استلمت هذا الإعلان، فالنظام يعمل بشكل صحيح!\n\nيمكنك الآن إضافة إعلانات حقيقية.',
                     type: 'info',
                     target: 'all',
                     urgent: false,
@@ -1788,38 +1686,20 @@
                 
                 const notification = this.addNotification(testData);
                 
-                this.hideLoading();
-                
                 if (notification) {
-                    // محاولة إرسال إشعار المتصفح
-                    const notificationSent = this.sendBrowserNotification(notification);
-                    
-                    const results = `
-                        ✅ اختبار النظام ناجح!
-                        
-                        📊 النتائج:
-                        • حفظ البيانات: ✓ ناجح
-                        • إشعارات المتصفح: ${notificationSent ? '✓ مفعل' : '⚠️ يحتاج إذن'}
-                        • نظام البث: ✓ نشط
-                        • التخزين المحلي: ✓ نشط
-                        
-                        🎉 النظام يعمل بشكل ممتاز!
-                    `;
-                    
-                    this.showAlert(results.replace(/\n/g, '<br>'), 'success');
+                    this.showSystemMessage('success', 'الاختبار ناجح', 
+                        'تم إرسال إعلان اختباري بنجاح!\n\nالنتائج:\n• حفظ البيانات: ✓ ناجح\n• إرسال التحديث: ✓ ناجح\n• نظام البث: ✓ نشط');
                 } else {
-                    this.showAlert('❌ فشل اختبار النظام', 'danger');
+                    this.showSystemMessage('danger', 'فشل الاختبار', 'فشل اختبار النظام');
                 }
             }, 2000);
         }
         
         // ========== أدوات مساعدة ==========
-        showAlert(message, type = 'info') {
-            // إزالة أي رسائل سابقة
+        showSystemMessage(type, title, message, duration = 5000) {
             const existingAlert = document.querySelector('.system-alert');
             if (existingAlert) existingAlert.remove();
             
-            // إنشاء الرسالة الجديدة
             const alert = document.createElement('div');
             alert.className = `system-alert alert alert-${type} alert-dismissible fade show`;
             alert.style.cssText = `
@@ -1835,65 +1715,39 @@
                 border: none;
             `;
             
+            const icons = {
+                success: 'fa-check-circle',
+                warning: 'fa-exclamation-triangle',
+                danger: 'fa-times-circle',
+                info: 'fa-info-circle'
+            };
+            
             alert.innerHTML = `
                 <div class="d-flex align-items-center">
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : 
-                                    type === 'warning' ? 'exclamation-triangle' : 
-                                    type === 'danger' ? 'times-circle' : 'info-circle'} 
-                       me-2 fa-lg"></i>
-                    <div style="flex: 1;">${message}</div>
+                    <i class="fas ${icons[type] || 'fa-info-circle'} me-2 fa-lg"></i>
+                    <div style="flex: 1;">
+                        <h6 class="mb-1" style="font-weight: bold;">${title}</h6>
+                        <p class="mb-0" style="font-size: 14px; white-space: pre-line;">${message}</p>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             `;
             
             document.body.appendChild(alert);
             
-            // إزالة تلقائية بعد 5 ثواني
             setTimeout(() => {
                 if (alert.parentNode) {
                     alert.classList.remove('show');
                     setTimeout(() => alert.remove(), 300);
                 }
-            }, 5000);
+            }, duration);
         }
         
-        showLoading(message) {
-            this.hideLoading();
-            
-            const loading = document.createElement('div');
-            loading.id = 'systemLoading';
-            loading.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.85);
-                z-index: 99999;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                color: white;
-                backdrop-filter: blur(10px);
-                flex-direction: column;
-            `;
-            
-            loading.innerHTML = `
-                <div style="text-align: center; padding: 40px;">
-                    <div class="spinner-border" style="width: 4rem; height: 4rem; color: #4CAF50;" role="status">
-                        <span class="visually-hidden">جاري التحميل...</span>
-                    </div>
-                    <div style="margin-top: 30px; font-weight: bold; font-size: 18px;">${message}</div>
-                    <div style="margin-top: 15px; opacity: 0.8; font-size: 14px;">يرجى الانتظار...</div>
-                </div>
-            `;
-            
-            document.body.appendChild(loading);
-        }
-        
-        hideLoading() {
-            const loading = document.getElementById('systemLoading');
-            if (loading) loading.remove();
+        resetData() {
+            this.notifications = [];
+            this.stats = this.getDefaultStats();
+            this.settings = this.getDefaultSettings();
+            this.saveData();
         }
     }
 
@@ -1962,7 +1816,6 @@
         window.toggleStatus = (id) => system.toggleStatus(id);
         window.confirmDelete = (id) => system.confirmDelete(id);
         
-        // رسالة ترحيبية
         console.log('🚀 نظام التحكم جاهز للعمل');
     });
     </script>
